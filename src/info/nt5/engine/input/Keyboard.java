@@ -1,6 +1,6 @@
 package info.nt5.engine.input;
 
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import org.lwjgl.glfw.GLFW;
 
 public class Keyboard {
 
@@ -80,7 +80,7 @@ public class Keyboard {
 	public static void glfw_key_callback(long window, int key, int scancode, int action, int mods) {
 		if (key <= KEY_LAST) {
 			keyState[key] = action;
-			keyDown[key] = action != GLFW_RELEASE ? 1 : 0;
+			keyDown[key] = action != GLFW.GLFW_RELEASE ? 1 : 0;
 		}
 	}
 

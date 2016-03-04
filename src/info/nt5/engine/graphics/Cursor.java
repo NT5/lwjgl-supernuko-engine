@@ -2,10 +2,10 @@ package info.nt5.engine.graphics;
 
 import org.lwjgl.glfw.GLFWImage;
 
-import info.nt5.engine.util.Logger;
-
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
+
+import info.nt5.engine.util.Logger;
 
 public class Cursor {
 

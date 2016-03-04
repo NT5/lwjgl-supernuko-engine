@@ -1,6 +1,6 @@
 package info.nt5.engine.input;
 
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import org.lwjgl.glfw.GLFW;
 
 public class Mouse {
 
@@ -61,7 +61,7 @@ public class Mouse {
 	public static void glfw_mouse_button_callback(long window, int button, int action, int mods) {
 		if (button <= MOUSE_BUTTON_LAST) {
 			buttonState[button] = action;
-			buttonDown[button] = action != GLFW_RELEASE ? 1 : 0;
+			buttonDown[button] = action != GLFW.GLFW_RELEASE ? 1 : 0;
 		}
 	}
 	

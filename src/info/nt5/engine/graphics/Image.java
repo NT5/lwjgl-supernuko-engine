@@ -5,11 +5,10 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.stb.STBImage;
 
 import info.nt5.engine.util.BufferUtil;
 import info.nt5.engine.util.Logger;
-
-import static org.lwjgl.stb.STBImage.*;
 
 public class Image {
 
@@ -32,7 +31,7 @@ public class Image {
 		IntBuffer h = BufferUtils.createIntBuffer(1);
 		IntBuffer c = BufferUtils.createIntBuffer(1);
 		
-		image = stbi_load_from_memory(imageBuffer, w, h, c, 0);
+		image = STBImage.stbi_load_from_memory(imageBuffer, w, h, c, 0);
 		
 		this.width = w.get(0);
 		this.height = h.get(0);
@@ -56,7 +55,7 @@ public class Image {
 	}
 	
 	public void dispose() {
-		stbi_image_free(image);
+		STBImage.stbi_image_free(image);
 	}
 	
 }

@@ -1,18 +1,17 @@
 package info.nt5.engine.graphics;
 
-
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
+import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryUtil;
+import org.lwjgl.glfw.GLFWVidMode;
 
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
-import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
-import org.lwjgl.opengl.GL;
 
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.input.Mouse;
@@ -44,11 +43,11 @@ public class Window {
 		this.visible = visible;
 		this.resizable = resizable;
 		
-		init();
+		this.init();
 	}
 
 	void init() {
-		if (glfwInit() != GL_TRUE) {
+		if (GLFW.glfwInit() != GL11.GL_TRUE) {
 			Logger.error("Failed to initialize GLFW");
 			throw new IllegalStateException();
 		}
@@ -56,21 +55,20 @@ public class Window {
 		Keyboard.init();
 		Mouse.init();
 		
-		glfwDefaultWindowHints();
-		glfwWindowHint( GLFW_VISIBLE, visible ? GL_TRUE : GL_FALSE );
-		glfwWindowHint( GLFW_RESIZABLE, resizable ? GL_TRUE : GL_FALSE );
+		GLFW.glfwDefaultWindowHints();
+		GLFW.glfwWindowHint( GLFW.GLFW_VISIBLE, visible ? GL11.GL_TRUE : GL11.GL_FALSE );
+		GLFW.glfwWindowHint( GLFW.GLFW_RESIZABLE, resizable ? GL11.GL_TRUE : GL11.GL_FALSE );
 		
-		window = glfwCreateWindow( width, height, title, fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL );
-		if ( window == NULL ) {
+		window = GLFW.glfwCreateWindow( width, height, title, fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, MemoryUtil.NULL );
+		if ( window == MemoryUtil.NULL ) {
 			Logger.error("Failed to create GLFW window.");
 			throw new RuntimeException();
 		}
 		
-		GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-		//TODO vidmode.width() ....
-		glfwSetWindowPos( window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2 );
+		GLFWVidMode vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+		GLFW.glfwSetWindowPos( window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2 );
 		
-		glfwMakeContextCurrent(window);
+		GLFW.glfwMakeContextCurrent(window);
 		
 		errorCallback = GLFWErrorCallback.createPrint();
 		errorCallback.set();
@@ -79,7 +77,7 @@ public class Window {
 
 			@Override
 			public void invoke(long window, int width, int height) {
-				glViewport(0, 0, width, height);
+				GL11.glViewport(0, 0, width, height);
 			}
 		};
 		frameBufferCallback.set(window);
@@ -94,7 +92,6 @@ public class Window {
 		};
 		windowSizeCallback.set(window);
 		
-		//Java 8 -- Keyboard::glfw_key_callback
 		keyCallback = GLFWKeyCallback.create(Keyboard::glfw_key_callback);
 		keyCallback.set(window);
 		
@@ -104,26 +101,23 @@ public class Window {
 		cursorPosCallback = GLFWCursorPosCallback.create(Mouse::glfw_cursor_pos_callback);
 		cursorPosCallback.set(window);
 		
-		glfwSwapInterval(vsync ? 1 : 0);
+		GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		
 		GL.createCapabilities();
-		
-		/*cursor =  new Cursor(Cursor.Standard.HAND);
-		glfwSetCursor(window, cursor.getCursor());*/
 	}
 	
 	public void update() {
-		glfwSwapBuffers(window);
+		GLFW.glfwSwapBuffers(window);
 	}
 	
 	public void updateInput() {
 		Keyboard.update();
 		Mouse.update();
-		glfwPollEvents();
+		GLFW.glfwPollEvents();
 	}
 	
 	public void clear() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 	}
 	
 	public void dispose() {
@@ -132,16 +126,16 @@ public class Window {
 		cursorPosCallback.release();
 		frameBufferCallback.release();
 		windowSizeCallback.release();
-		glfwTerminate();
+		GLFW.glfwTerminate();
 		errorCallback.release();
 	}
 	
 	public void close() {
-		glfwSetWindowShouldClose(window, GL_TRUE);
+		GLFW.glfwSetWindowShouldClose(window, GL11.GL_TRUE);
 	}
 	
 	public boolean shouldclose() {
-		return glfwWindowShouldClose(window) == GL_TRUE;
+		return GLFW.glfwWindowShouldClose(window) == GL11.GL_TRUE;
 	}
 
 	public String getTitle() {
@@ -174,10 +168,10 @@ public class Window {
 
 	public void setVsync(boolean vsync) {
 		this.vsync = vsync;
-		glfwSwapInterval( vsync ? 1 : 0 );
+		GLFW.glfwSwapInterval( vsync ? 1 : 0 );
 	}
 
-	public boolean fullscreen() {
+	public boolean isFullscreen() {
 		return fullscreen;
 	}
 
@@ -193,10 +187,10 @@ public class Window {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 		if ( visible ) {
-			glfwShowWindow(window);
+			GLFW.glfwShowWindow(window);
 		}
 		else {
-			glfwHideWindow(window);
+			GLFW.glfwHideWindow(window);
 		}
 	}
 
@@ -206,7 +200,7 @@ public class Window {
 	
 	public void setCursor(Cursor cursor) {
 		this.cursor = cursor;
-		glfwSetCursor(window, cursor.getCursor());
+		GLFW.glfwSetCursor(window, cursor.getCursor());
 	}
 	
 	public Cursor getCursor() {
