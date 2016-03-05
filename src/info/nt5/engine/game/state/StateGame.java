@@ -28,7 +28,6 @@ public abstract class StateGame extends GameAbstract {
 
 	@Override
 	public void init(GameManager gm) {
-		//currentState.init(gm, this);
 		this.manager = gm;
 		
 		currentState = new State() {
@@ -64,9 +63,6 @@ public abstract class StateGame extends GameAbstract {
 		for (State state : states.values()){
 		    state.init(manager, this);
 		}
-		/*for (int i = 0; i < states.size(); i++) {
-			getState(i).init(manager, this);
-		}*/
 	}
 
 	@Override
@@ -161,9 +157,6 @@ public abstract class StateGame extends GameAbstract {
 	}
 
 	public void enterState(int state) {
-		/*leave(manager);
-		currentState = getState(state);
-		currentState.enter(manager, this);*/
 		enterState( state, null, null );
 	}
 	
