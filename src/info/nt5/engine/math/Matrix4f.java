@@ -48,15 +48,15 @@ public class Matrix4f implements Cloneable {
 		return this;
 	}
 
-	public static Matrix4f orthographic(float left, float right, float buttom, float top, float near, float far) {
+	public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
 		Matrix4f result = Matrix4f.identity();
 
 		result.elements[0 + 0 * 4] = 2.0f / (right - left);
-		result.elements[1 + 1 * 4] = 2.0f / (top - buttom);
+		result.elements[1 + 1 * 4] = 2.0f / (top - bottom);
 		result.elements[2 + 2 * 4] = 2.0f / (near - far);
 
 		result.elements[0 + 3 * 4] = (left + right) / (left - right);
-		result.elements[1 + 3 * 4] = (buttom + top) / (buttom - top);
+		result.elements[1 + 3 * 4] = (bottom + top) / (bottom - top);
 		result.elements[2 + 3 * 4] = (far + near) / (far - near);
 
 		return result;
@@ -70,6 +70,8 @@ public class Matrix4f implements Cloneable {
 		result.elements[2 + 2 * 4] = (near + far) / (near - far);
 		result.elements[3 + 2 * 4] = 1.0f;
 		result.elements[2 + 3 * 4] = (2.0f * near * far) / (near - far);
+		
+		result.elements[3 + 3 * 4] = 1.0f;
 
 		return result;
 	}
@@ -209,6 +211,16 @@ public class Matrix4f implements Cloneable {
 		}
 
 		return result;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for (int i=0; i < elements.length; i++) {
+			result.append( elements[ i ] );
+			result.append(", ");
+		}
+		return String.format("[%s]", result.toString().substring(0, result.toString().length() - 2));
 	}
 
 }
