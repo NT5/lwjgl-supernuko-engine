@@ -1,6 +1,7 @@
 package info.nt5.engine.game;
 
 import info.nt5.engine.graphics.Window;
+import info.nt5.engine.util.Logger;
 
 public class GameManager {
 
@@ -70,6 +71,9 @@ public class GameManager {
 				timer += 1000;
 				ups = updates;
 				fps = frames;
+				
+				Logger.debug("UPS: %s - FPS: %s", ups, fps);
+				
 				updates = 0;
 				frames = 0;
 			}

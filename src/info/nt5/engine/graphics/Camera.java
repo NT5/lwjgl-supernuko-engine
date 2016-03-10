@@ -56,19 +56,7 @@ public class Camera {
 	}
 
 	public void update() {
-		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			position.y -= 0.05f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			position.y += 0.05f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			position.x -= 0.05f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			position.x += 0.05f;
-		}
-		// Logger.info("Camera Pos: %s", position.toString());
+
 	}
 
 	public Matrix4f setupViewMatrix() {

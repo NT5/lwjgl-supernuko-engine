@@ -13,6 +13,7 @@ import info.nt5.engine.util.Logger;
 
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.Camera;
+import info.nt5.engine.graphics.Color;
 import info.nt5.engine.game.Crate;
 
 public class IntroState implements State {
@@ -30,7 +31,7 @@ public class IntroState implements State {
 	public void init(GameManager gm, StateGame game) {
 		Logger.debug("Intro state init!");
 
-		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+		glClearColor(Color.RED.r, Color.RED.g, Color.RED.b, Color.RED.a);
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_DEPTH_TEST);
 
@@ -51,27 +52,39 @@ public class IntroState implements State {
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Intro state enter!");
-		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+		glClearColor(Color.RED.r, Color.RED.g, Color.RED.b, Color.RED.a);
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
-		// camera.update();
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(1);
 		}
 		
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			camera.position.y -= 0.05f;
+			camera.position.y -= 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			camera.position.y += 0.05f;
+			camera.position.y += 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			camera.position.x -= 0.05f;
+			camera.position.x -= 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			camera.position.x += 0.05f;
+			camera.position.x += 0.08f;
+		}
+		
+		if ( Keyboard.isDown(Keyboard.KEY_UP) ) {
+			crate1.position.y += 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_DOWN) ) {
+			crate1.position.y -= 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_LEFT) ) {
+			crate1.position.x -= 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_RIGHT) ) {
+			crate1.position.x += 0.08f;
 		}
 	}
 

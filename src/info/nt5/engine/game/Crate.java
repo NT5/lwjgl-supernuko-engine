@@ -2,86 +2,31 @@ package info.nt5.engine.game;
 
 public class Crate extends GameObject {
 
-	private static String texPath = "assets/img/crate.jpg";
-	
-	static float[] vertices = {			
-			-0.5f,0.5f,-0.5f,	
-			-0.5f,-0.5f,-0.5f,	
-			0.5f,-0.5f,-0.5f,	
-			0.5f,0.5f,-0.5f,		
-			
-			-0.5f,0.5f,0.5f,	
-			-0.5f,-0.5f,0.5f,	
-			0.5f,-0.5f,0.5f,	
-			0.5f,0.5f,0.5f,
-			
-			0.5f,0.5f,-0.5f,	
-			0.5f,-0.5f,-0.5f,	
-			0.5f,-0.5f,0.5f,	
-			0.5f,0.5f,0.5f,
-			
-			-0.5f,0.5f,-0.5f,	
-			-0.5f,-0.5f,-0.5f,	
-			-0.5f,-0.5f,0.5f,	
-			-0.5f,0.5f,0.5f,
-			
-			-0.5f,0.5f,0.5f,
-			-0.5f,0.5f,-0.5f,
-			0.5f,0.5f,-0.5f,
-			0.5f,0.5f,0.5f,
-			
-			-0.5f,-0.5f,0.5f,
-			-0.5f,-0.5f,-0.5f,
-			0.5f,-0.5f,-0.5f,
-			0.5f,-0.5f,0.5f
-			
+	private static String texPath = "assets/img/happy.png";
+
+	public static float width = 5.0f;
+	public static float height = 5.0f;
+
+	static float[] vertices = { 
+			-width, -height, 0.2f,
+			-width, height, 0.2f,
+			width, height, 0.2f,
+			width, -height, 0.2f
 	};
-	
-	static float[] texCoords = {		
-			0,0,
-			0,1,
-			1,1,
-			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,			
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0,
-			0,0,
-			0,1,
-			1,1,
-			1,0	
+
+	static float[] texCoords = { 
+			0, 1,
+			0, 0,
+			1, 0,
+			1, 1
 	};
-	
+
 	static byte[] indices = {
-			0,1,3,	
-			3,1,2,	
-			4,5,7,
-			7,5,6,
-			8,9,11,
-			11,9,10,
-			12,13,15,
-			15,13,14,	
-			16,17,19,
-			19,17,18,
-			20,21,23,
-			23,21,22
+			0, 1, 3,
+			3, 1, 2
 	};
 
 	public Crate() {
 		super(vertices, indices, texCoords, texPath);
-		// TODO Auto-generated constructor stub
 	}
-
 }
