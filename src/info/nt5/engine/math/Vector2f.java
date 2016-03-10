@@ -99,8 +99,6 @@ public class Vector2f {
 
 	@Override
 	public String toString() {
-
-		// TODO
 		return String.format("[%s, %s]", x, y);
 	}
 

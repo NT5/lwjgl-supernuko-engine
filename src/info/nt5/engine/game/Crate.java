@@ -1,9 +1,9 @@
 package info.nt5.engine.game;
 
 public class Crate extends GameObject {
-	
-	private static String texPath = "assets/img/crate.jpg";
 
+	private static String texPath = "assets/img/crate.jpg";
+	
 	static float[] vertices = {			
 			-0.5f,0.5f,-0.5f,	
 			-0.5f,-0.5f,-0.5f,	
@@ -37,8 +37,7 @@ public class Crate extends GameObject {
 			
 	};
 	
-	static float[] texCoords = {
-			
+	static float[] texCoords = {		
 			0,0,
 			0,1,
 			1,1,
@@ -62,9 +61,7 @@ public class Crate extends GameObject {
 			0,0,
 			0,1,
 			1,1,
-			1,0
-
-			
+			1,0	
 	};
 	
 	static byte[] indices = {
@@ -80,12 +77,11 @@ public class Crate extends GameObject {
 			19,17,18,
 			20,21,23,
 			23,21,22
-
 	};
-	
+
 	public Crate() {
 		super(vertices, indices, texCoords, texPath);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }

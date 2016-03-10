@@ -19,10 +19,11 @@ public class Logger {
 		e.printStackTrace(out);
 	}
 
-	public static void error(String message) {
+	public static void error(String message, Object... args) {
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
 
-		out.println(String.format("[ERROR] [%s] [%s] %s", new Date(), elements[2].getClassName(), message));
+		out.println(String.format("[ERROR] [%s] [%s] %s", new Date(), elements[2].getClassName(),
+				String.format(message, args)));
 	}
 
 	public static void error(String message, String error) {
@@ -36,10 +37,11 @@ public class Logger {
 		error(message, e);
 	}
 
-	public static void warn(String message) {
+	public static void warn(String message, Object... args) {
 		StackTraceElement[] elements = Thread.currentThread().getStackTrace();
 
-		out.println(String.format("[WARNING] [%s] [%s] %s", new Date(), elements[2].getClassName(), message));
+		out.println(String.format("[WARNING] [%s] [%s] %s", new Date(), elements[2].getClassName(),
+				String.format(message, args)));
 	}
 
 	public static void warn(Throwable e) {
@@ -67,11 +69,12 @@ public class Logger {
 				String.format(message, args)));
 	}
 
-	public static void debug(String message) {
+	public static void debug(String message, Object... args) {
 		if (DEBUG_MODE) {
 			StackTraceElement[] elements = Thread.currentThread().getStackTrace();
 
-			out.println(String.format("[DEBUG] [%s] [%s] %s", new Date(), elements[2].getClassName(), message));
+			out.println(String.format("[DEBUG] [%s] [%s] %s", new Date(), elements[2].getClassName(),
+					String.format(message, args)));
 		}
 	}
 }

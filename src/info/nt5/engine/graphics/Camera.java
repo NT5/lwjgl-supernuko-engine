@@ -10,8 +10,6 @@ public class Camera {
 	public Matrix4f cameraMat = new Matrix4f();
 	public Vector3f position = new Vector3f();
 
-	private Shader shader;
-
 	float rot = 0.0f;
 	private float pitch;
 	private float yaw;
@@ -19,7 +17,6 @@ public class Camera {
 
 	public Camera(Matrix4f cameraMat) {
 		this.cameraMat = cameraMat;
-		this.shader = Shader.fromPath("res/shaders/shader.vs", "res/shaders/shader.fs");
 	}
 
 	public Matrix4f getMatrix() {
@@ -59,18 +56,19 @@ public class Camera {
 	}
 
 	public void update() {
-		if (Keyboard.isPressed(Keyboard.KEY_W)) {
-			position.y += 0.05f;
-		}
-		if (Keyboard.isPressed(Keyboard.KEY_S)) {
+		if (Keyboard.isDown(Keyboard.KEY_W)) {
 			position.y -= 0.05f;
 		}
-		if (Keyboard.isPressed(Keyboard.KEY_D)) {
-			position.x += 0.05f;
+		if (Keyboard.isDown(Keyboard.KEY_S)) {
+			position.y += 0.05f;
 		}
-		if (Keyboard.isPressed(Keyboard.KEY_A)) {
+		if (Keyboard.isDown(Keyboard.KEY_D)) {
 			position.x -= 0.05f;
 		}
+		if (Keyboard.isDown(Keyboard.KEY_A)) {
+			position.x += 0.05f;
+		}
+		// Logger.info("Camera Pos: %s", position.toString());
 	}
 
 	public Matrix4f setupViewMatrix() {
@@ -86,16 +84,11 @@ public class Camera {
 
 	public void render() {
 
-		shader.bind();
+		Shader.defaultShader.bind();
 
-		shader.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z))
+		Shader.defaultShader.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z))
 				.multiply(Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch))));
 
-		shader.unbind();
+		Shader.defaultShader.unbind();
 	}
-
-	public void dispose() {
-		shader.dispose();
-	}
-
 }

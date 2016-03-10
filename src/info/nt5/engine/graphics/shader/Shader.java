@@ -15,6 +15,8 @@ public class Shader {
 
 	private int id;
 	private static String vertexSource, fragmentSource;
+	
+	public static Shader defaultShader;
 
 	private Shader(int id) {
 		this.id = id;
@@ -32,6 +34,10 @@ public class Shader {
 		fragmentSource = fragSource;
 
 		return load();
+	}
+	
+	public static void LoadAllShaders() {
+		defaultShader = Shader.fromPath("res/shaders/shader.vs", "res/shaders/shader.fs");
 	}
 
 	private static Shader load() {

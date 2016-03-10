@@ -12,7 +12,6 @@ public class GameObject {
 	public Texture tex;
 	public float[] vertices, texCoords;
 	public byte[] indices;
-	public static Shader shader;
 
 	public Vector3f position = new Vector3f();
 
@@ -24,11 +23,6 @@ public class GameObject {
 		this.texCoords = texCoords;
 		tex = Texture.fromImage(texPath);
 		VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
-		this.loadShader();
-	}
-
-	public void loadShader() {
-		shader = Shader.fromPath("res/shaders/shader.vs", "res/shaders/shader.fs");
 	}
 
 	public void translate(Vector3f vector) {
@@ -43,10 +37,10 @@ public class GameObject {
 
 	public void render() {
 		tex.bind();
-		shader.bind();
-		shader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
+		Shader.defaultShader.bind();
+		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
-		shader.unbind();
+		Shader.defaultShader.unbind();
 		tex.unbind();
 	}
 

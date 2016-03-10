@@ -131,7 +131,6 @@ public class Vector4f {
 
 	@Override
 	public String toString() {
-		// TODO
 		return String.format("[%s, %s, %s, %s]", x, y, z, w);
 	}
 
