@@ -14,13 +14,20 @@ public class Main extends GameAbstract {
 	}
 
 	public static void main(String[] args) {
-		manager = new GameManager(new Main("window"), 1280, 720, true, false, true, true);
+		manager = new GameManager(new Main("A life with..."), 1280, 720, true, false, true, false);
 		manager.start();
 	}
 
 	@Override
 	public void init(GameManager gm) {
+		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, manager.getWindow().getWidth(), 0, manager.getWindow().getHeight(), -1, 1);
+		glMatrixMode(GL_MODELVIEW);
+		
+		glDisable(GL_DEPTH_TEST);
 	}
 
 	@Override
@@ -33,12 +40,7 @@ public class Main extends GameAbstract {
 
 	@Override
 	public void render(GameManager gm) {
-		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, manager.getWindow().getWidth(), 0, manager.getWindow().getHeight(), -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
+		manager.getWindow().clear();
 		
 		glBegin(GL_QUADS);
 		{

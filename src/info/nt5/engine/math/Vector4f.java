@@ -4,7 +4,7 @@ public class Vector4f {
 	public float x, y, z, w;
 
 	public Vector4f() {
-		x = y = z = w = 0;
+		x = y = z = w = 0.0f;
 	}
 
 	public Vector4f(float xyzw) {
@@ -17,7 +17,7 @@ public class Vector4f {
 		this.z = vector.z;
 		this.w = vector.w;
 	}
-	
+
 	public Vector4f(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -28,7 +28,7 @@ public class Vector4f {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	public Vector4f(float x, float y, float z, float w) {
 		this.x = x;
 		this.y = y;
@@ -108,7 +108,7 @@ public class Vector4f {
 	public void setZ(float z) {
 		this.z = z;
 	}
-	
+
 	public void setW(float w) {
 		this.w = w;
 	}
@@ -124,7 +124,7 @@ public class Vector4f {
 	public float getZ() {
 		return z;
 	}
-	
+
 	public float getW() {
 		return w;
 	}

@@ -5,18 +5,18 @@ public class Vector2f {
 	public float x, y;
 
 	public Vector2f() {
-		x = y = 0;
+		x = y = 0.0f;
 	}
-	
+
 	public Vector2f(float xy) {
 		x = y = xy;
 	}
-	
+
 	public Vector2f(Vector2f vector) {
 		this.x = vector.x;
 		this.y = vector.y;
 	}
-	
+
 	public Vector2f(float x, float y) {
 		this.x = x;
 		this.y = y;
@@ -99,8 +99,8 @@ public class Vector2f {
 
 	@Override
 	public String toString() {
-		
-		//TODO
+
+		// TODO
 		return String.format("[%s, %s]", x, y);
 	}
 

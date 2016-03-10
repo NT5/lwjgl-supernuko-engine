@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.channels.FileChannel;
 
@@ -24,6 +25,12 @@ public class BufferUtil {
 	public static ByteBuffer createByteBuffer(long size) {
 		return je_malloc(size);
 	}
+	
+	public static ByteBuffer createByteBuffer(byte[] array) {
+		ByteBuffer result = ByteBuffer.allocateDirect(array.length).order(ByteOrder.nativeOrder());
+		result.put(array).flip();
+		return result;
+	} 
 
 	public static ByteBuffer fileToByteBuffer(String path) throws IOException {
 		ByteBuffer buffer;

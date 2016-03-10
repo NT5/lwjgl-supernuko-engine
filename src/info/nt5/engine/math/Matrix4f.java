@@ -70,18 +70,16 @@ public class Matrix4f implements Cloneable {
 		result.elements[2 + 2 * 4] = (near + far) / (near - far);
 		result.elements[3 + 2 * 4] = 1.0f;
 		result.elements[2 + 3 * 4] = (2.0f * near * far) / (near - far);
-		
-		result.elements[3 + 3 * 4] = 1.0f;
 
 		return result;
 	}
 
-	public static Matrix4f translate(float x, float y, float z) {
+	public static Matrix4f translate(Vector3f vector) {
 		Matrix4f result = Matrix4f.identity();
 
-		result.elements[0 + 3 * 4] = x;
-		result.elements[1 + 3 * 4] = y;
-		result.elements[2 + 3 * 4] = z;
+		result.elements[0 + 3 * 4] = vector.x;
+		result.elements[1 + 3 * 4] = vector.y;
+		result.elements[2 + 3 * 4] = vector.z;
 
 		return result;
 	}
@@ -106,6 +104,48 @@ public class Matrix4f implements Cloneable {
 
 		result.elements[1 + 2 * 4] = axis.x * axis.z * omc + axis.x * s;
 		result.elements[2 + 2 * 4] = axis.z * omc + c;
+
+		return result;
+	}
+
+	public static Matrix4f rotateZ(float angle) {
+		Matrix4f result = Matrix4f.identity();
+		float r = (float) Math.toRadians(angle);
+		float cos = (float) Math.cos(r);
+		float sin = (float) Math.sin(r);
+
+		result.elements[0 + 0 * 4] = cos;
+		result.elements[1 + 0 * 4] = sin;
+		result.elements[0 + 1 * 4] = -sin;
+		result.elements[1 + 1 * 4] = cos;
+
+		return result;
+	}
+
+	public static Matrix4f rotateY(float angle) {
+		Matrix4f result = Matrix4f.identity();
+		float r = (float) Math.toRadians(angle);
+		float cos = (float) Math.cos(r);
+		float sin = (float) Math.sin(r);
+
+		result.elements[0 + 0 * 4] = cos;
+		result.elements[2 + 0 * 4] = -sin;
+		result.elements[0 + 2 * 4] = sin;
+		result.elements[2 + 2 * 4] = cos;
+
+		return result;
+	}
+
+	public static Matrix4f rotateX(float angle) {
+		Matrix4f result = Matrix4f.identity();
+		float r = (float) Math.toRadians(angle);
+		float cos = (float) Math.cos(r);
+		float sin = (float) Math.sin(r);
+
+		result.elements[1 + 1 * 4] = cos;
+		result.elements[1 + 2 * 4] = -sin;
+		result.elements[2 + 1 * 4] = sin;
+		result.elements[2 + 2 * 4] = cos;
 
 		return result;
 	}
@@ -197,7 +237,7 @@ public class Matrix4f implements Cloneable {
 	public float getElement(int row, int colum) {
 		return elements[row + colum * 4];
 	}
-	
+
 	public FloatBuffer getBuffer() {
 		return BufferUtil.toFloatBuffer(elements);
 	}
@@ -212,12 +252,12 @@ public class Matrix4f implements Cloneable {
 
 		return result;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		for (int i=0; i < elements.length; i++) {
-			result.append( elements[ i ] );
+		for (int i = 0; i < elements.length; i++) {
+			result.append(elements[i]);
 			result.append(", ");
 		}
 		return String.format("[%s]", result.toString().substring(0, result.toString().length() - 2));

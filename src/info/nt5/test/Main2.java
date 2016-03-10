@@ -12,7 +12,7 @@ public class Main2 extends StateGame {
 	}
 
 	public static void main(String[] args) {
-		manager = new GameManager(new Main2("window"), 800, 600, true, false, true, true);
+		manager = new GameManager(new Main2("A life with..."), 1280, 720, true, false, true, true);
 		manager.start();
 	}
 
