@@ -18,7 +18,7 @@ import info.nt5.engine.game.Crate;
 
 public class IntroState implements State {
 
-	private Crate crate1;
+	private Crate crate1, crate2;
 
 	public Camera camera = new Camera(new Matrix4f());
 
@@ -45,8 +45,11 @@ public class IntroState implements State {
 		
 		Shader.defaultShader.unbind();
 
-		crate1 = new Crate();
+		crate1 = new Crate(Color.BLACK);
 		crate1.translate(new Vector3f(0f, 0.75f, 0.0f));
+		
+		crate2 = new Crate(Color.BLUE);
+		crate2.translate(new Vector3f(0f, 0.75f, 0.0f));
 	}
 
 	@Override
@@ -86,6 +89,19 @@ public class IntroState implements State {
 		if ( Keyboard.isDown(Keyboard.KEY_RIGHT) ) {
 			crate1.position.x += 0.08f;
 		}
+		
+		if ( Keyboard.isDown(Keyboard.KEY_I) ) {
+			crate2.position.y += 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_K) ) {
+			crate2.position.y -= 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_J) ) {
+			crate2.position.x -= 0.08f;
+		}
+		if ( Keyboard.isDown(Keyboard.KEY_L) ) {
+			crate2.position.x += 0.08f;
+		}
 	}
 
 	@Override
@@ -93,6 +109,7 @@ public class IntroState implements State {
 		camera.render();
 
 		crate1.render();
+		crate2.render();
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package info.nt5.engine.graphics;
 
 import info.nt5.engine.graphics.shader.Shader;
-import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 
@@ -56,17 +55,6 @@ public class Camera {
 	}
 
 	public void update() {
-
-	}
-
-	public Matrix4f setupViewMatrix() {
-		Matrix4f viewMatrix = new Matrix4f();
-		viewMatrix = Matrix4f.identity();
-
-		Vector3f negativeCameraPos = new Vector3f(-position.x, -position.y, -position.z);
-
-		viewMatrix.translate(negativeCameraPos);
-		return viewMatrix;
 
 	}
 

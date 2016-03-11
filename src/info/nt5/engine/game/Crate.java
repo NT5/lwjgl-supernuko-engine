@@ -1,11 +1,13 @@
 package info.nt5.engine.game;
 
+import info.nt5.engine.graphics.Color;
+
 public class Crate extends GameObject {
 
 	private static String texPath = "assets/img/happy.png";
 
-	public static float width = 5.0f;
-	public static float height = 5.0f;
+	public static float width = 3.0f;
+	public static float height = 3.0f;
 
 	static float[] vertices = { 
 			-width, -height, 0.2f,
@@ -28,5 +30,9 @@ public class Crate extends GameObject {
 
 	public Crate() {
 		super(vertices, indices, texCoords, texPath);
+	}
+	
+	public Crate(Color c) {
+		super(vertices, indices, texCoords, c);
 	}
 }
