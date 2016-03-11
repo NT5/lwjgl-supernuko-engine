@@ -21,6 +21,7 @@ public class IntroState implements State {
 	private Crate crate1, crate2;
 
 	public Camera camera = new Camera(new Matrix4f());
+	private static final Color clearColor = Color.CYAN;
 
 	@Override
 	public int getID() {
@@ -31,7 +32,7 @@ public class IntroState implements State {
 	public void init(GameManager gm, StateGame game) {
 		Logger.debug("Intro state init!");
 
-		glClearColor(Color.RED.r, Color.RED.g, Color.RED.b, Color.RED.a);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_DEPTH_TEST);
 
@@ -45,17 +46,17 @@ public class IntroState implements State {
 		
 		Shader.defaultShader.unbind();
 
-		crate1 = new Crate(Color.BLACK);
+		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(0f, 0.75f, 0.0f));
 		
-		crate2 = new Crate(Color.BLUE);
+		crate2 = new Crate(Color.PINK);
 		crate2.translate(new Vector3f(0f, 0.75f, 0.0f));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Intro state enter!");
-		glClearColor(Color.RED.r, Color.RED.g, Color.RED.b, Color.RED.a);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	}
 
 	@Override
