@@ -11,9 +11,9 @@ import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 
 public class BitmapFontTest implements State {
-	
+
 	private static final Color clearColor = Color.PURPLE;
-	
+
 	private BitmapFont text;
 
 	@Override
@@ -23,7 +23,7 @@ public class BitmapFontTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-		
+
 	}
 
 	@Override

@@ -33,29 +33,29 @@ public class BitmapChar {
 	private float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
 
 	public BitmapChar(int ascii) {
-		
+
 		this.texture = Texture.fromImage(this.texturePath);
 		this.textureAtlas = new TextureAtlas(this.texture, this.cellSize);
-		
+
 		int asciiCode = ascii;
-		
+
 		int cellX = (int) asciiCode % this.gridSize;
 		int cellY = (int) asciiCode / this.gridSize;
-		
+
 		subTexture = textureAtlas.getCell(cellY, cellX);
-		
-		texCoords[ 0 ] = subTexture.getMinU();
-		texCoords[ 1 ] = subTexture.getMinV();
-		
-		texCoords[ 2 ] = subTexture.getMinU();
-		texCoords[ 3 ] = subTexture.getMaxV();
-		
-		texCoords[ 4 ] = subTexture.getMaxU();
-		texCoords[ 5 ] = subTexture.getMaxV();
-		
-		texCoords[ 6 ] = subTexture.getMaxU();
-		texCoords[ 7 ] = subTexture.getMinV();
-		
+
+		texCoords[0] = subTexture.getMinU();
+		texCoords[1] = subTexture.getMinV();
+
+		texCoords[2] = subTexture.getMinU();
+		texCoords[3] = subTexture.getMaxV();
+
+		texCoords[4] = subTexture.getMaxU();
+		texCoords[5] = subTexture.getMaxV();
+
+		texCoords[6] = subTexture.getMaxU();
+		texCoords[7] = subTexture.getMinV();
+
 		this.VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
 	}
 
@@ -64,10 +64,10 @@ public class BitmapChar {
 		position.y += vector.y;
 		position.z += vector.z;
 	}
-	
+
 	public void render() {
 		glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE, GL_ONE);
+		glBlendFunc(GL_ONE, GL_ONE);
 		texture.bind();
 		Shader.defaultShader.bind();
 		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
