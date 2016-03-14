@@ -20,5 +20,6 @@ public class Main2 extends StateGame {
 	public void initStatesList() {
 		addState(new IntroState());
 		addState(new MainMenuState());
+		addState(new BitmapFontTest());
 	}
 }

@@ -1,5 +1,7 @@
 package info.nt5.engine.game;
 
+import java.nio.ByteBuffer;
+
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
@@ -19,18 +21,22 @@ public class GameObject {
 	public float delta = 0.01f;
 
 	public GameObject(float[] vertices, byte[] indices, float[] texCoords, String texPath) {
-		this.vertices = vertices;
-		this.indices = indices;
-		this.texCoords = texCoords;
-		tex = Texture.fromImage(texPath);
-		VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
+		this(vertices, indices, texCoords, Texture.fromImage(texPath));
 	}
 	
 	public GameObject(float[] vertices, byte[] indices, float[] texCoords, Color color) {
+		this(vertices, indices, texCoords, Texture.fromColor(color, 64, 64));
+	}
+	
+	public GameObject(float[] vertices, byte[] indices, float[] texCoords, ByteBuffer buffer) {
+		this(vertices, indices, texCoords, Texture.fromByteBuffer(buffer, 64, 64, 4));
+	}
+	
+	public GameObject(float[] vertices, byte[] indices, float[] texCoords, Texture texture) {
 		this.vertices = vertices;
 		this.indices = indices;
 		this.texCoords = texCoords;
-		tex = Texture.fromColor(color, 64, 64);
+		tex = texture;
 		VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
 	}
 
