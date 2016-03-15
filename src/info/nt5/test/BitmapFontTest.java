@@ -23,14 +23,13 @@ public class BitmapFontTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-
+		text = new BitmapFont("neko-kawaii desu nyan~ nyan~ kyuun~~ poi~ poi~ poi~");
+		text.translate(new Vector3f(-10f, 0f, 0.0f));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-		text = new BitmapFont("hola soy un bitmapfont");
-		text.translate(new Vector3f(-10f, 0f, 0.0f));
 	}
 
 	@Override
@@ -47,6 +46,7 @@ public class BitmapFontTest implements State {
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
+
 	}
 
 }

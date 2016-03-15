@@ -14,10 +14,12 @@ public class BitmapChar {
 	private final int gridSize = 16;
 	private final int cellSize = 32;
 
-	private float width = 0.2f;
-	private float height = 0.2f;
+	private static float width = 0.2f;
+	private static float height = 0.2f;
 
-	private String texturePath = "assets/img/font.png";
+	private int asciiCode;
+
+	private static String defaultFontPath = "assets/img/font.png";
 
 	private Texture texture;
 	private TextureAtlas textureAtlas;
@@ -26,21 +28,39 @@ public class BitmapChar {
 	private VertexArray VAO;
 	public Vector3f position = new Vector3f();
 
-	private float[] vertices = { -width, height, 0f, -width, -height, 0f, width, -height, 0f, width, height, 0f, };
-
-	private byte[] indices = { 0, 1, 2, 2, 3, 0 };
-
-	private float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
-
 	public BitmapChar(int ascii) {
+		this(ascii, width, height);
+	}
 
-		this.texture = Texture.fromImage(this.texturePath);
-		this.textureAtlas = new TextureAtlas(this.texture, this.cellSize);
+	public BitmapChar(int ascii, float wd) {
+		this(ascii, wd, wd);
+	}
 
-		int asciiCode = ascii;
+	public BitmapChar(int ascii, float width, float height) {
+		this(ascii, width, height, defaultFontPath);
+	}
+	
+	public BitmapChar(int ascii, float width, float height, String texturePath) {
+		this(ascii, width, height, Texture.fromImage(texturePath));
+	}
+	
+	public BitmapChar(int ascii, float width, float height, Texture texture) {
+
+		this.texture = texture;
+		textureAtlas = new TextureAtlas(this.texture, this.cellSize);
+
+		this.asciiCode = ascii;
+		BitmapChar.width = width;
+		BitmapChar.height = height;
 
 		int cellX = (int) asciiCode % this.gridSize;
 		int cellY = (int) asciiCode / this.gridSize;
+
+		float[] vertices = { -width, height, 0f, -width, -height, 0f, width, -height, 0f, width, height, 0f, };
+
+		byte[] indices = { 0, 1, 2, 2, 3, 0 };
+
+		float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
 
 		subTexture = textureAtlas.getCell(cellY, cellX);
 
@@ -56,7 +76,7 @@ public class BitmapChar {
 		texCoords[6] = subTexture.getMaxU();
 		texCoords[7] = subTexture.getMinV();
 
-		this.VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
+		VAO = new VertexArray(vertices, indices, texCoords);
 	}
 
 	public void translate(Vector3f vector) {
@@ -75,5 +95,29 @@ public class BitmapChar {
 		Shader.defaultShader.unbind();
 		texture.unbind();
 		glDisable(GL_BLEND);
+	}
+
+	public static float getWidth() {
+		return BitmapChar.width;
+	}
+
+	public static float getHeight() {
+		return BitmapChar.height;
+	}
+
+	public int getAsciiCode() {
+		return asciiCode;
+	}
+	
+	public static String getDefaultFontPath() {
+		return defaultFontPath;
+	}
+
+	public static void setWidth(float width) {
+		BitmapChar.width = width;
+	}
+
+	public static void setHeight(float height) {
+		BitmapChar.height = height;
 	}
 }

@@ -14,6 +14,8 @@ import info.nt5.engine.util.Logger;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.Cursor;
+import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.game.Crate;
 
 public class IntroState implements State {
@@ -52,6 +54,8 @@ public class IntroState implements State {
 		
 		crate2 = new Crate(Color.PINK);
 		crate2.translate(new Vector3f(5f, 0f, 0.0f));
+		
+		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
 	}
 
 	@Override
