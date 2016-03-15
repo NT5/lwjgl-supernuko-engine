@@ -23,7 +23,7 @@ public class BitmapFontTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-		text = new BitmapFont("neko-kawaii desu nyan~ nyan~ kyuun~~ poi~ poi~ poi~");
+		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
 		text.translate(new Vector3f(-10f, 0f, 0.0f));
 	}
 
