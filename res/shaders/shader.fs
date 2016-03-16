@@ -9,10 +9,11 @@ in DATA
 } fs_in;
 
 uniform sampler2D tex;
+uniform vec4 vColor;
 
 void main()
 {
 	color = texture(tex, fs_in.tc);
-	if (color.w < 1.0)
+	if (color.w < 0.01)
 		discard;
 }

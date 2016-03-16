@@ -56,7 +56,7 @@ public class BitmapChar {
 		int cellX = (int) asciiCode % this.gridSize;
 		int cellY = (int) asciiCode / this.gridSize;
 
-		float[] vertices = { -width, height, 0f, -width, -height, 0f, width, -height, 0f, width, height, 0f, };
+		float[] vertices = { -width, height, 0f, -width, -height, 0f, width, -height, 0f, width, height, 0f };
 
 		byte[] indices = { 0, 1, 2, 2, 3, 0 };
 

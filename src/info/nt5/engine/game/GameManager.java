@@ -1,46 +1,45 @@
 package info.nt5.engine.game;
 
 import info.nt5.engine.graphics.Window;
-import info.nt5.engine.util.Logger;
 
 public class GameManager {
 
 	private Game game;
 	private Window window;
-	
+
 	private int fps, ups;
 	private int targetUps = 60;
-	
+
 	private boolean running;
-	
+
 	public GameManager(Game game, int width, int height, boolean vsync, boolean fullscreen, boolean visible, boolean resizable) {
 		this.game = game;
 		this.window = new Window(game.getTitle(), width, height, vsync, fullscreen, visible, resizable);
 	}
-	
+
 	public void init() {
 		game.init(this);
 	}
-	
+
 	public void enter() {
 		game.enter(this);
 	}
-	
+
 	public void update() {
 		window.updateInput();
 		game.update(this);
 	}
-	
+
 	public void render() {
 		window.clear();
 		game.render(this);
 		window.update();
 	}
-	
+
 	public void leave() {
 		game.leave(this);
 	}
-	
+
 	public void start() {
 		init();
 
@@ -56,7 +55,7 @@ public class GameManager {
 				shutdown();
 				break;
 			}
-			
+
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
 			lastTime = now;
@@ -71,47 +70,45 @@ public class GameManager {
 				timer += 1000;
 				ups = updates;
 				fps = frames;
-				
-				Logger.debug("UPS: %s - FPS: %s", ups, fps);
-				
 				updates = 0;
 				frames = 0;
 			}
 		}
 	}
-	
+
 	public void shutdown() {
 		leave();
 		window.dispose();
 	}
+
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-	
+
 	public boolean isRunning() {
 		return running;
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}
-	
+
 	public Window getWindow() {
 		return window;
 	}
-	
+
 	public int getFrames() {
 		return fps;
 	}
-	
+
 	public int getUpdates() {
 		return ups;
 	}
-	
+
 	public int getTargetUpdates() {
 		return targetUps;
 	}
-	
+
 	public String getTitle() {
 		return game.getTitle();
 	}

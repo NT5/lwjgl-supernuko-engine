@@ -31,7 +31,7 @@ public class GameObject {
 	public GameObject(float[] vertices, byte[] indices, float[] texCoords, ByteBuffer buffer) {
 		this(vertices, indices, texCoords, Texture.fromByteBuffer(buffer, 64, 64, 4));
 	}
-	
+
 	public GameObject(float[] vertices, byte[] indices, float[] texCoords, Texture texture) {
 		this.vertices = vertices;
 		this.indices = indices;

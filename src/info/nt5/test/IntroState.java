@@ -38,6 +38,9 @@ public class IntroState implements State {
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		glActiveTexture(GL_TEXTURE1);
 		// glEnable(GL_DEPTH_TEST);
+		
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		Shader.LoadAllShaders();
 		
@@ -52,7 +55,7 @@ public class IntroState implements State {
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
 		
-		crate2 = new Crate(Color.PINK);
+		crate2 = new Crate(Color.PINK.withNewAlpha(0.55f));
 		crate2.translate(new Vector3f(5f, 0f, 0.0f));
 		
 		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
@@ -68,6 +71,10 @@ public class IntroState implements State {
 	public void update(GameManager gm, StateGame game) {
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(1);
+		}
+		
+		if (Keyboard.isDown(Keyboard.KEY_C)) {
+			camera.position = new Vector3f();
 		}
 		
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
@@ -121,6 +128,7 @@ public class IntroState implements State {
 	@Override
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Intro state leave!");
+		glDisable(GL_BLEND);
 	}
 
 }
