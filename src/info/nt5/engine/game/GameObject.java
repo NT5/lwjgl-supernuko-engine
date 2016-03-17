@@ -63,6 +63,18 @@ public class GameObject {
 		position.z += vector.z;
 	}
 
+	public void translateX(float x) {
+		position.x += x;
+	}
+
+	public void translateY(float y) {
+		position.y += y;
+	}
+
+	public void translateZ(float z) {
+		position.z += z;
+	}
+
 	public void sinUpdate() {
 		position.y += (float) Math.sin(delta) / 105.0f;
 	}

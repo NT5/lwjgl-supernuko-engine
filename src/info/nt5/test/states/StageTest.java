@@ -20,7 +20,8 @@ public class StageTest implements State {
 	public void init(GameManager gm, StateGame game) {
 		stage = new Stage();
 		stage.addActor("neko1", new Vector3f(-5f, 0f, 0.0f));
-		stage.addActor("neko2");
+		stage.addActor("neko2", new Vector3f(5f, 0f, 0.0f));
+		stage.addTextbox("textbox1", new Vector3f(0f, -4.2f, 0.0f));
 		stage.setBackground();
 	}
 
