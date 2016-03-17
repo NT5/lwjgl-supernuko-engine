@@ -5,15 +5,12 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
 
-public class Textbox {
-
-	private VertexQuad quad;
-	private GameObject object;
+public class Textbox extends GameObject {
 
 	private static String texturePath = "assets/img/textbox.png";
 
-	public static float width = 9.8f;
-	public static float height = 1.3f;
+	private static float width = 9.8f;
+	private static float height = 1.3f;
 
 	public Textbox() {
 		this(width, height, texturePath);
@@ -30,7 +27,7 @@ public class Textbox {
 	public Textbox(String texturePath, float width, float height) {
 		this(width, height, texturePath);
 	}
-	
+
 	public Textbox(Color color) {
 		this(width, height, color);
 	}
@@ -60,15 +57,10 @@ public class Textbox {
 	}
 
 	public Textbox(float width, float height, Texture texture) {
-		quad = new VertexQuad(width, height);
-		object = new GameObject(quad.getVertices(), quad.getIndices(), quad.getTexCoords(), texture);
+		this(new VertexQuad(width, height), texture);
 	}
 
-	public void render() {
-		object.render();
-	}
-
-	public GameObject get() {
-		return object;
+	public Textbox(VertexQuad quad, Texture texture) {
+		super(quad, texture);
 	}
 }

@@ -1,4 +1,4 @@
-package info.nt5.test;
+package info.nt5.test.states;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -13,7 +13,7 @@ import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 
-public class BitmapFontTest implements State {
+public class FontTest implements State {
 
 	private static final Color clearColor = Color.PURPLE;
 
@@ -39,9 +39,9 @@ public class BitmapFontTest implements State {
 		neko = new Actor();
 		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
 		
-		neko.get().translate(neko_pos);
+		neko.translate(neko_pos);
 		
-		textbox.get().translate(container_pos);
+		textbox.translate(container_pos);
 		text.translate(text_pos);
 	}
 
@@ -53,20 +53,20 @@ public class BitmapFontTest implements State {
 	@Override
 	public void update(GameManager gm, StateGame game) {
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
-			game.enterState(0);
+			game.enterState(3);
 		}
 		
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			neko.get().position.y += 0.08f;
+			neko.position.y += 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			neko.get().position.y -= 0.08f;
+			neko.position.y -= 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			neko.get().position.x += 0.08f;
+			neko.position.x += 0.08f;
 		}
 		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			neko.get().position.x -= 0.08f;
+			neko.position.x -= 0.08f;
 		}
 	}
 

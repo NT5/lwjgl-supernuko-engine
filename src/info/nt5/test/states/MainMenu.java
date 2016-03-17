@@ -1,4 +1,4 @@
-package info.nt5.test;
+package info.nt5.test.states;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -12,7 +12,7 @@ import info.nt5.engine.graphics.TextureAtlas;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.util.Logger;
 
-public class MainMenuState implements State {
+public class MainMenu implements State {
 
 	private GameObject font;
 	private Texture texture;

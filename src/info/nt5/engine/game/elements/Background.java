@@ -5,16 +5,13 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
 
-public class Background {
+public class Background extends GameObject {
 
 	private static String texturePath = "assets/img/background.jpg";
-	
-	private VertexQuad quad;
-	private GameObject object;
-	
-	public static float width = 10.0f;
-	public static float height = 10.0f * 9.0f / 16.0f;
-	
+
+	private static float width = 10.0f;
+	private static float height = 10.0f * 9.0f / 16.0f;
+
 	public Background() {
 		this(width, height, texturePath);
 	}
@@ -30,7 +27,7 @@ public class Background {
 	public Background(String texturePath, float width, float height) {
 		this(width, height, texturePath);
 	}
-	
+
 	public Background(Color color) {
 		this(width, height, color);
 	}
@@ -60,15 +57,10 @@ public class Background {
 	}
 
 	public Background(float width, float height, Texture texture) {
-		quad = new VertexQuad(width, height);
-		object = new GameObject(quad.getVertices(), quad.getIndices(), quad.getTexCoords(), texture);
+		this(new VertexQuad(width, height), texture);
 	}
 
-	public void render() {
-		object.render();
-	}
-
-	public GameObject get() {
-		return object;
+	public Background(VertexQuad quad, Texture texture) {
+		super(quad, texture);
 	}
 }

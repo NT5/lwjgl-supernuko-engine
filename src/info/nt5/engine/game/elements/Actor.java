@@ -3,15 +3,12 @@ package info.nt5.engine.game.elements;
 import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.shader.VertexQuad;
 
-public class Actor {
-
-	private VertexQuad quad;
-	private GameObject object;
+public class Actor extends GameObject {
 
 	private static String texturePath = "assets/img/neko.png";
 
-	public static float width = 3.3f;
-	public static float height = 6f;
+	private static float width = 3.3f;
+	private static float height = 6f;
 
 	public Actor() {
 		this(width, height, texturePath);
@@ -38,15 +35,10 @@ public class Actor {
 	}
 
 	public Actor(float width, float height, String texturePath) {
-		quad = new VertexQuad(width, height);
-		object = new GameObject(quad.getVertices(), quad.getIndices(), quad.getTexCoords(), texturePath);
+		this(new VertexQuad(width, height), texturePath);
 	}
 
-	public void render() {
-		object.render();
-	}
-
-	public GameObject get() {
-		return object;
+	public Actor(VertexQuad quad, String texturePath) {
+		super(quad, texturePath);
 	}
 }

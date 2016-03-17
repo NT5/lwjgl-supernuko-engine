@@ -2,6 +2,7 @@ package info.nt5.test;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.state.*;
+import info.nt5.test.states.*;
 
 public class Main2 extends StateGame {
 
@@ -18,8 +19,9 @@ public class Main2 extends StateGame {
 
 	@Override
 	public void initStatesList() {
-		addState(new IntroState());
-		addState(new MainMenuState());
-		addState(new BitmapFontTest());
+		addState(new Intro());
+		addState(new MainMenu());
+		addState(new FontTest());
+		addState(new StageTest());
 	}
 }

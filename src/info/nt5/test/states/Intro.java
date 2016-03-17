@@ -1,4 +1,4 @@
-package info.nt5.test;
+package info.nt5.test.states;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -18,7 +18,7 @@ import info.nt5.engine.graphics.Cursor;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.game.Crate;
 
-public class IntroState implements State {
+public class Intro implements State {
 
 	private Crate crate1, crate2;
 
