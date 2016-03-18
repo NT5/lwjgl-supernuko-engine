@@ -89,8 +89,8 @@ public class Stage {
 		background = new Background(color);
 	}
 
-	public void setBackground(String path) {
-		background = new Background(path);
+	public void setBackground(String texturePath) {
+		background = new Background(texturePath);
 	}
 
 	public Background getBackground() {

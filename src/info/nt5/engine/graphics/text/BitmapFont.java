@@ -9,55 +9,76 @@ public class BitmapFont {
 	private ArrayList<BitmapChar> CharList = new ArrayList<BitmapChar>();
 
 	private String text;
-
 	private Texture texture;
-	private static String bitmapFile = BitmapChar.getDefaultFontPath();
+	private Vector3f position;
 
-	private static float width = 0.2f;
-	private static float height = 0.2f;
+	private float width, height, Xoffset, Yoffset;
 
-	private static float Xoffset = 0.0f;
-	private static float Yoffset = 0.20f;
-	
-	private Vector3f position = new Vector3f();
+	private static final String defaultBitmapFile = BitmapChar.getDefaultFontPath();
+
+	private static final float defaultWidth = 0.2f;
+	private static final float defaultHeight = 0.2f;
+
+	private static final float defaultXoffset = 0.0f;
+	private static final float defaultYoffset = 0.20f;
+
+	private static final Vector3f defaultPosition = new Vector3f();
+
+	public BitmapFont(String text) {
+		this(text, defaultXoffset, defaultYoffset);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset) {
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height) {
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition);
+	}
 
 	public BitmapFont(String text, Vector3f position) {
-		this(text, Xoffset, Yoffset, position);
+		this(text, defaultXoffset, defaultYoffset, position);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position) {
-		this(text, Xoffset, Yoffset, width, height, position);
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, position);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position) {
-		this(text, Xoffset, Yoffset, width, height, bitmapFile, position);
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath, Vector3f position) {
-		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(bitmapFile), position);
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
+			Vector3f position) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture, Vector3f position) {
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture,
+			Vector3f position) {
 		this.text = text;
 		this.texture = texture;
 		this.position = position;
-		
-		BitmapFont.Xoffset = Xoffset;
-		BitmapFont.Yoffset = Yoffset;
-		BitmapFont.width = width;
-		BitmapFont.height = height;
+
+		this.Xoffset = Xoffset;
+		this.Yoffset = Yoffset;
+		this.width = width;
+		this.height = height;
 
 		createChars();
 	}
 
 	public void createChars() {
-		float Xoffset = width + BitmapFont.Xoffset;
-		float Yoffset = height + BitmapFont.Yoffset;
+		float Xoffset = (this.width + this.Xoffset);
+		float Yoffset = (this.height + this.Yoffset);
 
 		float XPos = Xoffset;
 		float YPos = Yoffset;
-		for (int i = 0; i < text.length(); i++) {
-			char character = text.charAt(i);
+		for (int i = 0; i < this.text.length(); i++) {
+			char character = this.text.charAt(i);
 			int asciiCode = (int) character;
 
 			if (asciiCode == 10) {
@@ -66,7 +87,7 @@ public class BitmapFont {
 				continue;
 			}
 
-			BitmapChar Char = new BitmapChar(asciiCode, width, height, texture);
+			BitmapChar Char = new BitmapChar(asciiCode, this.width, this.height, this.texture);
 
 			Char.translate(this.position);
 

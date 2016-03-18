@@ -28,11 +28,11 @@ public class StageTest implements State {
 		stage.addActor("neko2", new Vector3f(5f, 0f, 0.0f));
 		
 		stage.addTextbox("textbox1");
+		stage.getTextbox("textbox1").setText("hola soy el textbox 1!");
 
 		stage.setBackground();
 
-		textbox = new Textbox();
-		textbox.translate(new Vector3f(0f, -4.2f, 0.0f));
+		textbox = new Textbox(new Vector3f(0f, -4.2f, 0.0f));
 		textbox.setText("holiwis");
 	}
 
