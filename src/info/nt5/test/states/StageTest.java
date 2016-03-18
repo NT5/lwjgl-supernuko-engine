@@ -7,6 +7,7 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.game.elements.Actor;
+import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.Textbox;
 
@@ -31,13 +32,13 @@ public class StageTest implements State {
 
 		stage.addActor("colored1", new Actor(Color.BLUE, 1f));
 
-		stage.addTextbox("textbox1", new Textbox(Color.CYAN, new Vector3f(0f, 4.2f, 0.0f)));
+		stage.addTextbox("textbox1", new Textbox(new Color(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.75f), new Vector3f(0f, 4.2f, 0.0f)));
 		stage.getTextbox("textbox1").setText("textbox 1!");
 
-		stage.addTextbox("textbox2", new Textbox(Color.PINK, new Vector3f(0f, -4.2f, 0.0f)));
+		stage.addTextbox("textbox2", new Textbox(new Color(Color.PINK.r, Color.PINK.g, Color.PINK.b, 0.75f), new Vector3f(0f, -4.2f, 0.0f)));
 		stage.getTextbox("textbox2").setText("textbox 2!");
 
-		stage.setBackground();
+		stage.setBackground(new Background(Color.GRAY));
 	}
 
 	@Override

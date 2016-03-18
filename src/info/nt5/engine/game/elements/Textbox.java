@@ -1,5 +1,12 @@
 package info.nt5.engine.game.elements;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glDisable;
+
 import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
@@ -173,12 +180,17 @@ public class Textbox extends GameObject {
 
 	@Override
 	public void render() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		tex.bind();
 		Shader.defaultShader.bind();
 		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
 		Shader.defaultShader.unbind();
 		tex.unbind();
+
+		glDisable(GL_BLEND);
 
 		text.render();
 	}

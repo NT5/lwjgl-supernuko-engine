@@ -24,6 +24,10 @@ public class Stage {
 		return actors.get(name);
 	}
 
+	public HashMap<String, Actor> getActors() {
+		return actors;
+	}
+
 	public void addTextbox(String name) {
 		addTextbox(name, new Textbox());
 	}
@@ -40,6 +44,10 @@ public class Stage {
 		return textboxs.get(name);
 	}
 
+	public HashMap<String, Textbox> getTextboxs() {
+		return textboxs;
+	}
+
 	public void setBackground() {
 		background = new Background();
 	}
@@ -53,7 +61,9 @@ public class Stage {
 	}
 
 	public void render() {
-		background.render();
+		if (background != null) {
+			background.render();
+		}
 
 		for (Actor actor : actors.values()) {
 			actor.render();
@@ -63,9 +73,11 @@ public class Stage {
 			textbox.render();
 		}
 	}
-	
+
 	public void dispose() {
-		background.dispose();
+		if (background != null) {
+			background.dispose();
+		}
 
 		for (Actor actor : actors.values()) {
 			actor.dispose();

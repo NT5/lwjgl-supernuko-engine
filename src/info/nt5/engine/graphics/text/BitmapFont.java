@@ -87,12 +87,9 @@ public class BitmapFont {
 				continue;
 			}
 
-			BitmapChar Char = new BitmapChar(asciiCode, this.width, this.height, this.texture);
+			Vector3f position = new Vector3f((this.position.x + XPos), (this.position.y + YPos), this.position.z);
 
-			Char.translate(this.position);
-
-			Char.translateX(XPos);
-			Char.translateY(YPos);
+			BitmapChar Char = new BitmapChar(asciiCode, this.width, this.height, this.texture, position);
 
 			CharList.add(Char);
 
