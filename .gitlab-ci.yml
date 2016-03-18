@@ -1,5 +1,4 @@
 image: java/openjdk-8-jdk
-
 job1:
  script:
- — “jar cf supernuko.jar src”
+  — “jar cf supernuko.jar src”
