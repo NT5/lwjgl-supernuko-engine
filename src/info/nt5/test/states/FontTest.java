@@ -32,17 +32,17 @@ public class FontTest implements State {
 		
 		Vector3f text_pos = new Vector3f(-9f, -4.3f, 0.0f);
 		Vector3f container_pos = new Vector3f(0f, -4.2f, 0.0f);
-		Vector3f neko_pos = new Vector3f(-5f, 0f, 0.0f);
+		Vector3f neko_pos = new Vector3f(5f, 0f, 0.0f);
 
 		bg = new Background();
 		textbox = new Textbox();
 		neko = new Actor();
-		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
+		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!", text_pos);
 		
 		neko.translate(neko_pos);
 		
 		textbox.translate(container_pos);
-		text.translate(text_pos);
+		// text.translate(text_pos);
 	}
 
 	@Override

@@ -12,15 +12,15 @@ public class Stage {
 	private HashMap<String, Textbox> textboxs = new HashMap<String, Textbox>();
 
 	public void addActor(String name) {
-		actors.put(name, new Actor());
+		addActor(name, new Actor());
+	}
+
+	public void addActor(String name, String texture) {
+		addActor(name, new Actor(texture));
 	}
 
 	public void addActor(String name, Actor actor) {
 		actors.put(name, actor);
-	}
-
-	public void addActor(String name, String texture) {
-		actors.put(name, new Actor(texture));
 	}
 
 	public void addActor(String name, Vector3f position) {
@@ -47,15 +47,15 @@ public class Stage {
 	}
 
 	public void addTextbox(String name) {
-		textboxs.put(name, new Textbox());
+		addTextbox(name, new Textbox());
+	}
+
+	public void addTextbox(String name, String texture) {
+		addTextbox(name, new Textbox(texture));
 	}
 
 	public void addTextbox(String name, Textbox textbox) {
 		textboxs.put(name, textbox);
-	}
-
-	public void addTextbox(String name, String texture) {
-		textboxs.put(name, new Textbox(texture));
 	}
 
 	public void addTextbox(String name, Vector3f position) {

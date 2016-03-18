@@ -18,26 +18,30 @@ public class BitmapFont {
 
 	private static float Xoffset = 0.0f;
 	private static float Yoffset = 0.20f;
+	
+	private Vector3f position = new Vector3f();
 
-	public BitmapFont(String text) {
-		this(text, Xoffset, Yoffset);
+	public BitmapFont(String text, Vector3f position) {
+		this(text, Xoffset, Yoffset, position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset) {
-		this(text, Xoffset, Yoffset, width, height);
+	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position) {
+		this(text, Xoffset, Yoffset, width, height, position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height) {
-		this(text, Xoffset, Yoffset, width, height, bitmapFile);
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position) {
+		this(text, Xoffset, Yoffset, width, height, bitmapFile, position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath) {
-		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(bitmapFile));
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath, Vector3f position) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(bitmapFile), position);
 	}
 
-	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture) {
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture, Vector3f position) {
 		this.text = text;
 		this.texture = texture;
+		this.position = position;
+		
 		BitmapFont.Xoffset = Xoffset;
 		BitmapFont.Yoffset = Yoffset;
 		BitmapFont.width = width;
@@ -49,7 +53,7 @@ public class BitmapFont {
 	public void createChars() {
 		float Xoffset = width + BitmapFont.Xoffset;
 		float Yoffset = height + BitmapFont.Yoffset;
-		
+
 		float XPos = Xoffset;
 		float YPos = Yoffset;
 		for (int i = 0; i < text.length(); i++) {
@@ -61,14 +65,16 @@ public class BitmapFont {
 				YPos -= Yoffset;
 				continue;
 			}
-			
+
 			BitmapChar Char = new BitmapChar(asciiCode, width, height, texture);
-			
-			Char.position.x = XPos;
-			Char.position.y = YPos;
-			
+
+			Char.translate(this.position);
+
+			Char.translateX(XPos);
+			Char.translateY(YPos);
+
 			CharList.add(Char);
-			
+
 			XPos += Xoffset;
 		}
 	}
@@ -81,9 +87,31 @@ public class BitmapFont {
 		}
 	}
 
+	public void translateX(float x) {
+		for (BitmapChar Char : CharList) {
+			Char.position.x += x;
+		}
+	}
+
+	public void translateY(float y) {
+		for (BitmapChar Char : CharList) {
+			Char.position.y += y;
+		}
+	}
+
+	public void translateZ(float z) {
+		for (BitmapChar Char : CharList) {
+			Char.position.z += z;
+		}
+	}
+
 	public void render() {
 		for (BitmapChar Char : CharList) {
 			Char.render();
 		}
+	}
+
+	public ArrayList<BitmapChar> getCharList() {
+		return CharList;
 	}
 }

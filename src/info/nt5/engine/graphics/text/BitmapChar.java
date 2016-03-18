@@ -39,11 +39,11 @@ public class BitmapChar {
 	public BitmapChar(int ascii, float width, float height) {
 		this(ascii, width, height, defaultFontPath);
 	}
-	
+
 	public BitmapChar(int ascii, float width, float height, String texturePath) {
 		this(ascii, width, height, Texture.fromImage(texturePath));
 	}
-	
+
 	public BitmapChar(int ascii, float width, float height, Texture texture) {
 
 		this.texture = texture;
@@ -85,6 +85,18 @@ public class BitmapChar {
 		position.z += vector.z;
 	}
 
+	public void translateX(float x) {
+		position.x += x;
+	}
+
+	public void translateY(float y) {
+		position.y += y;
+	}
+
+	public void translateZ(float z) {
+		position.z += z;
+	}
+
 	public void render() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE);
@@ -108,7 +120,7 @@ public class BitmapChar {
 	public int getAsciiCode() {
 		return asciiCode;
 	}
-	
+
 	public static String getDefaultFontPath() {
 		return defaultFontPath;
 	}
