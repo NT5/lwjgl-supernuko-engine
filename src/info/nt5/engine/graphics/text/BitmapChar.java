@@ -108,6 +108,11 @@ public class BitmapChar {
 		texture.unbind();
 		glDisable(GL_BLEND);
 	}
+	
+	public void dispose() {
+		textureAtlas.dispose();
+		texture.dispose();
+	}
 
 	public static float getWidth() {
 		return BitmapChar.width;

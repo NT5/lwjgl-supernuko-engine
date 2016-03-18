@@ -129,11 +129,13 @@ public class Textbox extends GameObject {
 	}
 
 	public void setText(String text) {
+		this.text.dispose();
 		this.text = new BitmapFont(text,
 				new Vector3f((position.x - (this.width - 0.30f)), (position.y + (this.heigth - 0.80f)), position.z));
 	}
 
 	public void setText(BitmapFont text) {
+		this.text.dispose();
 		this.text = text;
 		this.text.translate(
 				new Vector3f((position.x - (this.width - 0.30f)), (position.y + (this.heigth - 0.80f)), position.z));
@@ -179,5 +181,12 @@ public class Textbox extends GameObject {
 		tex.unbind();
 
 		text.render();
+	}
+
+	@Override
+	public void dispose() {
+		tex.dispose();
+
+		text.dispose();
 	}
 }

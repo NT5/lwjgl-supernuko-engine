@@ -132,6 +132,13 @@ public class BitmapFont {
 		}
 	}
 
+	public void dispose() {
+		texture.dispose();
+		for (BitmapChar Char : CharList) {
+			Char.dispose();
+		}
+	}
+
 	public ArrayList<BitmapChar> getCharList() {
 		return CharList;
 	}

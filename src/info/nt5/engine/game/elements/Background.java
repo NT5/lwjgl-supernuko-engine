@@ -7,17 +7,17 @@ import info.nt5.engine.graphics.shader.VertexQuad;
 
 public class Background extends GameObject {
 
-	private static String texturePath = "assets/img/background.jpg";
+	private static final String defaultTexturePath = "assets/img/background.jpg";
 
-	private static float width = 10.0f;
-	private static float height = 10.0f * 9.0f / 16.0f;
+	private static final float defaultwidth = 10.0f;
+	private static final float defaultheight = 10.0f * 9.0f / 16.0f;
 
 	public Background() {
-		this(width, height, texturePath);
+		this(defaultTexturePath, defaultwidth, defaultheight);
 	}
 
 	public Background(String texturePath) {
-		this(width, height, texturePath);
+		this(texturePath, defaultwidth, defaultheight);
 	}
 
 	public Background(String texturePath, float wd) {
@@ -25,11 +25,11 @@ public class Background extends GameObject {
 	}
 
 	public Background(String texturePath, float width, float height) {
-		this(width, height, texturePath);
+		this(Texture.fromImage(texturePath), width, height);
 	}
 
 	public Background(Color color) {
-		this(width, height, color);
+		this(color, defaultwidth, defaultheight);
 	}
 
 	public Background(Color color, float wd) {
@@ -37,7 +37,7 @@ public class Background extends GameObject {
 	}
 
 	public Background(Color color, float width, float height) {
-		this(width, height, color);
+		this(Texture.fromColor(color, 64, 64), width, height);
 	}
 
 	public Background(float wd) {
@@ -45,18 +45,10 @@ public class Background extends GameObject {
 	}
 
 	public Background(float width, float height) {
-		this(width, height, texturePath);
+		this(defaultTexturePath, width, height);
 	}
 
-	public Background(float width, float height, String texturePath) {
-		this(width, height, Texture.fromImage(texturePath));
-	}
-
-	public Background(float width, float height, Color color) {
-		this(width, height, Texture.fromColor(color, 64, 64));
-	}
-
-	public Background(float width, float height, Texture texture) {
+	public Background(Texture texture, float width, float height) {
 		this(new VertexQuad(width, height), texture);
 	}
 

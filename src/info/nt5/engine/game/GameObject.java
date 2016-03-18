@@ -125,4 +125,8 @@ public class GameObject {
 	public void update() {
 
 	}
+	
+	public void dispose() {
+		this.tex.dispose();
+	}
 }
