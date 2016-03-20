@@ -32,18 +32,16 @@ public class StageTest implements State {
 		stage.addActor(new Actor(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Actor(new Vector3f(5f, 0f, 0f)));
 
-		stage.addTextbox(
-				new Textbox(new Color(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.75f), new Vector3f(0f, 4.2f, 0.0f)));
-		stage.getTextbox(0).setText("textbox 1!");
+		stage.addTextbox(new Textbox(new Color(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.75f),
+				new Vector3f(0f, 4.2f, 0.0f), "textbox 1!"));
 
-		stage.addTextbox(
-				new Textbox(new Color(Color.PINK.r, Color.PINK.g, Color.PINK.b, 0.75f), new Vector3f(0f, -4.2f, 0.0f)));
-		stage.getTextbox(1).setText("textbox 2!");
-		
-		stage.addTextbox();
+		stage.addTextbox(new Textbox(new Color(Color.PINK.r, Color.PINK.g, Color.PINK.b, 0.75f),
+				new Vector3f(0f, -4.2f, 0.0f), "textbox 2!"));
+
+		stage.addTextbox(new Textbox(new Vector3f(), "textbox 3!"));
 
 		stage.setBackground(new Background(Color.GRAY));
-		
+
 		Logger.info("%s", stage.getTextboxs().toString());
 		Logger.info("%s", stage.getActors().toString());
 	}
