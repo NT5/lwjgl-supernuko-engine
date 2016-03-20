@@ -13,7 +13,7 @@ import info.nt5.engine.math.Vector3f;
 public class GameObject {
 
 	public VertexArray VAO;
-	public Texture tex;
+	public Texture texture;
 	public float[] vertices, texCoords;
 	public byte[] indices;
 
@@ -87,8 +87,8 @@ public class GameObject {
 		this.texCoords = texCoords;
 		this.position = position;
 
-		tex = texture;
-		VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
+		this.texture = texture;
+		this.VAO = new VertexArray(this.vertices, this.indices, this.texCoords);
 	}
 
 	public void translate(Vector3f vector) {
@@ -114,12 +114,12 @@ public class GameObject {
 	}
 
 	public void render() {
-		tex.bind();
+		texture.bind();
 		Shader.defaultShader.bind();
 		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
 		Shader.defaultShader.unbind();
-		tex.unbind();
+		texture.unbind();
 	}
 
 	public void update() {
@@ -127,6 +127,7 @@ public class GameObject {
 	}
 	
 	public void dispose() {
-		this.tex.dispose();
+		this.texture.dispose();
+		this.VAO.dispose();
 	}
 }

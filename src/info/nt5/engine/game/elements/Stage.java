@@ -5,46 +5,46 @@ import java.util.*;
 public class Stage {
 
 	private Background background;
-	private HashMap<String, Actor> actors = new HashMap<String, Actor>();
-	private HashMap<String, Textbox> textboxs = new HashMap<String, Textbox>();
+	private List<Actor> actors = new ArrayList<Actor>();
+	private List<Textbox> textboxs = new ArrayList<Textbox>();
 
-	public void addActor(String name) {
-		addActor(name, new Actor());
+	public void addActor() {
+		addActor(new Actor());
 	}
 
-	public void addActor(String name, Actor actor) {
-		actors.put(name, actor);
+	public void addActor(Actor actor) {
+		actors.add(actor);
 	}
 
-	public void removeActor(String name) {
-		actors.remove(name);
+	public void removeActor(int index) {
+		actors.remove(index);
 	}
 
-	public Actor getActor(String name) {
-		return actors.get(name);
+	public Actor getActor(int index) {
+		return actors.get(index);
 	}
 
-	public HashMap<String, Actor> getActors() {
+	public List<Actor> getActors() {
 		return actors;
 	}
 
-	public void addTextbox(String name) {
-		addTextbox(name, new Textbox());
+	public void addTextbox() {
+		addTextbox(new Textbox());
 	}
 
-	public void addTextbox(String name, Textbox textbox) {
-		textboxs.put(name, textbox);
+	public void addTextbox(Textbox textbox) {
+		textboxs.add(textbox);
 	}
 
-	public void removeTextbox(String name) {
-		textboxs.remove(name);
+	public void removeTextbox(int index) {
+		textboxs.remove(index);
 	}
 
-	public Textbox getTextbox(String name) {
-		return textboxs.get(name);
+	public Textbox getTextbox(int index) {
+		return textboxs.get(index);
 	}
 
-	public HashMap<String, Textbox> getTextboxs() {
+	public List<Textbox> getTextboxs() {
 		return textboxs;
 	}
 
@@ -65,11 +65,11 @@ public class Stage {
 			background.render();
 		}
 
-		for (Actor actor : actors.values()) {
+		for (Actor actor : actors) {
 			actor.render();
 		}
 
-		for (Textbox textbox : textboxs.values()) {
+		for (Textbox textbox : textboxs) {
 			textbox.render();
 		}
 	}
@@ -79,13 +79,15 @@ public class Stage {
 			background.dispose();
 		}
 
-		for (Actor actor : actors.values()) {
+		for (Actor actor : actors) {
 			actor.dispose();
 		}
+		actors.clear();
 
-		for (Textbox textbox : textboxs.values()) {
+		for (Textbox textbox : textboxs) {
 			textbox.dispose();
 		}
+		textboxs.clear();
 	}
 
 }

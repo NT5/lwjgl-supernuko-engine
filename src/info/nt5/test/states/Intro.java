@@ -32,38 +32,41 @@ public class Intro implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-		
+
 		Logger.debug("Intro state init!");
 
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		glActiveTexture(GL_TEXTURE1);
 		// glEnable(GL_DEPTH_TEST);
-		
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		Shader.LoadAllShaders();
-		
+
 		Shader.defaultShader.bind();
-		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f, 10.0f);
+		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
+				10.0f);
 		Shader.defaultShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
 		Shader.defaultShader.setUniformMat4f("pr_matrix", pr_matrix);
 		Shader.defaultShader.setUniform1i("tex", 1);
-		
+
 		Shader.defaultShader.unbind();
 
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
-		
+
 		crate2 = new Crate(Color.PINK.withNewAlpha(0.55f));
 		crate2.translate(new Vector3f(5f, 0f, 0.0f));
-		
+
 		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Intro state enter!");
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	}
 
@@ -72,11 +75,11 @@ public class Intro implements State {
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(1);
 		}
-		
+
 		if (Keyboard.isDown(Keyboard.KEY_C)) {
 			camera.position = new Vector3f();
 		}
-		
+
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
 			camera.position.y -= 0.08f;
 		}
@@ -89,30 +92,30 @@ public class Intro implements State {
 		if (Keyboard.isDown(Keyboard.KEY_A)) {
 			camera.position.x += 0.08f;
 		}
-		
-		if ( Keyboard.isDown(Keyboard.KEY_UP) ) {
+
+		if (Keyboard.isDown(Keyboard.KEY_UP)) {
 			crate1.position.y += 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_DOWN) ) {
+		if (Keyboard.isDown(Keyboard.KEY_DOWN)) {
 			crate1.position.y -= 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_LEFT) ) {
+		if (Keyboard.isDown(Keyboard.KEY_LEFT)) {
 			crate1.position.x -= 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_RIGHT) ) {
+		if (Keyboard.isDown(Keyboard.KEY_RIGHT)) {
 			crate1.position.x += 0.08f;
 		}
-		
-		if ( Keyboard.isDown(Keyboard.KEY_I) ) {
+
+		if (Keyboard.isDown(Keyboard.KEY_I)) {
 			crate2.position.y += 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_K) ) {
+		if (Keyboard.isDown(Keyboard.KEY_K)) {
 			crate2.position.y -= 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_J) ) {
+		if (Keyboard.isDown(Keyboard.KEY_J)) {
 			crate2.position.x -= 0.08f;
 		}
-		if ( Keyboard.isDown(Keyboard.KEY_L) ) {
+		if (Keyboard.isDown(Keyboard.KEY_L)) {
 			crate2.position.x += 0.08f;
 		}
 	}

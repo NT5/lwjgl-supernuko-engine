@@ -37,7 +37,7 @@ public class BitmapFont {
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath) {
-		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition);
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition.copy());
 	}
 
 	public BitmapFont(String text, Vector3f position) {
@@ -134,6 +134,7 @@ public class BitmapFont {
 		for (BitmapChar Char : CharList) {
 			Char.dispose();
 		}
+		CharList.clear();
 	}
 
 	public ArrayList<BitmapChar> getCharList() {

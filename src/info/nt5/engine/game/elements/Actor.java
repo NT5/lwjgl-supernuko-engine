@@ -8,29 +8,26 @@ import info.nt5.engine.math.Vector3f;
 
 public class Actor extends GameObject {
 
-	private static String defaultTexturePath = "assets/img/neko.png";
+	private static final String defaultTexturePath = "assets/img/neko.png";
 
-	private static final float defaultwidth = 3.3f;
-	private static final float defaultheight = 6f;
+	protected static final float defaultwidth = 3.3f;
+	protected static final float defaultheight = 6f;
+	protected static final Vector3f defaultPosition = new Vector3f();
 
 	public Actor() {
-		this(defaultwidth, defaultheight, defaultTexturePath);
-	}
-
-	public Actor(Vector3f position) {
-		this(defaultwidth, defaultheight, defaultTexturePath, position);
+		this(defaultwidth, defaultheight, defaultPosition.copy());
 	}
 
 	public Actor(String texturePath) {
-		this(defaultwidth, defaultheight, texturePath);
+		this(texturePath, defaultPosition.copy());
 	}
 
 	public Actor(String texturePath, Vector3f position) {
-		this(defaultwidth, defaultheight, texturePath, position);
+		this(texturePath, defaultwidth, defaultheight, position);
 	}
 
 	public Actor(String texturePath, float wd) {
-		this(texturePath, wd, wd);
+		this(texturePath, wd, defaultPosition.copy());
 	}
 
 	public Actor(String texturePath, float wd, Vector3f position) {
@@ -38,23 +35,23 @@ public class Actor extends GameObject {
 	}
 
 	public Actor(String texturePath, float width, float height) {
-		this(width, height, texturePath);
+		this(texturePath, width, height, defaultPosition.copy());
 	}
 
 	public Actor(String texturePath, float width, float height, Vector3f position) {
-		this(width, height, texturePath, position);
+		this(Texture.fromImage(texturePath), width, height, position);
 	}
 
 	public Actor(Color color) {
-		this(defaultwidth, defaultheight, color);
+		this(color, defaultPosition.copy());
 	}
 
 	public Actor(Color color, Vector3f position) {
-		this(defaultwidth, defaultheight, color, position);
+		this(color, defaultwidth, defaultheight, position);
 	}
 
 	public Actor(Color color, float wd) {
-		this(color, wd, wd);
+		this(color, wd, defaultPosition.copy());
 	}
 
 	public Actor(Color color, float wd, Vector3f position) {
@@ -62,15 +59,43 @@ public class Actor extends GameObject {
 	}
 
 	public Actor(Color color, float width, float height) {
-		this(width, height, color);
+		this(color, width, height, defaultPosition.copy());
 	}
 
 	public Actor(Color color, float width, float height, Vector3f position) {
-		this(width, height, color, position);
+		this(Texture.fromColor(color, 64, 64), width, height, position);
+	}
+
+	public Actor(Texture texture) {
+		this(texture, defaultPosition.copy());
+	}
+
+	public Actor(Texture texture, Vector3f position) {
+		this(texture, defaultwidth, defaultheight, position);
+	}
+
+	public Actor(Texture texture, float wd) {
+		this(texture, wd, defaultPosition.copy());
+	}
+
+	public Actor(Texture texture, float wd, Vector3f position) {
+		this(texture, wd, wd, position);
+	}
+
+	public Actor(Texture texture, float width, float height) {
+		this(texture, width, height, defaultPosition.copy());
+	}
+
+	public Actor(Texture texture, float width, float height, Vector3f position) {
+		this(new VertexQuad(width, height), texture, position);
+	}
+
+	public Actor(Vector3f position) {
+		this(defaultwidth, defaultheight, position);
 	}
 
 	public Actor(float wd) {
-		this(wd, wd);
+		this(wd, defaultPosition.copy());
 	}
 
 	public Actor(float wd, Vector3f position) {
@@ -78,39 +103,23 @@ public class Actor extends GameObject {
 	}
 
 	public Actor(float width, float height) {
-		this(width, height, defaultTexturePath);
+		this(new VertexQuad(width, height));
 	}
 
 	public Actor(float width, float height, Vector3f position) {
-		this(width, height, defaultTexturePath, position);
+		this(new VertexQuad(width, height), position);
 	}
 
-	public Actor(float width, float height, String texturePath) {
-		this(width, height, Texture.fromImage(texturePath));
+	public Actor(VertexQuad quad) {
+		this(quad, defaultPosition.copy());
 	}
 
-	public Actor(float width, float height, String texturePath, Vector3f position) {
-		this(width, height, Texture.fromImage(texturePath), position);
-	}
-
-	public Actor(float width, float height, Color color) {
-		this(width, height, Texture.fromColor(color, 64, 64));
-	}
-
-	public Actor(float width, float height, Color color, Vector3f position) {
-		this(width, height, Texture.fromColor(color, 64, 64), position);
-	}
-
-	public Actor(float width, float height, Texture texture) {
-		this(new VertexQuad(width, height), texture);
-	}
-
-	public Actor(float width, float height, Texture texture, Vector3f position) {
-		this(new VertexQuad(width, height), texture, position);
+	public Actor(VertexQuad quad, Vector3f position) {
+		this(quad, Texture.fromImage(defaultTexturePath), position);
 	}
 
 	public Actor(VertexQuad quad, Texture texture) {
-		this(quad, texture, new Vector3f(0f, 0f, 0f));
+		this(quad, texture, defaultPosition.copy());
 	}
 
 	public Actor(VertexQuad quad, Texture texture, Vector3f position) {

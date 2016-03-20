@@ -134,6 +134,7 @@ public class BitmapChar {
 	public void dispose() {
 		textureAtlas.dispose();
 		texture.dispose();
+		VAO.dispose();
 	}
 
 	public float getWidth() {
