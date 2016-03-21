@@ -63,6 +63,7 @@ public abstract class StateGame extends GameAbstract {
 		for (State state : states.values()){
 		    state.init(manager, this);
 		}
+		currentState.enter(manager, this);
 	}
 
 	@Override

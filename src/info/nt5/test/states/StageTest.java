@@ -23,11 +23,14 @@ public class StageTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
+		Logger.debug("Stage state init!");
 		stage = new Stage();
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
+		
+		Logger.debug("Stage state enter!");
 
 		stage.addActor(new Actor(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Actor(new Vector3f(5f, 0f, 0f)));
@@ -69,6 +72,7 @@ public class StageTest implements State {
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
+		Logger.debug("Stage state leave");
 		stage.dispose();
 	}
 

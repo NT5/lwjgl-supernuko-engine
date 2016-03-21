@@ -12,6 +12,7 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
+import info.nt5.engine.util.Logger;
 
 public class FontTest implements State {
 
@@ -29,7 +30,15 @@ public class FontTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-		
+		Logger.debug("Font state init!");
+	}
+
+	@Override
+	public void enter(GameManager gm, StateGame game) {
+		Logger.debug("Font state enter!");
+
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
 		Vector3f text_pos = new Vector3f(-9f, -4.3f, 0.0f);
 		Vector3f container_pos = new Vector3f(0f, -4.2f, 0.0f);
 		Vector3f neko_pos = new Vector3f(5f, 0f, 0.0f);
@@ -37,14 +46,10 @@ public class FontTest implements State {
 		bg = new Background();
 		textbox = new Textbox(container_pos);
 		neko = new Actor();
-		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!", text_pos);
-		
-		neko.translate(neko_pos);
-	}
+		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!",
+				text_pos);
 
-	@Override
-	public void enter(GameManager gm, StateGame game) {
-		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		neko.translate(neko_pos);
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class FontTest implements State {
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(3);
 		}
-		
+
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
 			neko.position.y += 0.08f;
 		}
@@ -80,6 +85,11 @@ public class FontTest implements State {
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
+		Logger.debug("Font state lave!");
+		bg.dispose();
+		textbox.dispose();
+		text.dispose();
+		neko.dispose();
 	}
 
 }

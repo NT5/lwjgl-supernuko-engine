@@ -53,12 +53,6 @@ public class Intro implements State {
 
 		Shader.defaultShader.unbind();
 
-		crate1 = new Crate(Color.GREEN);
-		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
-
-		crate2 = new Crate(Color.PINK.withNewAlpha(0.55f));
-		crate2.translate(new Vector3f(5f, 0f, 0.0f));
-
 		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
 	}
 
@@ -68,6 +62,12 @@ public class Intro implements State {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		
+		crate1 = new Crate(Color.GREEN);
+		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
+
+		crate2 = new Crate(Color.PINK.withNewAlpha(0.55f));
+		crate2.translate(new Vector3f(5f, 0f, 0.0f));
 	}
 
 	@Override
@@ -132,6 +132,9 @@ public class Intro implements State {
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Intro state leave!");
 		glDisable(GL_BLEND);
+		
+		crate1.dispose();
+		crate2.dispose();
 	}
 
 }

@@ -62,8 +62,9 @@ public class Camera {
 
 		Shader.defaultShader.bind();
 
-		Shader.defaultShader.setUniformMat4f("vw_matrix", Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z))
-				.multiply(Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch))));
+		Shader.defaultShader.setUniformMat4f("vw_matrix",
+				Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z)).multiply(
+						Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch))));
 
 		Shader.defaultShader.unbind();
 	}
