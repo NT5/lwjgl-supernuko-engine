@@ -28,6 +28,7 @@ public class Textbox extends GameObject {
 	private float heigth;
 
 	public BitmapFont text;
+	public Textbox textboxHeader;
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -253,7 +254,20 @@ public class Textbox extends GameObject {
 	}
 
 	public Vector3f calcFontPosition() {
-		return new Vector3f((position.x - (this.width - 0.30f)), (position.y + (this.heigth - 0.80f)), position.z);
+		return new Vector3f((position.x - (this.width - 0.25f)), (position.y + (this.heigth - 0.70f)), position.z);
+	}
+
+	public float getwidth() {
+		return this.width;
+	}
+
+	public float getheigth() {
+		return this.heigth;
+	}
+
+	public void setHeaderText(String text) {
+		this.textboxHeader = new Textbox(this.texture, this.width, 0.35f,
+				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z), text);
 	}
 
 	public void setText(String text) {
@@ -274,6 +288,10 @@ public class Textbox extends GameObject {
 		position.z += vector.z;
 
 		text.translate(vector);
+
+		if (textboxHeader != null) {
+			textboxHeader.translate(vector);
+		}
 	}
 
 	@Override
@@ -281,6 +299,10 @@ public class Textbox extends GameObject {
 		position.x += x;
 
 		text.translateX(x);
+
+		if (textboxHeader != null) {
+			textboxHeader.translateX(x);
+		}
 	}
 
 	@Override
@@ -288,6 +310,10 @@ public class Textbox extends GameObject {
 		position.y += y;
 
 		text.translateY(y);
+
+		if (textboxHeader != null) {
+			textboxHeader.translateY(y);
+		}
 	}
 
 	@Override
@@ -295,6 +321,11 @@ public class Textbox extends GameObject {
 		position.z += z;
 
 		text.translateZ(z);
+
+		if (textboxHeader != null) {
+			textboxHeader.translateZ(z);
+		}
+
 	}
 
 	@Override
@@ -312,12 +343,19 @@ public class Textbox extends GameObject {
 		glDisable(GL_BLEND);
 
 		text.render();
+
+		if (textboxHeader != null) {
+			textboxHeader.render();
+		}
 	}
 
 	@Override
 	public void dispose() {
 		texture.dispose();
 		text.dispose();
+		if (textboxHeader != null) {
+			textboxHeader.dispose();
+		}
 		VAO.dispose();
 	}
 }
