@@ -4,8 +4,8 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
 
 import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.Color;
@@ -27,8 +27,8 @@ public class Textbox extends GameObject {
 	private float width;
 	private float heigth;
 
-	public BitmapFont text;
-	public Textbox textboxHeader;
+	private BitmapFont text;
+	private Textbox textboxHeader;
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -243,7 +243,9 @@ public class Textbox extends GameObject {
 	}
 
 	public Textbox(VertexQuad quad, Texture texture, Vector3f position) {
-		this(quad, texture, position, "default text");
+		super(quad, texture, position);
+		this.heigth = quad.height;
+		this.width = quad.width;
 	}
 
 	public Textbox(VertexQuad quad, Texture texture, Vector3f position, String text) {
@@ -271,12 +273,16 @@ public class Textbox extends GameObject {
 	}
 
 	public void setText(String text) {
-		this.text.dispose();
+		if (this.text != null) {
+			this.text.dispose();
+		}
 		this.text = new BitmapFont(text, calcFontPosition());
 	}
 
 	public void setText(BitmapFont text) {
-		this.text.dispose();
+		if (this.text != null) {
+			this.text.dispose();
+		}
 		this.text = text;
 		this.text.translate(calcFontPosition());
 	}
@@ -287,7 +293,9 @@ public class Textbox extends GameObject {
 		position.y += vector.y;
 		position.z += vector.z;
 
-		text.translate(vector);
+		if (this.text != null) {
+			text.translate(vector);
+		}
 
 		if (textboxHeader != null) {
 			textboxHeader.translate(vector);
@@ -298,7 +306,9 @@ public class Textbox extends GameObject {
 	public void translateX(float x) {
 		position.x += x;
 
-		text.translateX(x);
+		if (this.text != null) {
+			text.translateX(x);
+		}
 
 		if (textboxHeader != null) {
 			textboxHeader.translateX(x);
@@ -308,8 +318,9 @@ public class Textbox extends GameObject {
 	@Override
 	public void translateY(float y) {
 		position.y += y;
-
-		text.translateY(y);
+		if (this.text != null) {
+			text.translateY(y);
+		}
 
 		if (textboxHeader != null) {
 			textboxHeader.translateY(y);
@@ -320,7 +331,9 @@ public class Textbox extends GameObject {
 	public void translateZ(float z) {
 		position.z += z;
 
-		text.translateZ(z);
+		if (this.text != null) {
+			text.translateZ(z);
+		}
 
 		if (textboxHeader != null) {
 			textboxHeader.translateZ(z);
@@ -342,7 +355,9 @@ public class Textbox extends GameObject {
 
 		glDisable(GL_BLEND);
 
-		text.render();
+		if (this.text != null) {
+			text.render();
+		}
 
 		if (textboxHeader != null) {
 			textboxHeader.render();
@@ -351,11 +366,16 @@ public class Textbox extends GameObject {
 
 	@Override
 	public void dispose() {
+
 		texture.dispose();
-		text.dispose();
+		VAO.dispose();
+
 		if (textboxHeader != null) {
 			textboxHeader.dispose();
 		}
-		VAO.dispose();
+
+		if (this.text != null) {
+			text.dispose();
+		}
 	}
 }

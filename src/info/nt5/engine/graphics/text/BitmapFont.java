@@ -140,4 +140,8 @@ public class BitmapFont {
 	public ArrayList<BitmapChar> getCharList() {
 		return CharList;
 	}
+
+	public String getText() {
+		return this.text;
+	}
 }

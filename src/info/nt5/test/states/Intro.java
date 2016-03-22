@@ -62,7 +62,7 @@ public class Intro implements State {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-		
+
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
 
@@ -72,8 +72,16 @@ public class Intro implements State {
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+		if (Keyboard.isPressed(Keyboard.KEY_ESCAPE)) {
+			gm.getWindow().close();
+		}
+
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(1);
+		}
+
+		if (Keyboard.isPressed(Keyboard.KEY_F11)) {
+			gm.getWindow().setFullscreen(gm.getWindow().isFullscreen() ? false : true);
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_C)) {
@@ -132,7 +140,7 @@ public class Intro implements State {
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Intro state leave!");
 		glDisable(GL_BLEND);
-		
+
 		crate1.dispose();
 		crate2.dispose();
 	}

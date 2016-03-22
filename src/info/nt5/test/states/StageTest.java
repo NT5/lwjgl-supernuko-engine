@@ -58,10 +58,12 @@ public class StageTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_C)) {
+			stage.getTextbox(1).setHeaderText("nico-nico-ni~");
 			stage.getTextbox(1).setText("nyan nyan");
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_B)) {
+			stage.getTextbox(1).setHeaderText("><!");
 			stage.getTextbox(1)
 					.setText("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
 		}
