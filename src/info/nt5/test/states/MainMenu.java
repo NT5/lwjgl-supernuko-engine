@@ -47,7 +47,6 @@ public class MainMenu implements State {
 		int cellX = (int) asciiCode % gridSize;
 		int cellY = (int) asciiCode / gridSize;
 
-		Logger.info("ASCII: [%s] X: [%s] Y: [%s]", asciiCode, cellX, cellY);
 		texture = Texture.fromImage("assets/img/font.png");
 
 		textureAtlas = new TextureAtlas(texture, 32);

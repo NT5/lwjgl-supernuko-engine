@@ -33,6 +33,7 @@ public class Window {
 	private boolean vsync, fullscreen, visible, resizable;
 
 	private Cursor cursor;
+	private Icon icons;
 
 	public Window(String title, int width, int height, boolean vsync, boolean fullscreen, boolean visible,
 			boolean resizable) {
@@ -61,6 +62,8 @@ public class Window {
 		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, visible ? GL11.GL_TRUE : GL11.GL_FALSE);
 		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, resizable ? GL11.GL_TRUE : GL11.GL_FALSE);
 
+		GLFWVidMode vidmode = getVidModes();
+
 		window = GLFW.glfwCreateWindow(width, height, title,
 				fullscreen ? GLFW.glfwGetPrimaryMonitor() : MemoryUtil.NULL, MemoryUtil.NULL);
 		if (window == MemoryUtil.NULL) {
@@ -68,10 +71,10 @@ public class Window {
 			throw new RuntimeException();
 		}
 
-		GLFWVidMode vidmode = getVidModes();
-
 		if (!fullscreen) {
 			GLFW.glfwSetWindowPos(window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2);
+		} else {
+			GLFW.glfwSetWindowSize(window, vidmode.width(), vidmode.height());
 		}
 
 		// TODO methods instead
@@ -98,8 +101,10 @@ public class Window {
 
 			@Override
 			public void invoke(long window, int width, int height) {
-				Window.this.width = width;
-				Window.this.height = height;
+				if (!fullscreen) {
+					Window.this.width = width;
+					Window.this.height = height;
+				}
 			}
 		};
 		windowSizeCallback.set(window);
@@ -159,6 +164,13 @@ public class Window {
 
 	public void setTitle(String title) {
 		this.title = title;
+		GLFW.glfwSetWindowTitle(window, title);
+	}
+
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+		GLFW.glfwSetWindowSize(window, width, height);
 	}
 
 	public int getWidth() {
@@ -197,7 +209,8 @@ public class Window {
 		this.fullscreen = fullscreen;
 		GLFWVidMode vidmode = getVidModes();
 		if (fullscreen) {
-			GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, width, height, vidmode.refreshRate());
+			GLFW.glfwSetWindowMonitor(window, GLFW.glfwGetPrimaryMonitor(), 0, 0, vidmode.width(), vidmode.height(),
+					vidmode.refreshRate());
 		} else {
 			GLFW.glfwSetWindowMonitor(window, MemoryUtil.NULL, 0, 0, width, height, 0);
 			vidmode = getVidModes();
@@ -230,5 +243,11 @@ public class Window {
 
 	public Cursor getCursor() {
 		return cursor;
+	}
+
+	public void setIcon() {
+		this.icons = new Icon();
+		GLFW.glfwSetWindowIcon(window, icons.getIcons());
+		this.icons.dispose();
 	}
 }

@@ -37,7 +37,7 @@ public class Shader {
 	}
 	
 	public static void LoadAllShaders() {
-		defaultShader = Shader.fromPath("res/shaders/shader.vs", "res/shaders/shader.fs");
+		defaultShader = Shader.fromPath("assets/shaders/shader.vs", "assets/shaders/shader.fs");
 	}
 
 	private static Shader load() {

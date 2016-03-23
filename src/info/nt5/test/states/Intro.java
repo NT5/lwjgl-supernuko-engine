@@ -54,6 +54,7 @@ public class Intro implements State {
 		Shader.defaultShader.unbind();
 
 		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
+		gm.getWindow().setIcon();
 	}
 
 	@Override
