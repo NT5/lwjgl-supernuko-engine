@@ -260,11 +260,29 @@ public class Textbox extends GameObject {
 		super(quad, texture, position);
 		this.heigth = quad.height;
 		this.width = quad.width;
-		this.text = new BitmapFont(text, calcFontPosition());
+		this.text = new BitmapFont(parseText(text), calcFontPosition());
 	}
 
 	public Vector3f calcFontPosition() {
-		return new Vector3f((position.x - (this.width - 0.25f)), (position.y + (this.heigth - 0.70f)), position.z);
+		return new Vector3f((position.x - (this.width - 0.20f)), (position.y + (this.heigth - 0.70f)), position.z);
+	}
+
+	private String parseText(String text) {
+		StringBuilder str_new = new StringBuilder();
+		float limit = (this.width * 2) - 0.95f;
+		float current = 0;
+		for (int i = 0; i < text.length(); i++) {
+			if (current >= limit) {
+				if (text.charAt(i) != 32 && text.charAt(i - 1) != 32) {
+					str_new.append("_");
+				}
+				str_new.append("\n");
+				current = 0;
+			}
+			current += 0.2f;
+			str_new.append(text.charAt(i));
+		}
+		return str_new.toString();
 	}
 
 	public float getwidth() {
@@ -292,7 +310,7 @@ public class Textbox extends GameObject {
 		if (this.text != null) {
 			this.text.dispose();
 		}
-		this.text = new BitmapFont(text, calcFontPosition());
+		this.text = new BitmapFont(parseText(text), calcFontPosition());
 	}
 
 	public void setText(BitmapFont text) {
