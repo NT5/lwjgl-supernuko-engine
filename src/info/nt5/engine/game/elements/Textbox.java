@@ -16,6 +16,8 @@ import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 
+import java.util.*;
+
 public class Textbox extends GameObject {
 
 	private static final String defaultTexturePath = "assets/img/textbox.png";
@@ -29,6 +31,9 @@ public class Textbox extends GameObject {
 
 	private BitmapFont text;
 	private Textbox textboxHeader;
+
+	private int currentTextId;
+	private List<String> textCollection = new ArrayList<String>();
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -285,6 +290,54 @@ public class Textbox extends GameObject {
 		}
 		this.text = text;
 		this.text.translate(calcFontPosition());
+	}
+
+	public String getTextCollection(int index) {
+		return textCollection.get(index);
+	}
+
+	public List<String> getTextCollection() {
+		return textCollection;
+	}
+
+	public int getCollectionCurrent() {
+		return currentTextId;
+	}
+
+	public void setCurrentCollection() {
+		setText(getTextCollection(currentTextId));
+	}
+
+	public void setNextCollection() {
+		if (currentTextId != textCollection.size() - 1) {
+			currentTextId++;
+		} else {
+			currentTextId = 0;
+		}
+		setCurrentCollection();
+	}
+
+	public void setPrevCollection() {
+		if (currentTextId != 0) {
+			currentTextId--;
+		} else {
+			currentTextId = (textCollection.size() - 1);
+		}
+		setCurrentCollection();
+	}
+
+	public void addTextCollection(String text) {
+		textCollection.add(text);
+	}
+
+	public void addTextCollection(String[] texts) {
+		for (String text : texts) {
+			textCollection.add(text);
+		}
+	}
+
+	public void removeTextCollection(int index) {
+		textCollection.remove(index);
 	}
 
 	@Override

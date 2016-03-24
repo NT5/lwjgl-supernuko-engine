@@ -45,6 +45,10 @@ public class StageTest implements State {
 
 		stage.getTextbox(1).setHeaderText("header-san");
 
+		String[] StringCollection = { "text 1!", "text 2!", "text 3!" };
+
+		stage.getTextbox(1).addTextCollection(StringCollection);
+
 		stage.setBackground(new Background(Color.GRAY));
 
 		Logger.info("%s", stage.getTextboxs().toString());
@@ -66,6 +70,14 @@ public class StageTest implements State {
 			stage.getTextbox(1).setHeaderText("><!");
 			stage.getTextbox(1)
 					.setText("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
+		}
+
+		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
+			stage.getTextbox(1).setPrevCollection();
+		}
+
+		if (Keyboard.isPressed(Keyboard.KEY_E)) {
+			stage.getTextbox(1).setNextCollection();
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {

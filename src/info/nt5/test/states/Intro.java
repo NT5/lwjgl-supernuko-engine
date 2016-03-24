@@ -81,6 +81,16 @@ public class Intro implements State {
 			game.enterState(1);
 		}
 
+		if (Keyboard.isPressed(Keyboard.KEY_1)) {
+			game.enterState(1);
+		}
+		if (Keyboard.isPressed(Keyboard.KEY_2)) {
+			game.enterState(2);
+		}
+		if (Keyboard.isPressed(Keyboard.KEY_3)) {
+			game.enterState(3);
+		}
+
 		if (Keyboard.isPressed(Keyboard.KEY_F11)) {
 			gm.getWindow().setFullscreen(gm.getWindow().isFullscreen() ? false : true);
 		}
