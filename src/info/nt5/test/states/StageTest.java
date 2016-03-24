@@ -1,16 +1,16 @@
 package info.nt5.test.states;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.Actor;
+import info.nt5.engine.game.elements.Background;
+import info.nt5.engine.game.elements.Stage;
+import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
-import info.nt5.engine.game.elements.Actor;
-import info.nt5.engine.game.elements.Background;
-import info.nt5.engine.game.elements.Stage;
-import info.nt5.engine.game.elements.Textbox;
 
 public class StageTest implements State {
 
@@ -42,6 +42,7 @@ public class StageTest implements State {
 				new Vector3f(0f, -4.2f, 0.0f), "textbox 2!"));
 
 		stage.addTextbox(new Textbox(new Vector3f(), "textbox 3!"));
+		stage.getTextbox(1).setTextSpeed(1);
 
 		stage.getTextbox(1).setHeaderText("header-san");
 
@@ -70,6 +71,10 @@ public class StageTest implements State {
 			stage.getTextbox(1).setHeaderText("><!");
 			stage.getTextbox(1)
 					.setText("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
+		}
+
+		if (Keyboard.isDown(Keyboard.KEY_X)) {
+
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {

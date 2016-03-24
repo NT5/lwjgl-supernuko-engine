@@ -8,6 +8,10 @@ import info.nt5.engine.math.Vector3f;
 public class BitmapFont {
 	private ArrayList<BitmapChar> CharList = new ArrayList<BitmapChar>();
 
+	private int delta;
+	private int CurrentRenderList;
+	private List<BitmapChar> RenderList = new ArrayList<BitmapChar>();
+
 	private String text;
 	private Texture texture;
 	private Vector3f position;
@@ -129,12 +133,36 @@ public class BitmapFont {
 		}
 	}
 
+	public void renderCbC() {
+		render();
+	}
+
+	public void renderCbC(int speed) {
+
+		if (CurrentRenderList < CharList.size()) {
+			if ((delta % speed) == 0) {
+				RenderList.add(CharList.get(CurrentRenderList));
+				CurrentRenderList++;
+			}
+			delta++;
+		}
+
+		for (BitmapChar Char : RenderList) {
+			Char.render();
+		}
+	}
+
 	public void dispose() {
 		texture.dispose();
 		for (BitmapChar Char : CharList) {
 			Char.dispose();
 		}
 		CharList.clear();
+
+		for (BitmapChar Char : RenderList) {
+			Char.dispose();
+		}
+		RenderList.clear();
 	}
 
 	public ArrayList<BitmapChar> getCharList() {

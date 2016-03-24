@@ -7,6 +7,9 @@ import static org.lwjgl.opengl.GL11.glBlendFunc;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
@@ -15,8 +18,6 @@ import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
-
-import java.util.*;
 
 public class Textbox extends GameObject {
 
@@ -31,6 +32,8 @@ public class Textbox extends GameObject {
 
 	private BitmapFont text;
 	private Textbox textboxHeader;
+
+	private int textSpeed;
 
 	private int currentTextId;
 	private List<String> textCollection = new ArrayList<String>();
@@ -272,6 +275,14 @@ public class Textbox extends GameObject {
 		return this.heigth;
 	}
 
+	public int getTextSpeed() {
+		return textSpeed;
+	}
+
+	public void setTextSpeed(int speed) {
+		this.textSpeed = speed;
+	}
+
 	public void setHeaderText(String text) {
 		this.textboxHeader = new Textbox(this.texture, this.width, 0.35f,
 				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z), text);
@@ -300,12 +311,12 @@ public class Textbox extends GameObject {
 		return textCollection;
 	}
 
-	public int getCollectionCurrent() {
-		return currentTextId;
+	public String getCollectionCurrent() {
+		return getTextCollection(currentTextId);
 	}
 
 	public void setCurrentCollection() {
-		setText(getTextCollection(currentTextId));
+		setText(getCollectionCurrent());
 	}
 
 	public void setNextCollection() {
@@ -409,7 +420,11 @@ public class Textbox extends GameObject {
 		glDisable(GL_BLEND);
 
 		if (this.text != null) {
-			text.render();
+			if (textSpeed > 0) {
+				this.text.renderCbC(textSpeed);
+			} else {
+				this.text.render();
+			}
 		}
 
 		if (textboxHeader != null) {
