@@ -1,5 +1,12 @@
 package info.nt5.engine.game;
 
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+
 import java.nio.ByteBuffer;
 
 import info.nt5.engine.graphics.Color;
@@ -114,18 +121,21 @@ public class GameObject {
 	}
 
 	public void render() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		texture.bind();
 		Shader.defaultShader.bind();
 		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
 		Shader.defaultShader.unbind();
 		texture.unbind();
+		glDisable(GL_BLEND);
 	}
 
 	public void update() {
 
 	}
-	
+
 	public void dispose() {
 		this.texture.dispose();
 		this.VAO.dispose();

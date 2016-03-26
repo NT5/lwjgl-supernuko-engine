@@ -80,9 +80,9 @@ public class BitmapChar {
 		float[] vertices = { -this.width, this.height, 0f, -this.width, -this.height, 0f, this.width, -this.height, 0f,
 				this.width, this.height, 0f };
 
-		byte[] indices = { 0, 1, 2, 2, 3, 0 };
+		byte[] indices = { 0, 1, 3, 1, 2, 3 };
 
-		float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
+		float[] texCoords = new float[8];
 
 		subTexture = textureAtlas.getCell(cellY, cellX);
 

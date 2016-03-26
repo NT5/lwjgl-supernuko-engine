@@ -50,6 +50,10 @@ public class Color {
 		return this;
 	}
 
+	public Color withAlpha(float a) {
+		return new Color(this.r, this.g, this.b, a);
+	}
+
 	public Color(int rgba) {
 		set(rgba);
 	}

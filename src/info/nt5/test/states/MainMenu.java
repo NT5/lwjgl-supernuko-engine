@@ -1,36 +1,21 @@
 package info.nt5.test.states;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
-import info.nt5.engine.game.GameObject;
+import info.nt5.engine.game.elements.Background;
+import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
-import info.nt5.engine.graphics.SubTexture;
-import info.nt5.engine.graphics.Texture;
-import info.nt5.engine.graphics.TextureAtlas;
+import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
 public class MainMenu implements State {
 
-	private GameObject font;
-	private Texture texture;
-	private TextureAtlas textureAtlas;
-	private SubTexture subTexture;
-
-	private float width = 0.5f;
-	private float height = 0.5f;
-
-	private float[] vertices = { -width, height, 0f, // left top : 0
-			-width, -height, 0f, // left bottom : 1
-			width, -height, 0f, // right bottom : 2
-			width, height, 0f, // right left : 3
-	};
-
-	private byte[] indices = { 0, 1, 2, 2, 3, 0 };
-
-	private float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
+	private Actor acT;
+	private Background bg;
 
 	@Override
 	public int getID() {
@@ -40,39 +25,18 @@ public class MainMenu implements State {
 	@Override
 	public void init(GameManager gm, StateGame game) {
 		Logger.debug("Menu state init!");
-
-		int gridSize = 16;
-		int asciiCode = (int) "A".charAt(0);
-
-		int cellX = (int) asciiCode % gridSize;
-		int cellY = (int) asciiCode / gridSize;
-
-		texture = Texture.fromImage("assets/img/font.png");
-
-		textureAtlas = new TextureAtlas(texture, 32);
-
-		subTexture = textureAtlas.getCell(cellY, cellX);
-
-		texCoords[0] = subTexture.getMinU();
-		texCoords[1] = subTexture.getMinV();
-
-		texCoords[2] = subTexture.getMinU();
-		texCoords[3] = subTexture.getMaxV();
-
-		texCoords[4] = subTexture.getMaxU();
-		texCoords[5] = subTexture.getMaxV();
-
-		texCoords[6] = subTexture.getMaxU();
-		texCoords[7] = subTexture.getMinV();
-
-		font = new GameObject(vertices, indices, texCoords, texture);
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Menu state enter!");
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE);
+
+		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+
+		acT = new Actor();
+		acT.translate(new Vector3f(5f, 0f, 0f));
+
+		bg = new Background(Color.PINK);
 	}
 
 	@Override
@@ -80,19 +44,44 @@ public class MainMenu implements State {
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(2);
 		}
+		if (Keyboard.isPressed(Keyboard.KEY_1)) {
+			game.enterState(0);
+		}
+
+		if (Keyboard.isDown(Keyboard.KEY_W)) {
+			acT.translateY(0.08f);
+		}
+		if (Keyboard.isDown(Keyboard.KEY_S)) {
+			acT.translateY(-0.08f);
+		}
+		if (Keyboard.isDown(Keyboard.KEY_D)) {
+			acT.translateX(0.08f);
+		}
+		if (Keyboard.isDown(Keyboard.KEY_A)) {
+			acT.translateX(-0.08f);
+		}
+
+		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
+			acT.textures.nextEyeSprite();
+			acT.Parts.get(1).texture = acT.textures.getCurrentEye();
+		}
+		if (Keyboard.isPressed(Keyboard.KEY_E)) {
+			acT.textures.nextMouthSprite();
+			acT.Parts.get(2).texture = acT.textures.getCurrentMouth();
+		}
 	}
 
 	@Override
 	public void render(GameManager gm, StateGame game) {
-		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-		font.render();
+		bg.render();
+		acT.render();
 	}
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Menu state leave!");
-		glDisable(GL_BLEND);
+		acT.dispose();
+		bg.dispose();
 	}
 
 }

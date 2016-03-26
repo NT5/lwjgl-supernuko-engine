@@ -9,7 +9,7 @@ public class VertexQuad {
 
 	private float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
 
-	private byte[] indices = { 0, 1, 3, 3, 1, 2 };
+	private byte[] indices = { 0, 1, 3, 1, 2, 3 };
 
 	public VertexQuad() {
 	}

@@ -35,16 +35,16 @@ public class StageTest implements State {
 		stage.addActor(new Actor(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Actor(new Vector3f(5f, 0f, 0f)));
 
-		stage.addTextbox(new Textbox(new Color(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.75f), 1.5f, 0.3f,
-				new Vector3f(-5f, 4.2f, 0.0f), "poi poi!"));
+		stage.addTextbox(
+				new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f), "poi poi!"));
 
-		stage.addTextbox(new Textbox(new Color(Color.PINK.r, Color.PINK.g, Color.PINK.b, 0.75f), 1.5f, 0.3f,
-				new Vector3f(5f, 4.2f, 0.0f), "nyan nyan!"));
+		stage.addTextbox(
+				new Textbox(Color.PINK.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(5f, 4.2f, 0.0f), "nyan nyan!"));
 
-		stage.addTextbox(new Textbox(new Color(Color.SILVER.r, Color.SILVER.g, Color.SILVER.b, 0.75f), new Vector3f(),
+		stage.addTextbox(new Textbox(Color.SILVER.withAlpha(0.75f), 5f, 1f, new Vector3f(),
 				"1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50"));
 
-		stage.getTextbox(2).setTextSpeed(5);
+		stage.getTextbox(2).setTextSpeed(1);
 		stage.getTextbox(2).setHeaderText("header-san");
 
 		String[] StringCollection = { "text 1!", "text 2!", "text 3!" };
@@ -75,7 +75,7 @@ public class StageTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
-			stage.getTextbox(2).setTextSpeed(1);
+			stage.getTextbox(2).setTextSpeed(0);
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {

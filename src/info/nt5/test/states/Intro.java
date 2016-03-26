@@ -67,7 +67,7 @@ public class Intro implements State {
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
 
-		crate2 = new Crate(Color.PINK.withNewAlpha(0.55f));
+		crate2 = new Crate(Color.PINK.withAlpha(0.55f));
 		crate2.translate(new Vector3f(5f, 0f, 0.0f));
 	}
 

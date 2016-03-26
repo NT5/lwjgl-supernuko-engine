@@ -2,18 +2,14 @@
 
 layout (location = 0) out vec4 color;
 
-
 in DATA
 {
 	vec2 tc;
 } fs_in;
 
 uniform sampler2D tex;
-uniform vec4 vColor;
 
 void main()
 {
-	color = texture(tex, fs_in.tc);
-	if (color.w < 0.01)
-		discard;
+	color = vec4(texture(tex,fs_in.tc).rgba );
 }
