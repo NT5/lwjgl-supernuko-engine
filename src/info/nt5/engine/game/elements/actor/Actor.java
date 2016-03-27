@@ -2,14 +2,11 @@ package info.nt5.engine.game.elements.actor;
 
 import java.util.*;
 
-import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
 public class Actor {
-	public List<GameObject> Parts = new ArrayList<GameObject>();
-
-	public ActorTextures textures = new ActorTextures();
+	public List<Part> Parts = new ArrayList<Part>();;
 
 	public Actor() {
 
@@ -22,69 +19,53 @@ public class Actor {
 		String[][] mouth_normal_sprites = {
 				{ "assets/img/actors/actor_1/a_normal_mo1.png", "assets/img/actors/actor_1/a_normal_mo2.png" } };
 
-		for (String body_textures : body_normal_sprites) {
-			textures.addBody(body_textures);
-		}
+		Part Body = new Part(new VertexQuad(4f, 6f), body_normal_sprites);
+		Part Eye = new Part(new VertexQuad(1.50f, 1.35f), eye_normal_sprites, new Vector3f(-1.40f, 2.3f, 0f));
+		Part Mouth = new Part(new VertexQuad(0.3f), mouth_normal_sprites, new Vector3f(-1.40f, 1.40f, 0f));
 
-		for (String[] eye_textures : eye_normal_sprites) {
-			textures.addEye(eye_textures);
-		}
+		Parts.add(Body);
+		Parts.add(Eye);
+		Parts.add(Mouth);
+	}
 
-		for (String[] mouth_textures : mouth_normal_sprites) {
-			textures.addMouth(mouth_textures);
-		}
-
-		VertexQuad body_quad = new VertexQuad(4f, 6f);
-		GameObject body = new GameObject(body_quad, textures.getBody(0));
-
-		VertexQuad eye_quad = new VertexQuad(1.50f, 1.35f);
-		GameObject eye = new GameObject(eye_quad, textures.getEye(0).get(0), new Vector3f(-1.40f, 2.3f, 0f));
-
-		VertexQuad mouth_quad = new VertexQuad(0.3f);
-		GameObject mouth = new GameObject(mouth_quad, textures.getMouth(0).get(0), new Vector3f(-1.40f, 1.40f, 0f));
-
-		Parts.add(body);
-		Parts.add(eye);
-		Parts.add(mouth);
+	public void update() {
 	}
 
 	public void render() {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.render();
 		}
 	}
 
 	public void translate(Vector3f vector) {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.translate(vector);
 		}
 	}
 
 	public void translateX(float x) {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.translateX(x);
 		}
 	}
 
 	public void translateY(float y) {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.translateY(y);
 		}
 	}
 
 	public void translateZ(float z) {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.translateZ(z);
 		}
 	}
 
 	public void dispose() {
-		for (GameObject part : Parts) {
+		for (Part part : Parts) {
 			part.dispose();
 		}
 		Parts.clear();
-
-		textures.dispose();
 	}
 
 }

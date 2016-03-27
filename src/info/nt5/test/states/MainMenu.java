@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
+import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
@@ -16,6 +17,7 @@ public class MainMenu implements State {
 
 	private Actor acT;
 	private Background bg;
+	private Textbox textbox;
 
 	@Override
 	public int getID() {
@@ -36,11 +38,17 @@ public class MainMenu implements State {
 		acT = new Actor();
 		acT.translate(new Vector3f(5f, 0f, 0f));
 
-		bg = new Background(Color.PINK);
+		textbox = new Textbox(Color.CYAN, new Vector3f(0f, -4f, 0f), "onii-chaan!~ daisuki!");
+		textbox.setHeaderText("Kanon-chan");
+		textbox.setTextSpeed(3);
+
+		bg = new Background(Color.GRAY);
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+		acT.update();
+
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(2);
 		}
@@ -62,12 +70,12 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
-			acT.textures.nextEyeSprite();
-			acT.Parts.get(1).texture = acT.textures.getCurrentEye();
+			acT.Parts.get(1).getTextures().nextTextureSprite();
+			acT.Parts.get(1).getObject().texture = acT.Parts.get(1).getTextures().getCurrentTexture();
 		}
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
-			acT.textures.nextMouthSprite();
-			acT.Parts.get(2).texture = acT.textures.getCurrentMouth();
+			acT.Parts.get(2).getTextures().nextTextureSprite();
+			acT.Parts.get(2).getObject().texture = acT.Parts.get(2).getTextures().getCurrentTexture();
 		}
 	}
 
@@ -75,6 +83,7 @@ public class MainMenu implements State {
 	public void render(GameManager gm, StateGame game) {
 		bg.render();
 		acT.render();
+		textbox.render();
 	}
 
 	@Override
@@ -82,6 +91,7 @@ public class MainMenu implements State {
 		Logger.debug("Menu state leave!");
 		acT.dispose();
 		bg.dispose();
+		textbox.dispose();
 	}
 
 }
