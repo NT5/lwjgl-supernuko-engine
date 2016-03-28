@@ -38,7 +38,7 @@ public class MainMenu implements State {
 		acT = new Actor();
 		acT.translate(new Vector3f(5f, 0f, 0f));
 
-		textbox = new Textbox(Color.CYAN, new Vector3f(0f, -4f, 0f), "onii-chaan!~ daisuki!");
+		textbox = new Textbox(Color.CYAN.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chaan!~ daisuki!");
 		textbox.setHeaderText("Kanon-chan");
 		textbox.setTextSpeed(3);
 
@@ -70,12 +70,9 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
-			acT.Parts.get(1).getTextures().nextTextureSprite();
-			acT.Parts.get(1).getObject().texture = acT.Parts.get(1).getTextures().getCurrentTexture();
+			acT.Parts.get(1).nextTextureSet();
 		}
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
-			acT.Parts.get(2).getTextures().nextTextureSprite();
-			acT.Parts.get(2).getObject().texture = acT.Parts.get(2).getTextures().getCurrentTexture();
 		}
 	}
 

@@ -9,8 +9,8 @@ import info.nt5.engine.util.BufferUtil;
 
 public class VertexArray {
 
-	public static final int SHADER_VERTEX_ATTRIB = 0;
-	public static final int SHADER_TCOORD_ATTRIB = 1;
+	private static final int SHADER_VERTEX_ATTRIB = 0;
+	private static final int SHADER_TCOORD_ATTRIB = 1;
 
 	private int vao, vbo, ibo, tbo;
 	private int count;
@@ -62,9 +62,10 @@ public class VertexArray {
 	}
 
 	public void dispose() {
-		if (ibo > 0) {
-			glDeleteBuffers(ibo);
-		}
+		glDeleteVertexArrays(vao);
+		glDeleteBuffers(vbo);
+		glDeleteBuffers(tbo);
+		glDeleteBuffers(ibo);
 	}
 
 	public void draw() {

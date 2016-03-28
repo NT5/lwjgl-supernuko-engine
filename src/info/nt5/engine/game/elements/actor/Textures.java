@@ -8,8 +8,6 @@ public class Textures {
 
 	private ArrayList<ArrayList<Texture>> textures = new ArrayList<ArrayList<Texture>>();
 
-	private int currentIdTexture, currentTextureSprite;
-
 	public Textures(String[][] textures) {
 		this.addTexture(textures);
 	}
@@ -40,51 +38,17 @@ public class Textures {
 		return this.textures;
 	}
 
-	public Texture getCurrentTexture() {
-		return textures.get(currentIdTexture).get(currentTextureSprite);
-	}
-
-	public void nextTextureId() {
-		if (currentIdTexture != textures.size() - 1) {
-			currentIdTexture++;
-			currentTextureSprite = 0;
-		} else {
-			currentIdTexture = 0;
-		}
-	}
-
-	public void nextTextureSprite() {
-		if (currentTextureSprite != textures.get(currentIdTexture).size() - 1) {
-			currentTextureSprite++;
-		} else {
-			currentTextureSprite = 0;
-		}
-	}
-
-	public void prevEyeId() {
-		if (currentIdTexture != 0) {
-			currentIdTexture--;
-			currentTextureSprite = 0;
-		} else {
-			currentIdTexture = (textures.size() - 1);
-		}
-	}
-
-	public void prevEyeSprite() {
-		if (currentTextureSprite != 0) {
-			currentTextureSprite--;
-		} else {
-			currentTextureSprite = (textures.get(currentIdTexture).size() - 1);
-		}
+	public Texture firstInSet() {
+		return this.textures.get(0).get(0);
 	}
 
 	public void dispose() {
-		for (ArrayList<Texture> texture_list : textures) {
-			for (Texture texture : texture_list) {
+		for (ArrayList<Texture> texture_set : textures) {
+			for (Texture texture : texture_set) {
 				texture.dispose();
 			}
 		}
-		textures.clear();
+		this.textures.clear();
 	}
 
 }

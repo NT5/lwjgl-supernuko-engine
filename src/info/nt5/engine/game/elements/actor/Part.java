@@ -1,13 +1,16 @@
 package info.nt5.engine.game.elements.actor;
 
 import info.nt5.engine.game.GameObject;
+import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
-public class Part {
+public class Part extends Animation {
 
 	private GameObject Object;
 	private Textures Textures;
+
+	private int currentTextureSet, currentTextureSprite;
 
 	public Part(VertexQuad quad, String[][] textureset, Vector3f position) {
 		this(quad, textureset);
@@ -21,21 +24,110 @@ public class Part {
 
 	public Part(VertexQuad quad, String[] textureset) {
 		this.Textures = new Textures(textureset);
-		this.Object = new GameObject(quad, this.Textures.getCurrentTexture());
+		this.Object = new GameObject(quad, this.Textures.firstInSet());
 	}
 
 	public Part(VertexQuad quad, String[][] textureset) {
 		this.Textures = new Textures(textureset);
-		this.Object = new GameObject(quad, this.Textures.getCurrentTexture());
+		this.Object = new GameObject(quad, this.Textures.firstInSet());
 	}
 
 	public Part(VertexQuad quad, Textures textures) {
-		this(new GameObject(quad, textures.getCurrentTexture()), textures);
+		this(new GameObject(quad, textures.firstInSet()), textures);
 	}
 
 	public Part(GameObject object, Textures textures) {
 		this.Object = object;
 		this.Textures = textures;
+	}
+
+	public int getSpriteSetSize() {
+		return this.Textures.getTexture().size();
+	}
+
+	public int getSpriteSize() {
+		return this.Textures.getTexture(currentTextureSet).size();
+	}
+
+	public int getSetID() {
+		return currentTextureSet;
+	}
+
+	public int getSpriteID() {
+		return currentTextureSprite;
+	}
+
+	public Texture getCurrentTexture() {
+		return this.Textures.getTexture(currentTextureSet).get(currentTextureSprite);
+	}
+
+	public void setCurrentTextureToObject() {
+		setObjectTexture(getCurrentTexture());
+	}
+
+	public void nextTextureSet() {
+		if (currentTextureSet != Textures.getTexture().size() - 1) {
+			currentTextureSet++;
+			currentTextureSprite = 0;
+		} else {
+			currentTextureSet = 0;
+		}
+		setCurrentTextureToObject();
+	}
+
+	public void nextTextureSprite() {
+		if (currentTextureSprite != Textures.getTexture(currentTextureSet).size() - 1) {
+			currentTextureSprite++;
+		} else {
+			currentTextureSprite = 0;
+		}
+		setCurrentTextureToObject();
+	}
+
+	public void prevTextureSet() {
+		if (currentTextureSet != 0) {
+			currentTextureSet--;
+			currentTextureSprite = 0;
+		} else {
+			currentTextureSet = (Textures.getTexture().size() - 1);
+		}
+		setCurrentTextureToObject();
+	}
+
+	public void prevTextureSprite() {
+		if (currentTextureSprite != 0) {
+			currentTextureSprite--;
+		} else {
+			currentTextureSprite = (Textures.getTexture(currentTextureSet).size() - 1);
+		}
+		setCurrentTextureToObject();
+	}
+
+	@Override
+	public void animate(int speed, double rate, double wait, float duration) {
+		if (this.duration < duration || duration <= 0) {
+			if (!activeWaiting) {
+				if (activeAnimation) {
+					if ((deltaAnimation % speed) == 0) {
+						this.nextTextureSprite();
+						deltaAnimation = 0;
+					}
+					deltaAnimation++;
+				}
+
+				if ((this.getSpriteSize() - 1) != this.getSpriteID()) {
+					activeAnimation = (rate == 0 || Math.random() > rate ? true : false);
+					this.duration++;
+					activeWaiting = true;
+				}
+			} else {
+				if ((deltaWaiting % wait) == 0) {
+					deltaWaiting = 0;
+					activeWaiting = false;
+				}
+				deltaWaiting++;
+			}
+		}
 	}
 
 	public void translate(Vector3f vector) {
@@ -58,16 +150,12 @@ public class Part {
 		return Object;
 	}
 
-	public void setObject(GameObject object) {
-		Object = object;
-	}
-
 	public Textures getTextures() {
 		return Textures;
 	}
 
-	public void setTextures(Textures textures) {
-		Textures = textures;
+	public void setObjectTexture(Texture texture) {
+		Object.texture = texture;
 	}
 
 	public void render() {
