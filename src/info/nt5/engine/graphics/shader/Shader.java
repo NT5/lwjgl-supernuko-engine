@@ -15,7 +15,7 @@ public class Shader {
 
 	private int id;
 	private static String vertexSource, fragmentSource;
-	
+
 	public static Shader defaultShader;
 
 	private Shader(int id) {
@@ -35,7 +35,7 @@ public class Shader {
 
 		return load();
 	}
-	
+
 	public static void LoadAllShaders() {
 		defaultShader = Shader.fromPath("assets/shaders/shader.vs", "assets/shaders/shader.fs");
 	}

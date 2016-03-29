@@ -127,6 +127,7 @@ public class GameObject {
 		Shader.defaultShader.bind();
 		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
+		VAO.unbind();
 		Shader.defaultShader.unbind();
 		texture.unbind();
 		glDisable(GL_BLEND);

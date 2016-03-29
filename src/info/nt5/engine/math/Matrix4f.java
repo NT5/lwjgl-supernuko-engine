@@ -230,6 +230,10 @@ public class Matrix4f implements Cloneable {
 		setElement(row + colum * 4, value);
 	}
 
+	public float[] getElement() {
+		return elements;
+	}
+
 	public float getElement(int index) {
 		return elements[index];
 	}

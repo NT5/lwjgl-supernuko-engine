@@ -137,12 +137,12 @@ public class Intro implements State {
 		if (Keyboard.isDown(Keyboard.KEY_L)) {
 			crate2.position.x += 0.08f;
 		}
+
 	}
 
 	@Override
 	public void render(GameManager gm, StateGame game) {
 		camera.render();
-
 		crate1.render();
 		crate2.render();
 	}

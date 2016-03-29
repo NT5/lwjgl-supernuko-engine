@@ -133,11 +133,7 @@ public class BitmapFont {
 		}
 	}
 
-	public void renderCbC() {
-		render();
-	}
-
-	public void renderCbC(int speed) {
+	public void render(int speed) {
 
 		if (CurrentRenderList < CharList.size()) {
 			if ((delta % speed) == 0) {
@@ -150,6 +146,10 @@ public class BitmapFont {
 		for (BitmapChar Char : RenderList) {
 			Char.render();
 		}
+	}
+
+	public boolean isRenderListEnd() {
+		return (RenderList.size() == CharList.size() ? true : false);
 	}
 
 	public void dispose() {

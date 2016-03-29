@@ -267,6 +267,10 @@ public class Textbox extends GameObject {
 		return new Vector3f((position.x - (this.width - 0.20f)), (position.y + (this.heigth - 0.70f)), position.z);
 	}
 
+	public int calcTextboxRenderTime() {
+		return (int) ((this.getText().length() * this.getTextSpeed()) / 3);
+	}
+
 	private String parseText(String text) {
 		StringBuilder str_new = new StringBuilder();
 		float limit = (this.width * 2) - 0.95f;
@@ -295,6 +299,10 @@ public class Textbox extends GameObject {
 
 	public int getTextSpeed() {
 		return textSpeed;
+	}
+
+	public String getText() {
+		return this.text.getText();
 	}
 
 	public void setTextSpeed(int speed) {
@@ -439,7 +447,7 @@ public class Textbox extends GameObject {
 
 		if (this.text != null) {
 			if (textSpeed > 0) {
-				this.text.renderCbC(textSpeed);
+				this.text.render(textSpeed);
 			} else {
 				this.text.render();
 			}

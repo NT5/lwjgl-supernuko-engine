@@ -31,8 +31,9 @@ public class Actor {
 	}
 
 	public void update() {
-		Parts.get(1).animate(10, 0.80, 5, -1);
-		Parts.get(2).animate(10, 0, 1, 35);
+		for (Part part : Parts) {
+			part.updateAnimation();
+		}
 	}
 
 	public void render() {

@@ -104,11 +104,19 @@ public class Part extends Animation {
 	}
 
 	@Override
-	public void animate(int speed, double rate, double wait, float duration) {
-		if (this.duration < duration || duration <= 0) {
+	public void setAnimation(int speed, double rate, double wait, double duration) {
+		this.animationSpeed = speed;
+		this.animationRate = rate;
+		this.animationSleep = wait;
+		this.animationDuration = duration;
+	}
+
+	@Override
+	public void updateAnimation() {
+		if (this.duration < animationDuration || animationDuration <= 0) {
 			if (!activeWaiting) {
 				if (activeAnimation) {
-					if ((deltaAnimation % speed) == 0) {
+					if (animationSpeed == 0 || (deltaAnimation % animationSpeed) == 0) {
 						this.nextTextureSprite();
 						deltaAnimation = 0;
 					}
@@ -116,12 +124,12 @@ public class Part extends Animation {
 				}
 
 				if ((this.getSpriteSize() - 1) != this.getSpriteID()) {
-					activeAnimation = (rate == 0 || Math.random() > rate ? true : false);
+					activeAnimation = (animationRate == 0 || Math.random() > animationRate ? true : false);
 					this.duration++;
 					activeWaiting = true;
 				}
 			} else {
-				if ((deltaWaiting % wait) == 0) {
+				if ((deltaWaiting % animationSleep) == 0) {
 					deltaWaiting = 0;
 					activeWaiting = false;
 				}

@@ -38,9 +38,13 @@ public class MainMenu implements State {
 		acT = new Actor();
 		acT.translate(new Vector3f(5f, 0f, 0f));
 
-		textbox = new Textbox(Color.CYAN.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chaan!~ daisuki!");
+		textbox = new Textbox(Color.CYAN.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
 		textbox.setHeaderText("Kanon-chan");
+
 		textbox.setTextSpeed(3);
+
+		acT.Parts.get(1).setAnimation(10, 0.80, 5, -1);
+		acT.Parts.get(2).setAnimation(8, 0, 1, textbox.calcTextboxRenderTime());
 
 		bg = new Background(Color.GRAY);
 	}
