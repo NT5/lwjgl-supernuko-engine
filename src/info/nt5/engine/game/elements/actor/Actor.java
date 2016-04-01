@@ -6,7 +6,7 @@ import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
 public class Actor {
-	public List<Part> Parts = new ArrayList<Part>();;
+	private List<Part> Parts = new ArrayList<Part>();;
 
 	public Actor() {
 
@@ -28,6 +28,14 @@ public class Actor {
 		Parts.add(Body);
 		Parts.add(Eye);
 		Parts.add(Mouth);
+	}
+
+	public Part getPart(int index) {
+		return Parts.get(index);
+	}
+
+	public List<Part> getPart() {
+		return Parts;
 	}
 
 	public void update() {

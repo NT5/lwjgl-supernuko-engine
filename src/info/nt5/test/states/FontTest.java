@@ -47,7 +47,8 @@ public class FontTest implements State {
 		textbox = new Textbox(container_pos);
 		neko = new Actor();
 		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!",
-				text_pos);
+				text_pos, Color.GREEN);
+		text.setBold();
 
 		neko.translate(neko_pos);
 	}

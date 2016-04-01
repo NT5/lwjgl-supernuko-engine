@@ -35,18 +35,20 @@ public class MainMenu implements State {
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
+		int speed = 3;
+
 		acT = new Actor();
 		acT.translate(new Vector3f(5f, 0f, 0f));
 
-		textbox = new Textbox(Color.CYAN.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
+		textbox = new Textbox(Color.RED, new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
 		textbox.setHeaderText("Kanon-chan");
 
-		textbox.setTextSpeed(3);
+		textbox.setTextSpeed(speed);
 
-		acT.Parts.get(1).setAnimation(10, 0.80, 5, -1);
-		acT.Parts.get(2).setAnimation(8, 0, 1, textbox.calcTextboxRenderTime());
+		acT.getPart(1).setAnimation(10, 0.80, 5, -1);
+		acT.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime());
 
-		bg = new Background(Color.GRAY);
+		bg = new Background();
 	}
 
 	@Override
@@ -74,9 +76,14 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
-			acT.Parts.get(1).nextTextureSet();
+			acT.getPart(1).nextTextureSet();
 		}
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
+			textbox.setTextSpeed(0);
+			acT.getPart(2).endAnimation();
+		}
+
+		if (Keyboard.isPressed(Keyboard.KEY_X)) {
 		}
 	}
 

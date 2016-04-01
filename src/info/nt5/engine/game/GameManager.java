@@ -12,7 +12,8 @@ public class GameManager {
 
 	private boolean running;
 
-	public GameManager(Game game, int width, int height, boolean vsync, boolean fullscreen, boolean visible, boolean resizable) {
+	public GameManager(Game game, int width, int height, boolean vsync, boolean fullscreen, boolean visible,
+			boolean resizable) {
 		this.game = game;
 		this.window = new Window(game.getTitle(), width, height, vsync, fullscreen, visible, resizable);
 	}

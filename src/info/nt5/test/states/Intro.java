@@ -44,14 +44,19 @@ public class Intro implements State {
 
 		Shader.LoadAllShaders();
 
-		Shader.defaultShader.bind();
+		Shader.geometryShader.bind();
 		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
 				10.0f);
-		Shader.defaultShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
-		Shader.defaultShader.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.defaultShader.setUniform1i("tex", 1);
+		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
+		Shader.geometryShader.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.geometryShader.setUniform1i("tex", 1);
+		Shader.geometryShader.unbind();
 
-		Shader.defaultShader.unbind();
+		Shader.textShader.bind();
+		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
+		Shader.textShader.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.textShader.setUniform1i("tex", 1);
+		Shader.textShader.unbind();
 
 		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
 		gm.getWindow().setIcon();

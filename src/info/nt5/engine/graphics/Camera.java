@@ -60,12 +60,15 @@ public class Camera {
 
 	public void render() {
 
-		Shader.defaultShader.bind();
+		Matrix4f vw_matrix = Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z))
+				.multiply(Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch)));
 
-		Shader.defaultShader.setUniformMat4f("vw_matrix",
-				Matrix4f.translate(new Vector3f(-position.x, -position.y, -position.z)).multiply(
-						Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch))));
+		Shader.geometryShader.bind();
+		Shader.geometryShader.setUniformMat4f("vw_matrix", vw_matrix);
+		Shader.geometryShader.unbind();
 
-		Shader.defaultShader.unbind();
+		Shader.textShader.bind();
+		Shader.textShader.setUniformMat4f("vw_matrix", vw_matrix);
+		Shader.textShader.unbind();
 	}
 }

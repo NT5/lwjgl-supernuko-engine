@@ -16,7 +16,8 @@ public class Shader {
 	private int id;
 	private static String vertexSource, fragmentSource;
 
-	public static Shader defaultShader;
+	public static Shader geometryShader;
+	public static Shader textShader;
 
 	private Shader(int id) {
 		this.id = id;
@@ -37,7 +38,8 @@ public class Shader {
 	}
 
 	public static void LoadAllShaders() {
-		defaultShader = Shader.fromPath("assets/shaders/shader.vs", "assets/shaders/shader.fs");
+		geometryShader = Shader.fromPath("assets/shaders/geometry.vs", "assets/shaders/geometry.fs");
+		textShader = Shader.fromPath("assets/shaders/geometry.vs", "assets/shaders/text.fs");
 	}
 
 	private static Shader load() {

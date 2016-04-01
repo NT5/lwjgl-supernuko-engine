@@ -1,5 +1,6 @@
 package info.nt5.engine.graphics;
 
+import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
@@ -49,7 +50,8 @@ public class Window {
 	}
 
 	void init() {
-		Logger.info("LWJGL %s", GLFW.glfwGetVersionString());
+		Logger.info("LWJGL Version: %s", Version.getVersion());
+		Logger.info("OS: %s %s", System.getProperty("os.name"), System.getProperty("os.version"));
 		if (GLFW.glfwInit() != GL11.GL_TRUE) {
 			Logger.error("Failed to initialize GLFW");
 			throw new IllegalStateException();
@@ -120,6 +122,8 @@ public class Window {
 
 		GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		GL.createCapabilities();
+
+		Logger.info("OpenGL: %s", GL11.glGetString(GL11.GL_VERSION));
 	}
 
 	public void update() {

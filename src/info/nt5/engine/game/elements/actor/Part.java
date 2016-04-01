@@ -65,6 +65,10 @@ public class Part extends Animation {
 		setObjectTexture(getCurrentTexture());
 	}
 
+	public void setFirtsTextureObject() {
+		setObjectTexture(this.Textures.getTexture(currentTextureSet).get(0));
+	}
+
 	public void nextTextureSet() {
 		if (currentTextureSet != Textures.getTexture().size() - 1) {
 			currentTextureSet++;
@@ -101,6 +105,12 @@ public class Part extends Animation {
 			currentTextureSprite = (Textures.getTexture(currentTextureSet).size() - 1);
 		}
 		setCurrentTextureToObject();
+	}
+
+	@Override
+	public void endAnimation() {
+		this.animationDuration = this.duration;
+		this.setFirtsTextureObject();
 	}
 
 	@Override

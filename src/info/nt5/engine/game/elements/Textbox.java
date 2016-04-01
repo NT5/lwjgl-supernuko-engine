@@ -34,6 +34,7 @@ public class Textbox extends GameObject {
 	private Textbox textboxHeader;
 
 	private int textSpeed;
+	private boolean textBold;
 
 	private int currentTextId;
 	private List<String> textCollection = new ArrayList<String>();
@@ -267,8 +268,8 @@ public class Textbox extends GameObject {
 		return new Vector3f((position.x - (this.width - 0.20f)), (position.y + (this.heigth - 0.70f)), position.z);
 	}
 
-	public int calcTextboxRenderTime() {
-		return (int) ((this.getText().length() * this.getTextSpeed()) / 3);
+	public int calcTextRenderTime() {
+		return (int) ((this.getText().length() * this.getTextSpeed()) / 3) + 3;
 	}
 
 	private String parseText(String text) {
@@ -309,9 +310,18 @@ public class Textbox extends GameObject {
 		this.textSpeed = speed;
 	}
 
+	public void setTextBold(boolean b) {
+		this.textBold = b;
+	}
+	
+	public void setTextColor(Color color) {
+		this.text.setColor(color);
+	}
+
 	public void setHeaderText(String text) {
 		this.textboxHeader = new Textbox(this.texture, this.width, 0.35f,
 				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z), text);
+		this.textboxHeader.setTextBold(true);
 	}
 
 	public void setText(String text) {
@@ -437,15 +447,16 @@ public class Textbox extends GameObject {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		texture.bind();
-		Shader.defaultShader.bind();
-		Shader.defaultShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
+		Shader.geometryShader.bind();
+		Shader.geometryShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
 		VAO.render();
-		Shader.defaultShader.unbind();
+		Shader.geometryShader.unbind();
 		texture.unbind();
 
 		glDisable(GL_BLEND);
 
 		if (this.text != null) {
+			this.text.setBold(textBold);
 			if (textSpeed > 0) {
 				this.text.render(textSpeed);
 			} else {
