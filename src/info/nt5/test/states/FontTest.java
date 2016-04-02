@@ -1,11 +1,12 @@
 package info.nt5.test.states;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Textbox;
-import info.nt5.engine.game.elements.Actor;
+import info.nt5.engine.game.elements.actor.Actor;
+import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
@@ -21,7 +22,7 @@ public class FontTest implements State {
 	private BitmapFont text;
 	private Background bg;
 	private Textbox textbox;
-	private Actor neko;
+	private Actor kanon;
 
 	@Override
 	public int getID() {
@@ -45,12 +46,12 @@ public class FontTest implements State {
 
 		bg = new Background();
 		textbox = new Textbox(container_pos);
-		neko = new Actor();
-		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!",
-				text_pos, Color.GREEN);
+		kanon = new Kanon();
+		text = new BitmapFont("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!", text_pos,
+				Color.GREEN);
 		text.setBold();
 
-		neko.translate(neko_pos);
+		kanon.translate(neko_pos);
 	}
 
 	@Override
@@ -60,27 +61,24 @@ public class FontTest implements State {
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			neko.position.y += 0.08f;
+			kanon.translateY(0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			neko.position.y -= 0.08f;
+			kanon.translateY(-0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			neko.position.x += 0.08f;
+			kanon.translateX(0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			neko.position.x -= 0.08f;
+			kanon.translateX(-0.08f);
 		}
 	}
 
 	@Override
 	public void render(GameManager gm, StateGame game) {
 		bg.render();
-		neko.render();
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		kanon.render();
 		textbox.render();
-		glDisable(GL_BLEND);
 		text.render();
 	}
 
@@ -90,7 +88,7 @@ public class FontTest implements State {
 		bg.dispose();
 		textbox.dispose();
 		text.dispose();
-		neko.dispose();
+		kanon.dispose();
 	}
 
 }

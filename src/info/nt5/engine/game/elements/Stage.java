@@ -2,15 +2,13 @@ package info.nt5.engine.game.elements;
 
 import java.util.*;
 
+import info.nt5.engine.game.elements.actor.Actor;
+
 public class Stage {
 
 	private Background background;
 	private List<Actor> actors = new ArrayList<Actor>();
 	private List<Textbox> textboxs = new ArrayList<Textbox>();
-
-	public void addActor() {
-		addActor(new Actor());
-	}
 
 	public void addActor(Actor actor) {
 		actors.add(actor);

@@ -1,10 +1,10 @@
 package info.nt5.test.states;
 
 import info.nt5.engine.game.GameManager;
-import info.nt5.engine.game.elements.Actor;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.Textbox;
+import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
@@ -32,8 +32,8 @@ public class StageTest implements State {
 
 		Logger.debug("Stage state enter!");
 
-		stage.addActor(new Actor(new Vector3f(-5f, 0f, 0f)));
-		stage.addActor(new Actor(new Vector3f(5f, 0f, 0f)));
+		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
+		stage.addActor(new Kanon(new Vector3f(5f, 0f, 0f)));
 
 		stage.addTextbox(
 				new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f), "poi poi!"));

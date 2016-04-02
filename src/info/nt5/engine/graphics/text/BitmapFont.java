@@ -16,7 +16,7 @@ public class BitmapFont {
 	private Texture texture;
 	private Vector3f position;
 	private boolean textBold;
-	private float width, height, Xoffset, Yoffset;
+	private float width, height, Xoffset, Yoffset, boldOffset = 0.02f;
 	private Color color;
 
 	private static final String defaultBitmapFile = BitmapChar.getDefaultFontPath();
@@ -34,24 +34,48 @@ public class BitmapFont {
 		this(text, defaultXoffset, defaultYoffset);
 	}
 
+	public BitmapFont(String text, boolean bold) {
+		this(text, defaultXoffset, defaultYoffset, bold);
+	}
+
 	public BitmapFont(String text, Color color) {
 		this(text, defaultXoffset, defaultYoffset, color);
+	}
+
+	public BitmapFont(String text, Color color, boolean bold) {
+		this(text, defaultXoffset, defaultYoffset, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset) {
 		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight);
 	}
 
+	public BitmapFont(String text, float Xoffset, float Yoffset, boolean bold) {
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, bold);
+	}
+
 	public BitmapFont(String text, float Xoffset, float Yoffset, Color color) {
 		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height) {
 		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile);
 	}
 
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, boolean bold) {
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, bold);
+	}
+
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Color color) {
 		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath) {
@@ -59,24 +83,51 @@ public class BitmapFont {
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
+			boolean bold) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition.copy(), bold);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
 			Color color) {
 		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition.copy(), color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
+			Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), defaultPosition.copy(), color,
+				bold);
 	}
 
 	public BitmapFont(String text, Vector3f position) {
 		this(text, defaultXoffset, defaultYoffset, position);
 	}
 
+	public BitmapFont(String text, Vector3f position, boolean bold) {
+		this(text, defaultXoffset, defaultYoffset, position, bold);
+	}
+
 	public BitmapFont(String text, Vector3f position, Color color) {
 		this(text, defaultXoffset, defaultYoffset, position, color);
+	}
+
+	public BitmapFont(String text, Vector3f position, Color color, boolean bold) {
+		this(text, defaultXoffset, defaultYoffset, position, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position) {
 		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, position);
 	}
 
+	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position, boolean bold) {
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, position, bold);
+	}
+
 	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position, Color color) {
 		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, position, color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, Vector3f position, Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, defaultWidth, defaultHeight, position, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position) {
@@ -84,8 +135,18 @@ public class BitmapFont {
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position,
+			boolean bold) {
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, position, bold);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position,
 			Color color) {
 		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, position, color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Vector3f position,
+			Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, width, height, defaultBitmapFile, position, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
@@ -94,8 +155,18 @@ public class BitmapFont {
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
+			Vector3f position, boolean bold) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), position, bold);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
 			Vector3f position, Color color) {
 		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), position, color);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, String texturePath,
+			Vector3f position, Color color, boolean bold) {
+		this(text, Xoffset, Yoffset, width, width, Texture.fromImage(defaultBitmapFile), position, color, bold);
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture,
@@ -104,7 +175,17 @@ public class BitmapFont {
 	}
 
 	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture,
+			Vector3f position, boolean bold) {
+		this(text, Xoffset, Yoffset, width, width, texture, position, defaultColor, bold);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture,
 			Vector3f position, Color color) {
+		this(text, Xoffset, Yoffset, width, height, texture, position, color, false);
+	}
+
+	public BitmapFont(String text, float Xoffset, float Yoffset, float width, float height, Texture texture,
+			Vector3f position, Color color, boolean bold) {
 		this.text = text;
 		this.texture = texture;
 		this.position = position;
@@ -114,6 +195,7 @@ public class BitmapFont {
 		this.width = width;
 		this.height = height;
 		this.color = color;
+		this.textBold = bold;
 
 		createChars();
 	}
@@ -156,7 +238,12 @@ public class BitmapFont {
 		return this.textBold;
 	}
 
+	public Color getColor() {
+		return this.color;
+	}
+
 	public void setColor(Color color) {
+		this.color = color;
 		for (BitmapChar Char : CharList) {
 			Char.setColor(color);
 		}
@@ -164,27 +251,25 @@ public class BitmapFont {
 
 	public void translate(Vector3f vector) {
 		for (BitmapChar Char : CharList) {
-			Char.position.x += vector.x;
-			Char.position.y += vector.y;
-			Char.position.z += vector.z;
+			Char.translate(vector);
 		}
 	}
 
 	public void translateX(float x) {
 		for (BitmapChar Char : CharList) {
-			Char.position.x += x;
+			Char.translateX(x);
 		}
 	}
 
 	public void translateY(float y) {
 		for (BitmapChar Char : CharList) {
-			Char.position.y += y;
+			Char.translateY(y);
 		}
 	}
 
 	public void translateZ(float z) {
 		for (BitmapChar Char : CharList) {
-			Char.position.z += z;
+			Char.translateZ(z);
 		}
 	}
 
@@ -209,9 +294,9 @@ public class BitmapFont {
 		for (BitmapChar Char : CharList.subList(0, CurrentRenderList)) {
 			Char.render();
 			if (textBold) {
-				Char.position.x += 0.02f;
+				Char.position.x += boldOffset;
 				Char.render();
-				Char.position.x = Char.position.x - 0.02f;
+				Char.position.x = Char.position.x - boldOffset;
 			}
 		}
 	}

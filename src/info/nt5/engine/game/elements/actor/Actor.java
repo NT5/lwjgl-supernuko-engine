@@ -2,32 +2,15 @@ package info.nt5.engine.game.elements.actor;
 
 import java.util.*;
 
-import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
 public class Actor {
 	private List<Part> Parts = new ArrayList<Part>();;
 
-	public Actor() {
-
-		String[] body_normal_sprites = { "assets/img/actors/actor_1/a_base.png" };
-
-		String[][] eye_normal_sprites = {
-				{ "assets/img/actors/actor_1/a_normal_eye1.png", "assets/img/actors/actor_1/a_normal_eye2.png" },
-				{ "assets/img/actors/actor_1/a_normal_eye1.png", "assets/img/actors/actor_1/a_tere_eye1.png" },
-				{ "assets/img/actors/actor_1/a_naki_eye1.png", "assets/img/actors/actor_1/a_naki_eye2.png" },
-				{ "assets/img/actors/actor_1/a_odoroki_eye1.png", "assets/img/actors/actor_1/a_odoroki_eye2.png" } };
-
-		String[][] mouth_normal_sprites = {
-				{ "assets/img/actors/actor_1/a_normal_mo2.png", "assets/img/actors/actor_1/a_normal_mo1.png" } };
-
-		Part Body = new Part(new VertexQuad(4f, 6f), body_normal_sprites);
-		Part Eye = new Part(new VertexQuad(1.50f, 1.35f), eye_normal_sprites, new Vector3f(-1.40f, 2.3f, 0f));
-		Part Mouth = new Part(new VertexQuad(0.3f), mouth_normal_sprites, new Vector3f(-1.40f, 1.40f, 0f));
-
-		Parts.add(Body);
-		Parts.add(Eye);
-		Parts.add(Mouth);
+	public Actor(Part[] parts) {
+		for (Part part : parts) {
+			addPart(part);
+		}
 	}
 
 	public Part getPart(int index) {
@@ -36,6 +19,10 @@ public class Actor {
 
 	public List<Part> getPart() {
 		return Parts;
+	}
+
+	public void addPart(Part part) {
+		Parts.add(part);
 	}
 
 	public void update() {

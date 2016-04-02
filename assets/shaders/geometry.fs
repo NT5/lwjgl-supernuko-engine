@@ -1,15 +1,10 @@
-#version 330 core
+#version 110
 
-layout (location = 0) out vec4 color;
-
-in DATA
-{
-	vec2 tc;
-} fs_in;
+varying vec2 tc;
 
 uniform sampler2D tex;
 
 void main()
 {
-	color = vec4(texture(tex,fs_in.tc).rgba);
+	gl_FragColor = vec4(texture2D(tex,tc).rgba);
 }

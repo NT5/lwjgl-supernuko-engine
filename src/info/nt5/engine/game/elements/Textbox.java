@@ -34,7 +34,6 @@ public class Textbox extends GameObject {
 	private Textbox textboxHeader;
 
 	private int textSpeed;
-	private boolean textBold;
 
 	private int currentTextId;
 	private List<String> textCollection = new ArrayList<String>();
@@ -310,18 +309,27 @@ public class Textbox extends GameObject {
 		this.textSpeed = speed;
 	}
 
-	public void setTextBold(boolean b) {
-		this.textBold = b;
+	public void setTextBold(boolean bold) {
+		this.text.setBold(bold);
 	}
-	
+
 	public void setTextColor(Color color) {
 		this.text.setColor(color);
+	}
+
+	public void setHeaderTextColor(Color color) {
+		this.textboxHeader.setTextColor(color);
+	}
+
+	public void setHeaderTextBold(boolean bold) {
+		this.textboxHeader.setTextBold(bold);
 	}
 
 	public void setHeaderText(String text) {
 		this.textboxHeader = new Textbox(this.texture, this.width, 0.35f,
 				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z), text);
-		this.textboxHeader.setTextBold(true);
+		this.setHeaderTextBold(true);
+		this.setHeaderTextColor(this.text.getColor());
 	}
 
 	public void setText(String text) {
@@ -329,6 +337,27 @@ public class Textbox extends GameObject {
 			this.text.dispose();
 		}
 		this.text = new BitmapFont(parseText(text), calcFontPosition());
+	}
+
+	public void setText(String text, Color color) {
+		if (this.text != null) {
+			this.text.dispose();
+		}
+		this.text = new BitmapFont(parseText(text), calcFontPosition(), color);
+	}
+
+	public void setText(String text, Color color, boolean bold) {
+		if (this.text != null) {
+			this.text.dispose();
+		}
+		this.text = new BitmapFont(parseText(text), calcFontPosition(), color, bold);
+	}
+
+	public void setText(String text, boolean bold) {
+		if (this.text != null) {
+			this.text.dispose();
+		}
+		this.text = new BitmapFont(parseText(text), calcFontPosition(), bold);
 	}
 
 	public void setText(BitmapFont text) {
@@ -456,7 +485,6 @@ public class Textbox extends GameObject {
 		glDisable(GL_BLEND);
 
 		if (this.text != null) {
-			this.text.setBold(textBold);
 			if (textSpeed > 0) {
 				this.text.render(textSpeed);
 			} else {

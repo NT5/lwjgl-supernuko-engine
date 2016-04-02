@@ -6,6 +6,7 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.elements.actor.Actor;
+import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
@@ -15,7 +16,7 @@ import info.nt5.engine.util.Logger;
 
 public class MainMenu implements State {
 
-	private Actor acT;
+	private Actor actor;
 	private Background bg;
 	private Textbox textbox;
 
@@ -37,23 +38,24 @@ public class MainMenu implements State {
 
 		int speed = 3;
 
-		acT = new Actor();
-		acT.translate(new Vector3f(5f, 0f, 0f));
+		actor = new Kanon(new Vector3f(5f, 0f, 0f));
 
-		textbox = new Textbox(Color.RED, new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
+		textbox = new Textbox(Color.GRAY.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
+		textbox.setTextColor(Color.BLACK);
 		textbox.setHeaderText("Kanon-chan");
+		textbox.setHeaderTextColor(Color.CYAN);
 
 		textbox.setTextSpeed(speed);
 
-		acT.getPart(1).setAnimation(10, 0.80, 5, -1);
-		acT.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime());
+		actor.getPart(1).setAnimation(10, 0.80, 5, -1);
+		actor.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime());
 
 		bg = new Background();
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
-		acT.update();
+		actor.update();
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(2);
@@ -63,24 +65,24 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			acT.translateY(0.08f);
+			actor.translateY(0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			acT.translateY(-0.08f);
+			actor.translateY(-0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			acT.translateX(0.08f);
+			actor.translateX(0.08f);
 		}
 		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			acT.translateX(-0.08f);
+			actor.translateX(-0.08f);
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
-			acT.getPart(1).nextTextureSet();
+			actor.getPart(1).nextTextureSet();
 		}
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
 			textbox.setTextSpeed(0);
-			acT.getPart(2).endAnimation();
+			actor.getPart(2).endAnimation();
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
@@ -90,14 +92,14 @@ public class MainMenu implements State {
 	@Override
 	public void render(GameManager gm, StateGame game) {
 		bg.render();
-		acT.render();
+		actor.render();
 		textbox.render();
 	}
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Menu state leave!");
-		acT.dispose();
+		actor.dispose();
 		bg.dispose();
 		textbox.dispose();
 	}
