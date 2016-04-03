@@ -52,6 +52,7 @@ public class Window {
 	void init() {
 		Logger.info("LWJGL Version: %s", Version.getVersion());
 		Logger.info("OS: %s %s", System.getProperty("os.name"), System.getProperty("os.version"));
+		Logger.info("Java: %s", System.getProperty("java.version"));
 		if (GLFW.glfwInit() != GL11.GL_TRUE) {
 			Logger.error("Failed to initialize GLFW");
 			throw new IllegalStateException();

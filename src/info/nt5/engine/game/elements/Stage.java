@@ -58,6 +58,12 @@ public class Stage {
 		return background;
 	}
 
+	public void update() {
+		for (Actor actor : actors) {
+			actor.update();
+		}
+	}
+
 	public void render() {
 		if (background != null) {
 			background.render();

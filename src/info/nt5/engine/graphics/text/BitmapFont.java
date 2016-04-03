@@ -1,9 +1,10 @@
 package info.nt5.engine.graphics.text;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
+import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 
 public class BitmapFont {
@@ -15,6 +16,7 @@ public class BitmapFont {
 	private String text;
 	private Texture texture;
 	private Vector3f position;
+	private Vector2f cursorPos;
 	private boolean textBold;
 	private float width, height, Xoffset, Yoffset, boldOffset = 0.02f;
 	private Color color;
@@ -201,29 +203,36 @@ public class BitmapFont {
 	}
 
 	public void createChars() {
-		float Xoffset = (this.width + this.Xoffset);
-		float Yoffset = (this.height + this.Yoffset);
+		cursorPos = new Vector2f();
+		Vector2f offset = new Vector2f(this.width + this.Xoffset, this.height + this.Yoffset);
 
-		float XPos = Xoffset;
-		float YPos = Yoffset;
+		cursorPos.x = offset.x;
+		cursorPos.y = offset.y;
+
 		for (int i = 0; i < this.text.length(); i++) {
 			char character = this.text.charAt(i);
 			int asciiCode = (int) character;
 
 			if (asciiCode == 10) {
-				XPos = Xoffset;
-				YPos -= Yoffset;
+				cursorPos.x = offset.x;
+				cursorPos.y -= offset.y;
 				continue;
 			}
 
-			Vector3f position = new Vector3f((this.position.x + XPos), (this.position.y + YPos), this.position.z);
+			Vector3f position = new Vector3f((this.position.x + cursorPos.x), (this.position.y + cursorPos.y),
+					this.position.z);
 
 			BitmapChar Char = new BitmapChar(asciiCode, this.width, this.height, this.texture, position, color);
 
 			CharList.add(Char);
 
-			XPos += Xoffset;
+			cursorPos.x += offset.x;
 		}
+	}
+
+	public Vector3f getCursorPos() {
+		return new Vector3f((this.position.x + (cursorPos.x - (this.width + this.Xoffset))),
+				(this.position.y + (cursorPos.y - (this.height + this.Yoffset))), this.position.z);
 	}
 
 	public void setBold() {

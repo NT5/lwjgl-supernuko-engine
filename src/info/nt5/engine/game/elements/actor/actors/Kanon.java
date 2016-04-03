@@ -17,15 +17,15 @@ public class Kanon extends Actor {
 			{ { "assets/img/actors/actor_1/a_base.png" } },
 			// Eye
 			{
-				// :)
+					// :)
 					{ "assets/img/actors/actor_1/a_normal_eye1.png", "assets/img/actors/actor_1/a_normal_eye2.png" },
 					// >_<
 					{ "assets/img/actors/actor_1/a_normal_eye1.png", "assets/img/actors/actor_1/a_tere_eye1.png" },
 					// T_T
 					{ "assets/img/actors/actor_1/a_naki_eye1.png", "assets/img/actors/actor_1/a_naki_eye2.png" },
 					// O_O
-					{ "assets/img/actors/actor_1/a_odoroki_eye1.png",
-							"assets/img/actors/actor_1/a_odoroki_eye2.png" } },
+					{ "assets/img/actors/actor_1/a_odoroki_eye1.png", "assets/img/actors/actor_1/a_odoroki_eye2.png" }
+			},
 			// Mouth
 			{
 					// Normal
@@ -37,6 +37,15 @@ public class Kanon extends Actor {
 			new Vector3f(-1.40f, 2.3f, 0f),
 			new Vector3f(-1.40f, 1.40f, 0f)
 	};
+
+	public static void flipActor() {
+		quad_size[0][0] = -quad_size[0][0];
+		quad_size[1][0] = -quad_size[1][0];
+		quad_size[2][0] = -quad_size[2][0];
+
+		positions[1].setX(-positions[1].getX());
+		positions[2].setX(-positions[2].getX());
+	}
 
 	public Kanon() {
 		super(new Part[] {

@@ -33,7 +33,14 @@ public class StageTest implements State {
 		Logger.debug("Stage state enter!");
 
 		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
+
+		Kanon.flipActor();
+
 		stage.addActor(new Kanon(new Vector3f(5f, 0f, 0f)));
+
+		Kanon.flipActor();
+
+		stage.getActor(0).getPart(1).setAnimation(10, 0.80, 5, -1);
 
 		stage.addTextbox(
 				new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f), "poi poi!"));
@@ -59,6 +66,9 @@ public class StageTest implements State {
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+
+		stage.update();
+
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(0);
 		}
