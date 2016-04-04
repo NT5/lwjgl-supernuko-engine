@@ -10,6 +10,7 @@ import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.text.BitmapFormatBuilder;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -36,14 +37,30 @@ public class MainMenu implements State {
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
-		int speed = 3;
+		int speed = 1;
 
 		actor = new Kanon(new Vector3f(5f, 0f, 0f));
 
-		textbox = new Textbox(Color.GRAY.withAlpha(0.75f), new Vector3f(0f, -4f, 0f), "onii-chan!!! daisukiiii~");
-		textbox.setTextColor(Color.BLACK);
-		textbox.setHeaderText("Kanon-chan");
-		textbox.setHeaderTextColor(Color.CYAN);
+		textbox = new Textbox(
+
+				Color.GRAY.withAlpha(0.75f),
+
+				new Vector3f(0f, -4f, 0f),
+
+				new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.BLUE)
+
+		);
+
+		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.RED));
+		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~\n", Color.BLACK));
+		textbox.addText(new BitmapFormatBuilder("onii-chan!!!\ndaisukiiii~", Color.CYAN));
+		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.PINK));
+		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.LIME));
+
+		textbox.addTextCollection(new BitmapFormatBuilder("TEXT 1!", Color.CYAN));
+		textbox.addTextCollection(new BitmapFormatBuilder("TEXT 2!"));
+
+		textbox.setHeaderText(new BitmapFormatBuilder("Kanon-chan", Color.CYAN, true));
 
 		textbox.setTextSpeed(speed);
 
@@ -86,6 +103,7 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
+			textbox.setNextCollection();
 		}
 	}
 

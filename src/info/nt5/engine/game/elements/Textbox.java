@@ -15,7 +15,8 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexQuad;
-import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapBuilder;
+import info.nt5.engine.graphics.text.BitmapFormatBuilder;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 
@@ -30,13 +31,13 @@ public class Textbox extends GameObject {
 	private float width;
 	private float heigth;
 
-	private BitmapFont text;
+	private BitmapBuilder text;
 	private Textbox textboxHeader;
 
 	private int textSpeed;
 
 	private int currentTextId;
-	private List<String> textCollection = new ArrayList<String>();
+	private List<BitmapFormatBuilder> textCollection = new ArrayList<BitmapFormatBuilder>();
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -46,7 +47,7 @@ public class Textbox extends GameObject {
 		this(texturePath, defaultPosition.copy());
 	}
 
-	public Textbox(String texturePath, String text) {
+	public Textbox(String texturePath, BitmapFormatBuilder text) {
 		this(texturePath, defaultPosition.copy(), text);
 	}
 
@@ -54,7 +55,7 @@ public class Textbox extends GameObject {
 		this(texturePath, defaultwidth, defaultheight, position);
 	}
 
-	public Textbox(String texturePath, Vector3f position, String text) {
+	public Textbox(String texturePath, Vector3f position, BitmapFormatBuilder text) {
 		this(texturePath, defaultwidth, defaultheight, position, text);
 	}
 
@@ -62,7 +63,7 @@ public class Textbox extends GameObject {
 		this(texturePath, wd, defaultPosition.copy());
 	}
 
-	public Textbox(String texturePath, float wd, String text) {
+	public Textbox(String texturePath, float wd, BitmapFormatBuilder text) {
 		this(texturePath, wd, defaultPosition.copy(), text);
 	}
 
@@ -70,7 +71,7 @@ public class Textbox extends GameObject {
 		this(texturePath, wd, wd, position);
 	}
 
-	public Textbox(String texturePath, float wd, Vector3f position, String text) {
+	public Textbox(String texturePath, float wd, Vector3f position, BitmapFormatBuilder text) {
 		this(texturePath, wd, wd, position, text);
 	}
 
@@ -78,7 +79,7 @@ public class Textbox extends GameObject {
 		this(texturePath, width, height, defaultPosition.copy());
 	}
 
-	public Textbox(String texturePath, float width, float height, String text) {
+	public Textbox(String texturePath, float width, float height, BitmapFormatBuilder text) {
 		this(texturePath, width, height, defaultPosition.copy(), text);
 	}
 
@@ -86,7 +87,7 @@ public class Textbox extends GameObject {
 		this(Texture.fromImage(texturePath), width, height, position);
 	}
 
-	public Textbox(String texturePath, float width, float height, Vector3f position, String text) {
+	public Textbox(String texturePath, float width, float height, Vector3f position, BitmapFormatBuilder text) {
 		this(Texture.fromImage(texturePath), width, height, position, text);
 	}
 
@@ -94,7 +95,7 @@ public class Textbox extends GameObject {
 		this(color, defaultPosition.copy());
 	}
 
-	public Textbox(Color color, String text) {
+	public Textbox(Color color, BitmapFormatBuilder text) {
 		this(color, defaultPosition.copy(), text);
 	}
 
@@ -102,7 +103,7 @@ public class Textbox extends GameObject {
 		this(color, defaultwidth, defaultheight, position);
 	}
 
-	public Textbox(Color color, Vector3f position, String text) {
+	public Textbox(Color color, Vector3f position, BitmapFormatBuilder text) {
 		this(color, defaultwidth, defaultheight, position, text);
 	}
 
@@ -110,7 +111,7 @@ public class Textbox extends GameObject {
 		this(color, wd, defaultPosition.copy());
 	}
 
-	public Textbox(Color color, float wd, String text) {
+	public Textbox(Color color, float wd, BitmapFormatBuilder text) {
 		this(color, wd, defaultPosition.copy(), text);
 	}
 
@@ -118,7 +119,7 @@ public class Textbox extends GameObject {
 		this(color, wd, wd, position);
 	}
 
-	public Textbox(Color color, float wd, Vector3f position, String text) {
+	public Textbox(Color color, float wd, Vector3f position, BitmapFormatBuilder text) {
 		this(color, wd, wd, position, text);
 	}
 
@@ -126,7 +127,7 @@ public class Textbox extends GameObject {
 		this(color, width, height, defaultPosition.copy());
 	}
 
-	public Textbox(Color color, float width, float height, String text) {
+	public Textbox(Color color, float width, float height, BitmapFormatBuilder text) {
 		this(color, width, height, defaultPosition.copy(), text);
 	}
 
@@ -134,7 +135,7 @@ public class Textbox extends GameObject {
 		this(Texture.fromColor(color, 64, 64), width, height, position);
 	}
 
-	public Textbox(Color color, float width, float height, Vector3f position, String text) {
+	public Textbox(Color color, float width, float height, Vector3f position, BitmapFormatBuilder text) {
 		this(Texture.fromColor(color, 64, 64), width, height, position, text);
 	}
 
@@ -142,7 +143,7 @@ public class Textbox extends GameObject {
 		this(texture, defaultPosition.copy());
 	}
 
-	public Textbox(Texture texture, String text) {
+	public Textbox(Texture texture, BitmapFormatBuilder text) {
 		this(texture, defaultPosition.copy(), text);
 	}
 
@@ -150,7 +151,7 @@ public class Textbox extends GameObject {
 		this(texture, defaultwidth, defaultheight, position);
 	}
 
-	public Textbox(Texture texture, Vector3f position, String text) {
+	public Textbox(Texture texture, Vector3f position, BitmapFormatBuilder text) {
 		this(texture, defaultwidth, defaultheight, position, text);
 	}
 
@@ -158,7 +159,7 @@ public class Textbox extends GameObject {
 		this(texture, wd, defaultPosition.copy());
 	}
 
-	public Textbox(Texture texture, float wd, String text) {
+	public Textbox(Texture texture, float wd, BitmapFormatBuilder text) {
 		this(texture, wd, defaultPosition.copy(), text);
 	}
 
@@ -166,7 +167,7 @@ public class Textbox extends GameObject {
 		this(texture, wd, wd, position);
 	}
 
-	public Textbox(Texture texture, float wd, Vector3f position, String text) {
+	public Textbox(Texture texture, float wd, Vector3f position, BitmapFormatBuilder text) {
 		this(texture, wd, wd, position, text);
 	}
 
@@ -174,7 +175,7 @@ public class Textbox extends GameObject {
 		this(texture, width, height, defaultPosition.copy());
 	}
 
-	public Textbox(Texture texture, float width, float height, String text) {
+	public Textbox(Texture texture, float width, float height, BitmapFormatBuilder text) {
 		this(texture, width, height, defaultPosition.copy(), text);
 	}
 
@@ -182,7 +183,7 @@ public class Textbox extends GameObject {
 		this(new VertexQuad(width, height), texture, position);
 	}
 
-	public Textbox(Texture texture, float width, float height, Vector3f position, String text) {
+	public Textbox(Texture texture, float width, float height, Vector3f position, BitmapFormatBuilder text) {
 		this(new VertexQuad(width, height), texture, position, text);
 	}
 
@@ -190,7 +191,7 @@ public class Textbox extends GameObject {
 		this(defaultwidth, defaultheight, position);
 	}
 
-	public Textbox(Vector3f position, String text) {
+	public Textbox(Vector3f position, BitmapFormatBuilder text) {
 		this(defaultwidth, defaultheight, position, text);
 	}
 
@@ -198,7 +199,7 @@ public class Textbox extends GameObject {
 		this(wd, defaultPosition.copy());
 	}
 
-	public Textbox(float wd, String text) {
+	public Textbox(float wd, BitmapFormatBuilder text) {
 		this(wd, defaultPosition.copy(), text);
 	}
 
@@ -206,7 +207,7 @@ public class Textbox extends GameObject {
 		this(wd, wd, position);
 	}
 
-	public Textbox(float wd, Vector3f position, String text) {
+	public Textbox(float wd, Vector3f position, BitmapFormatBuilder text) {
 		this(wd, wd, position, text);
 	}
 
@@ -214,7 +215,7 @@ public class Textbox extends GameObject {
 		this(new VertexQuad(width, height));
 	}
 
-	public Textbox(float width, float height, String text) {
+	public Textbox(float width, float height, BitmapFormatBuilder text) {
 		this(new VertexQuad(width, height), text);
 	}
 
@@ -222,7 +223,7 @@ public class Textbox extends GameObject {
 		this(new VertexQuad(width, height), position);
 	}
 
-	public Textbox(float width, float height, Vector3f position, String text) {
+	public Textbox(float width, float height, Vector3f position, BitmapFormatBuilder text) {
 		this(new VertexQuad(width, height), position, text);
 	}
 
@@ -230,7 +231,7 @@ public class Textbox extends GameObject {
 		this(quad, defaultPosition.copy());
 	}
 
-	public Textbox(VertexQuad quad, String text) {
+	public Textbox(VertexQuad quad, BitmapFormatBuilder text) {
 		this(quad, defaultPosition.copy(), text);
 	}
 
@@ -238,7 +239,7 @@ public class Textbox extends GameObject {
 		this(quad, Texture.fromImage(defaultTexturePath), position);
 	}
 
-	public Textbox(VertexQuad quad, Vector3f position, String text) {
+	public Textbox(VertexQuad quad, Vector3f position, BitmapFormatBuilder text) {
 		this(quad, Texture.fromImage(defaultTexturePath), position, text);
 	}
 
@@ -246,7 +247,7 @@ public class Textbox extends GameObject {
 		this(quad, texture, defaultPosition.copy());
 	}
 
-	public Textbox(VertexQuad quad, Texture texture, String text) {
+	public Textbox(VertexQuad quad, Texture texture, BitmapFormatBuilder text) {
 		this(quad, texture, defaultPosition.copy(), text);
 	}
 
@@ -256,11 +257,12 @@ public class Textbox extends GameObject {
 		this.width = quad.width;
 	}
 
-	public Textbox(VertexQuad quad, Texture texture, Vector3f position, String text) {
+	public Textbox(VertexQuad quad, Texture texture, Vector3f position, BitmapFormatBuilder text) {
 		super(quad, texture, position);
 		this.heigth = quad.height;
 		this.width = quad.width;
-		this.text = new BitmapFont(parseText(text), calcFontPosition());
+		this.text = new BitmapBuilder(calcFontPosition());
+		this.text.add(text.setText(parseText(text.text)));
 	}
 
 	public Vector3f calcFontPosition() {
@@ -268,7 +270,7 @@ public class Textbox extends GameObject {
 	}
 
 	public int calcTextRenderTime() {
-		return (int) ((this.getText().length() * this.getTextSpeed()) / 3) + 3;
+		return (int) (((this.getText().length() * this.getTextSpeed()) / 3) + 3);
 	}
 
 	private String parseText(String text) {
@@ -302,81 +304,46 @@ public class Textbox extends GameObject {
 	}
 
 	public String getText() {
-		return this.text.getText();
+		return this.text.toString();
 	}
 
 	public void setTextSpeed(int speed) {
 		this.textSpeed = speed;
 	}
 
-	public void setTextBold(boolean bold) {
-		this.text.setBold(bold);
+	public void setHeaderText(BitmapFormatBuilder text) {
+		this.textboxHeader = new Textbox(
+
+				this.texture, this.width, 0.35f,
+
+				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z),
+
+				text.setBold(true)
+
+		);
 	}
 
-	public void setTextColor(Color color) {
-		this.text.setColor(color);
-	}
-
-	public void setHeaderTextColor(Color color) {
-		this.textboxHeader.setTextColor(color);
-	}
-
-	public void setHeaderTextBold(boolean bold) {
-		this.textboxHeader.setTextBold(bold);
-	}
-
-	public void setHeaderText(String text) {
-		this.textboxHeader = new Textbox(this.texture, this.width, 0.35f,
-				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z), text);
-		this.setHeaderTextBold(true);
-		this.setHeaderTextColor(this.text.getColor());
-	}
-
-	public void setText(String text) {
+	public void setText(BitmapFormatBuilder text) {
 		if (this.text != null) {
 			this.text.dispose();
 		}
-		this.text = new BitmapFont(parseText(text), calcFontPosition());
+		this.text = new BitmapBuilder(calcFontPosition());
+		this.text.add(text.setText(parseText(text.text)));
 	}
 
-	public void setText(String text, Color color) {
-		if (this.text != null) {
-			this.text.dispose();
-		}
-		this.text = new BitmapFont(parseText(text), calcFontPosition(), color);
+	public void addText(BitmapFormatBuilder text) {
+		this.text.add(text.setText(text.text));
 	}
 
-	public void setText(String text, Color color, boolean bold) {
-		if (this.text != null) {
-			this.text.dispose();
-		}
-		this.text = new BitmapFont(parseText(text), calcFontPosition(), color, bold);
-	}
-
-	public void setText(String text, boolean bold) {
-		if (this.text != null) {
-			this.text.dispose();
-		}
-		this.text = new BitmapFont(parseText(text), calcFontPosition(), bold);
-	}
-
-	public void setText(BitmapFont text) {
-		if (this.text != null) {
-			this.text.dispose();
-		}
-		this.text = text;
-		this.text.translate(calcFontPosition());
-	}
-
-	public String getTextCollection(int index) {
+	public BitmapFormatBuilder getTextCollection(int index) {
 		return textCollection.get(index);
 	}
 
-	public List<String> getTextCollection() {
+	public List<BitmapFormatBuilder> getTextCollection() {
 		return textCollection;
 	}
 
-	public String getCollectionCurrent() {
+	public BitmapFormatBuilder getCollectionCurrent() {
 		return getTextCollection(currentTextId);
 	}
 
@@ -402,12 +369,12 @@ public class Textbox extends GameObject {
 		setCurrentCollection();
 	}
 
-	public void addTextCollection(String text) {
+	public void addTextCollection(BitmapFormatBuilder text) {
 		textCollection.add(text);
 	}
 
-	public void addTextCollection(String[] texts) {
-		for (String text : texts) {
+	public void addTextCollection(BitmapFormatBuilder[] texts) {
+		for (BitmapFormatBuilder text : texts) {
 			textCollection.add(text);
 		}
 	}

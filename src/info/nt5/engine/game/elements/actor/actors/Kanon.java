@@ -9,7 +9,7 @@ public class Kanon extends Actor {
 	private static float[][] quad_size = {
 			{ 4f, 6f },
 			{ 1.50f, 1.35f },
-			{ 0.3f }
+			{ 0.3f, 0.3f }
 	};
 
 	private static String[][][] sprites = {
@@ -47,6 +47,11 @@ public class Kanon extends Actor {
 		positions[2].setX(-positions[2].getX());
 	}
 
+	public Kanon(Vector3f position) {
+		this();
+		this.translate(position);
+	}
+
 	public Kanon() {
 		super(new Part[] {
 				// Body
@@ -54,20 +59,7 @@ public class Kanon extends Actor {
 				// Eye
 				new Part(new VertexQuad(quad_size[1][0], quad_size[1][1]), sprites[1], positions[1].copy()),
 				// Mouth
-				new Part(new VertexQuad(quad_size[2][0]), sprites[2], positions[2].copy()),
+				new Part(new VertexQuad(quad_size[2][0], quad_size[2][1]), sprites[2], positions[2].copy()),
 		});
 	}
-
-	public Kanon(Vector3f position) {
-		super(new Part[] {
-				// Body
-				new Part(new VertexQuad(quad_size[0][0], quad_size[0][1]), sprites[0], positions[0].copy()),
-				// Eye
-				new Part(new VertexQuad(quad_size[1][0], quad_size[1][1]), sprites[1], positions[1].copy()),
-				// Mouth
-				new Part(new VertexQuad(quad_size[2][0]), sprites[2], positions[2].copy()),
-		});
-		this.translate(position);
-	}
-
 }

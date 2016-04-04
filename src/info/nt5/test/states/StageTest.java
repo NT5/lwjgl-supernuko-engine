@@ -8,6 +8,7 @@ import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.text.BitmapFormatBuilder;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -42,21 +43,22 @@ public class StageTest implements State {
 
 		stage.getActor(0).getPart(1).setAnimation(10, 0.80, 5, -1);
 
-		stage.addTextbox(
-				new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f), "poi poi!"));
+		stage.addTextbox(new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f),
+				new BitmapFormatBuilder("poi poi!")));
 
-		stage.addTextbox(
-				new Textbox(Color.PINK.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(5f, 4.2f, 0.0f), "nyan nyan!"));
+		stage.addTextbox(new Textbox(Color.PINK.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(5f, 4.2f, 0.0f),
+				new BitmapFormatBuilder("nyan nyan!", Color.LIME)));
 
-		stage.addTextbox(new Textbox(Color.SILVER.withAlpha(0.75f), 5f, 1f, new Vector3f(),
-				"1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50"));
+		stage.addTextbox(new Textbox(Color.SILVER.withAlpha(0.75f), 5f, 1f, new Vector3f(), new BitmapFormatBuilder(
+				"1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50")));
 
 		stage.getTextbox(2).setTextSpeed(1);
-		stage.getTextbox(2).setHeaderText("header-san");
+		stage.getTextbox(2).addText(new BitmapFormatBuilder(" nyan", Color.BLUE));
+		stage.getTextbox(2).setHeaderText(new BitmapFormatBuilder("header-san"));
 
-		String[] StringCollection = { "text 1!", "text 2!", "text 3!" };
+		// String[] StringCollection = { "text 1!", "text 2!", "text 3!" };
 
-		stage.getTextbox(2).addTextCollection(StringCollection);
+		// stage.getTextbox(2).addTextCollection(StringCollection);
 
 		stage.setBackground(new Background(Color.GRAY));
 
@@ -74,14 +76,9 @@ public class StageTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_C)) {
-			stage.getTextbox(2).setHeaderText("nico-nico-ni~");
-			stage.getTextbox(2).setText("nyan nyan");
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_B)) {
-			stage.getTextbox(2).setHeaderText("><!");
-			stage.getTextbox(2)
-					.setText("neko-kawaii-desu nyan~ nyan~ kyuun~~ kyuun~~ poi~ poi~\npoi~\npoi~\npoi~ :D!!");
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
@@ -89,11 +86,9 @@ public class StageTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_Q)) {
-			stage.getTextbox(2).setPrevCollection();
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
-			stage.getTextbox(2).setNextCollection();
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {

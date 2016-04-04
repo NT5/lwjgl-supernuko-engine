@@ -13,7 +13,6 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapBuilder;
 import info.nt5.engine.graphics.text.BitmapFormatBuilder;
 import info.nt5.engine.input.Keyboard;
-import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
@@ -52,17 +51,18 @@ public class FontTest implements State {
 
 				new BitmapFormatBuilder("hello", Color.RED, true),
 
-				new BitmapFormatBuilder("hello", Color.BLACK).setOffset(new Vector2f(0.3f, 0.20f)),
+				new BitmapFormatBuilder("hello", Color.BLACK),
 
-				new BitmapFormatBuilder("hello", Color.GRAY, true),
+				new BitmapFormatBuilder("hello\n", Color.GRAY, true),
 
-				new BitmapFormatBuilder("hello", Color.BLUE),
+				new BitmapFormatBuilder("hello\n", Color.BLUE),
 
 				new BitmapFormatBuilder("hello")
 
 		};
 
 		text.add(collection);
+		
 	}
 
 	@Override

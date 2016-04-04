@@ -8,6 +8,7 @@ import info.nt5.engine.math.Vector3f;
 public class BitmapBuilder {
 	private List<BitmapFont> text = new ArrayList<BitmapFont>();
 	private Vector3f position;
+	private int currentRenderId;
 
 	public BitmapBuilder() {
 		this(new Vector3f());
@@ -25,11 +26,6 @@ public class BitmapBuilder {
 
 	public void add(BitmapFormatBuilder text) {
 		if (text.text != null) {
-			Vector3f position = (
-
-			this.text.size() == 0 ? this.position : this.text.get((this.text.size() - 1)).getCursorPos()
-
-			);
 
 			this.text.add(
 
@@ -52,6 +48,18 @@ public class BitmapBuilder {
 							text.bold
 
 					));
+			this.position = this.text.get((this.text.size() - 1)).getEndCursorPos();
+			if (text.text.charAt(text.text.length() - 1) == 10) {
+				this.position = new Vector3f(
+
+						this.text.get(0).getPosition().x,
+
+						this.text.get((this.text.size() - 1)).getEndCursorPos().y,
+
+						this.text.get((this.text.size() - 1)).getEndCursorPos().z
+
+				);
+			}
 		}
 	}
 
@@ -73,6 +81,22 @@ public class BitmapBuilder {
 		}
 	}
 
+	public void translateZ(float z) {
+		for (BitmapFont text : this.text) {
+			text.translateZ(z);
+		}
+	}
+
+	public void render(int speed) {
+		for (BitmapFont text : this.text.subList(0,
+				currentRenderId < this.text.size() ? currentRenderId + 1 : currentRenderId)) {
+			text.render(speed);
+		}
+		if (currentRenderId < this.text.size() && text.get(currentRenderId).isRenderListEnd()) {
+			currentRenderId++;
+		}
+	}
+
 	public void render() {
 		for (BitmapFont text : this.text) {
 			text.render();
@@ -84,5 +108,22 @@ public class BitmapBuilder {
 			text.dispose();
 		}
 		text.clear();
+	}
+
+	public int getSize() {
+		return text.size();
+	}
+
+	public boolean isRenderEnd() {
+		return currentRenderId >= this.text.size();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		for (BitmapFont text : this.text) {
+			str.append(text.getText());
+		}
+		return str.toString();
 	}
 }

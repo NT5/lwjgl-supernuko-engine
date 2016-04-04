@@ -38,6 +38,16 @@ public class BitmapFormatBuilder {
 		this.offset = offset;
 	}
 
+	public BitmapFormatBuilder setText(String text) {
+		this.text = text;
+		return this;
+	}
+
+	public BitmapFormatBuilder setBold(boolean bold) {
+		this.bold = bold;
+		return this;
+	}
+
 	public BitmapFormatBuilder setOffset(Vector2f offset) {
 		this.offset = offset;
 		return this;

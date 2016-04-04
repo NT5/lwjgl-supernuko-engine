@@ -219,8 +219,15 @@ public class BitmapFont {
 				continue;
 			}
 
-			Vector3f position = new Vector3f((this.position.x + cursorPos.x), (this.position.y + cursorPos.y),
-					this.position.z);
+			Vector3f position = new Vector3f(
+
+					(this.position.x + cursorPos.x),
+
+					(this.position.y + cursorPos.y),
+
+					this.position.z
+
+			);
 
 			BitmapChar Char = new BitmapChar(asciiCode, this.width, this.height, this.texture, position, color);
 
@@ -230,9 +237,48 @@ public class BitmapFont {
 		}
 	}
 
-	public Vector3f getCursorPos() {
-		return new Vector3f((this.position.x + (cursorPos.x - (this.width + this.Xoffset))),
-				(this.position.y + (cursorPos.y - (this.height + this.Yoffset))), this.position.z);
+	public float getWidth() {
+		return this.width;
+	}
+
+	public float getHeight() {
+		return this.height;
+	}
+
+	public float getXoffset() {
+		return this.Xoffset;
+	}
+
+	public float getYoffset() {
+		return this.Yoffset;
+	}
+
+	public Vector3f getPosition() {
+		return this.position;
+	}
+
+	public Vector3f getStartCursorPos() {
+		return new Vector3f(
+
+				(this.position.x + (this.width + this.Xoffset)),
+
+				(this.position.y + (this.height + this.Yoffset)),
+
+				this.position.z
+
+		);
+	}
+
+	public Vector3f getEndCursorPos() {
+		return new Vector3f(
+
+				(this.position.x + (cursorPos.x - (this.width + this.Xoffset))),
+
+				(this.position.y + (cursorPos.y - (this.height + this.Yoffset))),
+
+				this.position.z
+
+		);
 	}
 
 	public void setBold() {
