@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
-import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
@@ -22,7 +21,6 @@ public class FontTest implements State {
 
 	private BitmapBuilder text;
 	private Background bg;
-	private Textbox textbox;
 	private Actor kanon;
 
 	@Override
@@ -42,7 +40,6 @@ public class FontTest implements State {
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
 		bg = new Background();
-		textbox = new Textbox(new Vector3f(0f, -4.2f, 0.0f));
 		kanon = new Kanon(new Vector3f(5f, 0f, 0.0f));
 
 		text = new BitmapBuilder(new Vector3f(-9f, -4.3f, 0.0f));
@@ -62,7 +59,7 @@ public class FontTest implements State {
 		};
 
 		text.add(collection);
-		
+
 	}
 
 	@Override
@@ -89,18 +86,15 @@ public class FontTest implements State {
 	public void render(GameManager gm, StateGame game) {
 		bg.render();
 		kanon.render();
-		textbox.render();
-
 		text.render();
 	}
 
 	@Override
 	public void leave(GameManager gm, StateGame game) {
 		Logger.debug("Font state lave!");
-		bg.dispose();
-		textbox.dispose();
-		kanon.dispose();
 
+		bg.dispose();
+		kanon.dispose();
 		text.dispose();
 	}
 

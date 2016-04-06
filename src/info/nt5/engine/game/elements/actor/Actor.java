@@ -7,6 +7,11 @@ import info.nt5.engine.math.Vector3f;
 public class Actor {
 	private List<Part> Parts = new ArrayList<Part>();;
 
+	public Actor(Part[] parts, Vector3f Position) {
+		this(parts);
+		translate(Position);
+	}
+
 	public Actor(Part[] parts) {
 		for (Part part : parts) {
 			addPart(part);

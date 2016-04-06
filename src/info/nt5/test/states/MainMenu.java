@@ -6,10 +6,11 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.elements.actor.Actor;
-import info.nt5.engine.game.elements.actor.actors.Kanon;
+import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.text.BitmapBuilder;
 import info.nt5.engine.graphics.text.BitmapFormatBuilder;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
@@ -37,9 +38,9 @@ public class MainMenu implements State {
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
-		int speed = 1;
+		int speed = 3;
 
-		actor = new Kanon(new Vector3f(5f, 0f, 0f));
+		actor = new Maru(new Vector3f(5f, 0f, 0f));
 
 		textbox = new Textbox(
 
@@ -51,21 +52,67 @@ public class MainMenu implements State {
 
 		);
 
-		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.RED));
-		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~\n", Color.BLACK));
-		textbox.addText(new BitmapFormatBuilder("onii-chan!!!\ndaisukiiii~", Color.CYAN));
-		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.PINK));
-		textbox.addText(new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.LIME));
+		textbox.addTextToCurrentCollection(
 
-		textbox.addTextCollection(new BitmapFormatBuilder("TEXT 1!", Color.CYAN));
-		textbox.addTextCollection(new BitmapFormatBuilder("TEXT 2!"));
+				new BitmapFormatBuilder[] {
 
-		textbox.setHeaderText(new BitmapFormatBuilder("Kanon-chan", Color.CYAN, true));
+						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.RED),
+						new BitmapFormatBuilder("onii-chan!!! daisukiiii~\n", Color.BLACK),
+						new BitmapFormatBuilder("onii-chan!!!\ndaisukiiii~", Color.CYAN),
+						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.PINK),
+						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.LIME)
+
+				}
+
+		);
+
+		textbox.addTextCollection(
+
+				new BitmapBuilder[] {
+
+						new BitmapBuilder(
+
+								new BitmapFormatBuilder[] {
+
+										new BitmapFormatBuilder("text 1!~", Color.LIME),
+										new BitmapFormatBuilder("text 1!~", Color.BLUE)
+
+								}
+
+						),
+
+						new BitmapBuilder(
+
+								new BitmapFormatBuilder[] {
+
+										new BitmapFormatBuilder("text 2!~", Color.LIME),
+										new BitmapFormatBuilder("text 2!~", Color.BLUE)
+
+								}
+
+						),
+
+						new BitmapBuilder(
+
+								new BitmapFormatBuilder[] {
+
+										new BitmapFormatBuilder("text 3!~", Color.LIME),
+										new BitmapFormatBuilder("text 3!~", Color.BLUE)
+
+								}
+
+						)
+
+				}
+
+		);
+
+		textbox.setHeaderText(new BitmapFormatBuilder("Maru-chan", Color.CYAN, true));
 
 		textbox.setTextSpeed(speed);
 
-		actor.getPart(1).setAnimation(10, 0.80, 5, -1);
-		actor.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime());
+		actor.getPart(1).setAnimation(10, 0.80, 5, -1); // Eye
+		actor.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime()); // Mouth
 
 		bg = new Background();
 	}
@@ -103,7 +150,7 @@ public class MainMenu implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
-			textbox.setNextCollection();
+			textbox.setPrevCollection();
 		}
 	}
 

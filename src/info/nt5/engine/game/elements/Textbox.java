@@ -31,13 +31,12 @@ public class Textbox extends GameObject {
 	private float width;
 	private float heigth;
 
-	private BitmapBuilder text;
 	private Textbox textboxHeader;
 
 	private int textSpeed;
 
 	private int currentTextId;
-	private List<BitmapFormatBuilder> textCollection = new ArrayList<BitmapFormatBuilder>();
+	private List<BitmapBuilder> text = new ArrayList<BitmapBuilder>();
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -261,8 +260,64 @@ public class Textbox extends GameObject {
 		super(quad, texture, position);
 		this.heigth = quad.height;
 		this.width = quad.width;
-		this.text = new BitmapBuilder(calcFontPosition());
-		this.text.add(text.setText(parseText(text.text)));
+		this.text.add(
+
+				new BitmapBuilder(calcFontPosition(), text.setText(parseText(text.text)))
+
+		);
+	}
+
+	public List<BitmapBuilder> getTextCollection() {
+		return this.text;
+	}
+
+	public BitmapBuilder getTextCollection(int index) {
+		return this.text.get(index);
+	}
+
+	public BitmapBuilder getCollectionCurrent() {
+		return getTextCollection(currentTextId);
+	}
+
+	public void setNextCollection() {
+		if (currentTextId != this.text.size() - 1) {
+			currentTextId++;
+		} else {
+			currentTextId = 0;
+		}
+	}
+
+	public void setPrevCollection() {
+		if (currentTextId != 0) {
+			currentTextId--;
+		} else {
+			currentTextId = (this.text.size() - 1);
+		}
+	}
+
+	public void addTextCollection(BitmapBuilder text) {
+		text.translate(calcFontPosition());
+		this.text.add(text);
+	}
+
+	public void addTextCollection(BitmapBuilder[] texts) {
+		for (BitmapBuilder text : texts) {
+			addTextCollection(text);
+		}
+	}
+
+	public void removeTextCollection(int index) {
+		this.text.remove(index);
+	}
+
+	public void addTextToCurrentCollection(BitmapFormatBuilder text) {
+		this.getCollectionCurrent().add(text.setText(parseText(text.text)));
+	}
+
+	public void addTextToCurrentCollection(BitmapFormatBuilder[] text) {
+		for (BitmapFormatBuilder bitmapFormatBuilder : text) {
+			addTextToCurrentCollection(bitmapFormatBuilder);
+		}
 	}
 
 	public Vector3f calcFontPosition() {
@@ -275,7 +330,7 @@ public class Textbox extends GameObject {
 
 	private String parseText(String text) {
 		StringBuilder str_new = new StringBuilder();
-		float limit = (this.width * 2) - 0.95f;
+		float limit = ((this.width * 2) - 0.95f);
 		float current = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if (current >= limit) {
@@ -323,74 +378,14 @@ public class Textbox extends GameObject {
 		);
 	}
 
-	public void setText(BitmapFormatBuilder text) {
-		if (this.text != null) {
-			this.text.dispose();
-		}
-		this.text = new BitmapBuilder(calcFontPosition());
-		this.text.add(text.setText(parseText(text.text)));
-	}
-
-	public void addText(BitmapFormatBuilder text) {
-		this.text.add(text.setText(text.text));
-	}
-
-	public BitmapFormatBuilder getTextCollection(int index) {
-		return textCollection.get(index);
-	}
-
-	public List<BitmapFormatBuilder> getTextCollection() {
-		return textCollection;
-	}
-
-	public BitmapFormatBuilder getCollectionCurrent() {
-		return getTextCollection(currentTextId);
-	}
-
-	public void setCurrentCollection() {
-		setText(getCollectionCurrent());
-	}
-
-	public void setNextCollection() {
-		if (currentTextId != textCollection.size() - 1) {
-			currentTextId++;
-		} else {
-			currentTextId = 0;
-		}
-		setCurrentCollection();
-	}
-
-	public void setPrevCollection() {
-		if (currentTextId != 0) {
-			currentTextId--;
-		} else {
-			currentTextId = (textCollection.size() - 1);
-		}
-		setCurrentCollection();
-	}
-
-	public void addTextCollection(BitmapFormatBuilder text) {
-		textCollection.add(text);
-	}
-
-	public void addTextCollection(BitmapFormatBuilder[] texts) {
-		for (BitmapFormatBuilder text : texts) {
-			textCollection.add(text);
-		}
-	}
-
-	public void removeTextCollection(int index) {
-		textCollection.remove(index);
-	}
-
 	@Override
 	public void translate(Vector3f vector) {
 		position.x += vector.x;
 		position.y += vector.y;
 		position.z += vector.z;
 
-		if (this.text != null) {
-			text.translate(vector);
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().translate(vector);
 		}
 
 		if (textboxHeader != null) {
@@ -402,8 +397,8 @@ public class Textbox extends GameObject {
 	public void translateX(float x) {
 		position.x += x;
 
-		if (this.text != null) {
-			text.translateX(x);
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().translateX(x);
 		}
 
 		if (textboxHeader != null) {
@@ -414,8 +409,9 @@ public class Textbox extends GameObject {
 	@Override
 	public void translateY(float y) {
 		position.y += y;
-		if (this.text != null) {
-			text.translateY(y);
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().translateY(y);
 		}
 
 		if (textboxHeader != null) {
@@ -427,8 +423,8 @@ public class Textbox extends GameObject {
 	public void translateZ(float z) {
 		position.z += z;
 
-		if (this.text != null) {
-			text.translateZ(z);
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().translateZ(z);
 		}
 
 		if (textboxHeader != null) {
@@ -451,11 +447,11 @@ public class Textbox extends GameObject {
 
 		glDisable(GL_BLEND);
 
-		if (this.text != null) {
+		if (this.getCollectionCurrent() != null) {
 			if (textSpeed > 0) {
-				this.text.render(textSpeed);
+				this.getCollectionCurrent().render(textSpeed);
 			} else {
-				this.text.render();
+				this.getCollectionCurrent().render();
 			}
 		}
 
@@ -474,8 +470,9 @@ public class Textbox extends GameObject {
 			textboxHeader.dispose();
 		}
 
-		if (this.text != null) {
+		for (BitmapBuilder text : this.text) {
 			text.dispose();
 		}
+		this.text.clear();
 	}
 }

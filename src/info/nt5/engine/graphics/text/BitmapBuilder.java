@@ -14,6 +14,26 @@ public class BitmapBuilder {
 		this(new Vector3f());
 	}
 
+	public BitmapBuilder(Vector3f position, BitmapFormatBuilder text) {
+		this(position);
+		add(text);
+	}
+
+	public BitmapBuilder(Vector3f position, BitmapFormatBuilder[] text) {
+		this(position);
+		add(text);
+	}
+
+	public BitmapBuilder(BitmapFormatBuilder text) {
+		this();
+		add(text);
+	}
+
+	public BitmapBuilder(BitmapFormatBuilder[] text) {
+		this();
+		add(text);
+	}
+
 	public BitmapBuilder(Vector3f position) {
 		this.position = position;
 	}
@@ -61,6 +81,14 @@ public class BitmapBuilder {
 				);
 			}
 		}
+	}
+
+	public Vector3f getEndCursorPos() {
+		return text.size() > 0 ? this.text.get((this.text.size() - 1)).getEndCursorPos() : new Vector3f();
+	}
+
+	public Vector3f getStartCursorPos() {
+		return text.size() > 0 ? this.text.get(0).getStartCursorPos() : new Vector3f();
 	}
 
 	public void translate(Vector3f vector) {
