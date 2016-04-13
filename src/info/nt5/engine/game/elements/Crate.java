@@ -1,5 +1,6 @@
-package info.nt5.engine.game;
+package info.nt5.engine.game.elements;
 
+import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.Color;
 
 public class Crate extends GameObject {

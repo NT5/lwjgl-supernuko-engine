@@ -10,8 +10,8 @@ import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapBuilder;
-import info.nt5.engine.graphics.text.BitmapFormatBuilder;
+import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -48,19 +48,19 @@ public class MainMenu implements State {
 
 				new Vector3f(0f, -4f, 0f),
 
-				new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.BLUE)
+				new BitmapFormat("onii-chan!!! daisukiiii~", Color.BLUE)
 
 		);
 
 		textbox.addTextToCurrentCollection(
 
-				new BitmapFormatBuilder[] {
+				new BitmapFormat[] {
 
-						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.RED),
-						new BitmapFormatBuilder("onii-chan!!! daisukiiii~\n", Color.BLACK),
-						new BitmapFormatBuilder("onii-chan!!!\ndaisukiiii~", Color.CYAN),
-						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.PINK),
-						new BitmapFormatBuilder("onii-chan!!! daisukiiii~", Color.LIME)
+						new BitmapFormat("onii-chan!!! daisukiiii~", Color.RED),
+						new BitmapFormat("onii-chan!!! daisukiiii~\n", Color.BLACK),
+						new BitmapFormat("onii-chan!!!\ndaisukiiii~", Color.CYAN),
+						new BitmapFormat("onii-chan!!! daisukiiii~", Color.PINK),
+						new BitmapFormat("onii-chan!!! daisukiiii~", Color.LIME)
 
 				}
 
@@ -68,36 +68,36 @@ public class MainMenu implements State {
 
 		textbox.addTextCollection(
 
-				new BitmapBuilder[] {
+				new BitmapFont[] {
 
-						new BitmapBuilder(
+						new BitmapFont(
 
-								new BitmapFormatBuilder[] {
+								new BitmapFormat[] {
 
-										new BitmapFormatBuilder("text 1!~", Color.LIME),
-										new BitmapFormatBuilder("text 1!~", Color.BLUE)
-
-								}
-
-						),
-
-						new BitmapBuilder(
-
-								new BitmapFormatBuilder[] {
-
-										new BitmapFormatBuilder("text 2!~", Color.LIME),
-										new BitmapFormatBuilder("text 2!~", Color.BLUE)
+										new BitmapFormat("text 1!~", Color.LIME),
+										new BitmapFormat("text 1!~", Color.BLUE)
 
 								}
 
 						),
 
-						new BitmapBuilder(
+						new BitmapFont(
 
-								new BitmapFormatBuilder[] {
+								new BitmapFormat[] {
 
-										new BitmapFormatBuilder("text 3!~", Color.LIME),
-										new BitmapFormatBuilder("text 3!~", Color.BLUE)
+										new BitmapFormat("text 2!~", Color.LIME),
+										new BitmapFormat("text 2!~", Color.BLUE)
+
+								}
+
+						),
+
+						new BitmapFont(
+
+								new BitmapFormat[] {
+
+										new BitmapFormat("text 3!~", Color.LIME),
+										new BitmapFormat("text 3!~", Color.BLUE)
 
 								}
 
@@ -107,7 +107,7 @@ public class MainMenu implements State {
 
 		);
 
-		textbox.setHeaderText(new BitmapFormatBuilder("Maru-chan", Color.CYAN, true));
+		textbox.setHeaderText(new BitmapFormat("Maru-chan", Color.CYAN, true));
 
 		textbox.setTextSpeed(speed);
 

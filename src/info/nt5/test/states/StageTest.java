@@ -9,7 +9,7 @@ import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFormatBuilder;
+import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -34,8 +34,7 @@ public class StageTest implements State {
 
 		Logger.debug("Stage state enter!");
 
-		String LongText = "1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22-23-24-25-26-27-28-29-30-31-32-33-34-35-36-37-38-39-40-41-42-43-44-45-46-47-48-49-50\n";
-
+		String LongText = "12345678910111213141516171819201234567891011121314151617181920123456789101112131415161718192012345678910111213141516171819201234567891011121314151617181920";
 		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Maru(new Vector3f(5f, 0f, 0f)));
 
@@ -43,20 +42,53 @@ public class StageTest implements State {
 		stage.getActor(1).getPart(1).setAnimation(10, 0.80, 5, -1);
 		stage.getActor(1).getPart(2).setAnimation(10, 0.80, 5, -1);
 
-		stage.addTextbox(new Textbox(Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(-5f, 4.2f, 0.0f),
-				new BitmapFormatBuilder("poi poi!")));
+		stage.addTextbox(
 
-		stage.addTextbox(new Textbox(Color.PINK.withAlpha(0.75f), 1.5f, 0.3f, new Vector3f(5f, 4.2f, 0.0f),
-				new BitmapFormatBuilder("nyan nyan!", Color.LIME)));
+				new Textbox(
+
+						Color.CYAN.withAlpha(0.75f), 1.5f, 0.3f,
+
+						new Vector3f(-5f, 4.2f, 0.0f),
+
+						new BitmapFormat("poi poi!")
+
+				)
+
+		);
 
 		stage.addTextbox(
-				new Textbox(Color.SILVER.withAlpha(0.75f), 5f, 1f, new Vector3f(), new BitmapFormatBuilder(LongText)));
 
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormatBuilder(LongText, Color.BLACK));
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormatBuilder(LongText, Color.CYAN));
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormatBuilder("nyan", Color.BLUE));
-		stage.getTextbox(2).setHeaderText(new BitmapFormatBuilder("header-san"));
-		stage.getTextbox(2).setTextSpeed(1);
+				new Textbox(
+
+						Color.PINK.withAlpha(0.75f),
+
+						1.5f, 0.3f,
+
+						new Vector3f(5f, 4.2f, 0.0f),
+
+						new BitmapFormat("nyan nyan!", Color.LIME)
+
+				)
+
+		);
+
+		stage.addTextbox(
+
+				new Textbox(
+
+						Color.SILVER.withAlpha(0.75f), 5f, 1f,
+
+						new Vector3f(),
+
+						new BitmapFormat(LongText)
+
+				)
+
+		);
+		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat(LongText, Color.BLACK));
+		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat(LongText, Color.PURPLE));
+		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat("nyan\nnyan", Color.BLUE));
+		stage.getTextbox(2).setHeaderText(new BitmapFormat("header-san"));
 
 		stage.setBackground(new Background(Color.GRAY));
 	}
