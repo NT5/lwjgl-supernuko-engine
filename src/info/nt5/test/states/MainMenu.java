@@ -111,8 +111,8 @@ public class MainMenu implements State {
 
 		textbox.setTextSpeed(speed);
 
-		actor.getPart(1).setAnimation(10, 0.80, 5, -1); // Eye
-		actor.getPart(2).setAnimation((speed * 2), 0, 0.5, textbox.calcTextRenderTime()); // Mouth
+		actor.getPart(1).animation.set(10, 0.80, 5, -1); // Eye
+		actor.getPart(2).animation.set((speed * 2), 0, 0.5, textbox.calcTextRenderTime()); // Mouth
 
 		bg = new Background();
 	}
@@ -146,7 +146,7 @@ public class MainMenu implements State {
 		}
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
 			textbox.setTextSpeed(0);
-			actor.getPart(2).endAnimation();
+			actor.getPart(2).animation.end();
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {

@@ -14,10 +14,10 @@ public abstract class StateGame extends GameAbstract {
 
 	private State currentState;
 	private State nextState;
-	
+
 	private Transition leave;
 	private Transition enter;
-	
+
 	private GameManager manager;
 
 	public StateGame(GameManager manager, String title) {
@@ -29,7 +29,7 @@ public abstract class StateGame extends GameAbstract {
 	@Override
 	public void init(GameManager gm) {
 		this.manager = gm;
-		
+
 		currentState = new State() {
 
 			@Override
@@ -50,18 +50,18 @@ public abstract class StateGame extends GameAbstract {
 			}
 
 			@Override
-			public void render(GameManager gm, StateGame game) {	
+			public void render(GameManager gm, StateGame game) {
 			}
 
 			@Override
 			public void leave(GameManager gm, StateGame game) {
 			}
-			
+
 		};
-		
+
 		initStatesList();
-		for (State state : states.values()){
-		    state.init(manager, this);
+		for (State state : states.values()) {
+			state.init(manager, this);
 		}
 		currentState.enter(manager, this);
 	}
@@ -73,57 +73,52 @@ public abstract class StateGame extends GameAbstract {
 
 	@Override
 	public void update(GameManager gm) {
-		
-		if ( leave != null ) {
+
+		if (leave != null) {
 			leave.update(gm, this);
-			if ( leave.isComplete() ) {
+			if (leave.isComplete()) {
 				currentState.leave(gm, this);
 				State previous = currentState;
 				currentState = nextState;
 				nextState = null;
 				leave = null;
-				
-				if ( enter == null ) {
+
+				if (enter == null) {
 					currentState.enter(gm, this);
-				}
-				else {
+				} else {
 					enter.init(currentState, previous);
 				}
-			}
-			else {
+			} else {
 				return;
 			}
 		}
-		
-		if ( enter != null ) {
+
+		if (enter != null) {
 			enter.update(gm, this);
 			if (enter.isComplete()) {
 				currentState.enter(gm, this);
 				enter = null;
-			}
-			else {
+			} else {
 				return;
 			}
 		}
-		
+
 		currentState.update(gm, this);
 	}
 
 	@Override
 	public void render(GameManager gm) {
-		if ( leave != null ) {
+		if (leave != null) {
 			leave.preRender(gm, this);
-		}
-		else if ( enter != null ) {
+		} else if (enter != null) {
 			enter.preRender(gm, this);
 		}
-		
+
 		currentState.render(gm, this);
-		
-		if ( leave != null ) {
+
+		if (leave != null) {
 			leave.postRender(gm, this);
-		}
-		else if ( enter != null ) {
+		} else if (enter != null) {
 			enter.postRender(gm, this);
 		}
 	}
@@ -144,9 +139,9 @@ public abstract class StateGame extends GameAbstract {
 	public int getCurrentStateID() {
 		return currentState.getID();
 	}
-	
+
 	public boolean isTransitioning() {
-		return ( leave != null ) || ( enter != null );
+		return (leave != null) || (enter != null);
 	}
 
 	public void addState(State state) {
@@ -158,36 +153,36 @@ public abstract class StateGame extends GameAbstract {
 	}
 
 	public void enterState(int state) {
-		enterState( state, null, null );
+		enterState(state, null, null);
 	}
-	
+
 	public void enterState(int state, Transition leave, Transition enter) {
-		if ( leave == null ) {
+		if (leave == null) {
 			leave = new BlankTransition();
 		}
-		if ( enter == null ) {
+		if (enter == null) {
 			enter = new BlankTransition();
 		}
 		this.leave = leave;
 		this.enter = enter;
-		
+
 		nextState = getState(state);
-		
-		if ( nextState == null ) {
+
+		if (nextState == null) {
 			Logger.error(String.format("The state with the ID %s is an invalid", state));
 			throw new RuntimeException();
 		}
 		leave.init(currentState, nextState);
 	}
-	
+
 	public Transition getLeaveTransition() {
 		return leave;
 	}
-	
+
 	public Transition getEnterTransition() {
 		return enter;
 	}
-	
+
 	public State getNextState() {
 		return nextState;
 	}

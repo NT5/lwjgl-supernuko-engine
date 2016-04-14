@@ -38,9 +38,9 @@ public class StageTest implements State {
 		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Maru(new Vector3f(5f, 0f, 0f)));
 
-		stage.getActor(0).getPart(1).setAnimation(10, 0.80, 5, -1);
-		stage.getActor(1).getPart(1).setAnimation(10, 0.80, 5, -1);
-		stage.getActor(1).getPart(2).setAnimation(10, 0.80, 5, -1);
+		stage.getActor(0).getPart(1).animation.set(10, 0.80, 5, -1);
+		stage.getActor(1).getPart(1).animation.set(10, 0.80, 5, -1);
+		stage.getActor(1).getPart(2).animation.set(10, 0.80, 5, -1);
 
 		stage.addTextbox(
 

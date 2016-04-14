@@ -32,7 +32,7 @@ public class Actor {
 
 	public void update() {
 		for (Part part : Parts) {
-			part.updateAnimation();
+			part.animation.update();
 		}
 	}
 

@@ -1,14 +1,17 @@
 package info.nt5.engine.game.elements.actor;
 
 import info.nt5.engine.game.GameObject;
+import info.nt5.engine.game.animation.Animation;
+import info.nt5.engine.game.animation.AnimationInterface;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
-public class Part extends Animation {
+public class Part implements AnimationInterface {
 
 	private GameObject Object;
 	private Textures Textures;
+	public Animation animation;
 
 	private int currentTextureSet, currentTextureSprite;
 
@@ -25,11 +28,13 @@ public class Part extends Animation {
 	public Part(VertexQuad quad, String[] textureset) {
 		this.Textures = new Textures(textureset);
 		this.Object = new GameObject(quad, this.Textures.firstInSet());
+		this.animation = new Animation(this);
 	}
 
 	public Part(VertexQuad quad, String[][] textureset) {
 		this.Textures = new Textures(textureset);
 		this.Object = new GameObject(quad, this.Textures.firstInSet());
+		this.animation = new Animation(this);
 	}
 
 	public Part(VertexQuad quad, Textures textures) {
@@ -39,36 +44,44 @@ public class Part extends Animation {
 	public Part(GameObject object, Textures textures) {
 		this.Object = object;
 		this.Textures = textures;
+		this.animation = new Animation(this);
 	}
 
 	public int getSpriteSetSize() {
 		return this.Textures.getTexture().size();
 	}
 
+	@Override
 	public int getSpriteSize() {
 		return this.Textures.getTexture(currentTextureSet).size();
 	}
 
+	@Override
 	public int getSetID() {
 		return currentTextureSet;
 	}
 
+	@Override
 	public int getSpriteID() {
 		return currentTextureSprite;
 	}
 
+	@Override
 	public Texture getCurrentTexture() {
 		return this.Textures.getTexture(currentTextureSet).get(currentTextureSprite);
 	}
 
+	@Override
 	public void setCurrentTextureToObject() {
 		setObjectTexture(getCurrentTexture());
 	}
 
+	@Override
 	public void setFirtsTextureObject() {
 		setObjectTexture(this.Textures.getTexture(currentTextureSet).get(0));
 	}
 
+	@Override
 	public void nextTextureSet() {
 		if (currentTextureSet != Textures.getTexture().size() - 1) {
 			currentTextureSet++;
@@ -79,6 +92,7 @@ public class Part extends Animation {
 		setCurrentTextureToObject();
 	}
 
+	@Override
 	public void nextTextureSprite() {
 		if (currentTextureSprite != Textures.getTexture(currentTextureSet).size() - 1) {
 			currentTextureSprite++;
@@ -88,6 +102,7 @@ public class Part extends Animation {
 		setCurrentTextureToObject();
 	}
 
+	@Override
 	public void prevTextureSet() {
 		if (currentTextureSet != 0) {
 			currentTextureSet--;
@@ -98,6 +113,7 @@ public class Part extends Animation {
 		setCurrentTextureToObject();
 	}
 
+	@Override
 	public void prevTextureSprite() {
 		if (currentTextureSprite != 0) {
 			currentTextureSprite--;
@@ -105,47 +121,6 @@ public class Part extends Animation {
 			currentTextureSprite = (Textures.getTexture(currentTextureSet).size() - 1);
 		}
 		setCurrentTextureToObject();
-	}
-
-	@Override
-	public void endAnimation() {
-		this.animationDuration = this.duration;
-		this.setFirtsTextureObject();
-	}
-
-	@Override
-	public void setAnimation(int speed, double rate, double wait, double duration) {
-		this.animationSpeed = speed;
-		this.animationRate = rate;
-		this.animationSleep = wait;
-		this.animationDuration = duration;
-	}
-
-	@Override
-	public void updateAnimation() {
-		if (this.duration < animationDuration || animationDuration <= 0) {
-			if (!activeWaiting) {
-				if (activeAnimation) {
-					if (animationSpeed == 0 || (deltaAnimation % animationSpeed) == 0) {
-						this.nextTextureSprite();
-						deltaAnimation = 0;
-					}
-					deltaAnimation++;
-				}
-
-				if ((this.getSpriteSize() - 1) != this.getSpriteID()) {
-					activeAnimation = (animationRate == 0 || Math.random() > animationRate ? true : false);
-					this.duration++;
-					activeWaiting = true;
-				}
-			} else {
-				if ((deltaWaiting % animationSleep) == 0) {
-					deltaWaiting = 0;
-					activeWaiting = false;
-				}
-				deltaWaiting++;
-			}
-		}
 	}
 
 	public void translate(Vector3f vector) {
