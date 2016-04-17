@@ -1,14 +1,34 @@
 package info.nt5.engine.game.elements;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import info.nt5.engine.game.elements.actor.Actor;
+import info.nt5.engine.game.elements.textbox.Textbox;
+import info.nt5.engine.graphics.text.BitmapFont;
 
 public class Stage {
 
 	private Background background;
 	private List<Actor> actors = new ArrayList<Actor>();
 	private List<Textbox> textboxs = new ArrayList<Textbox>();
+	private List<BitmapFont> texts = new ArrayList<BitmapFont>();
+
+	public void addText(BitmapFont text) {
+		texts.add(text);
+	}
+
+	public void removeText(int index) {
+		texts.remove(index);
+	}
+
+	public BitmapFont getText(int index) {
+		return texts.get(index);
+	}
+
+	public List<BitmapFont> getTexts() {
+		return texts;
+	}
 
 	public void addActor(Actor actor) {
 		actors.add(actor);
@@ -62,6 +82,14 @@ public class Stage {
 		for (Actor actor : actors) {
 			actor.update();
 		}
+
+		for (BitmapFont text : texts) {
+			text.update();
+		}
+
+		for (Textbox textbox : textboxs) {
+			textbox.update();
+		}
 	}
 
 	public void render() {
@@ -71,6 +99,10 @@ public class Stage {
 
 		for (Actor actor : actors) {
 			actor.render();
+		}
+
+		for (BitmapFont text : texts) {
+			text.render();
 		}
 
 		for (Textbox textbox : textboxs) {
@@ -87,6 +119,11 @@ public class Stage {
 			actor.dispose();
 		}
 		actors.clear();
+
+		for (BitmapFont text : texts) {
+			text.dispose();
+		}
+		texts.clear();
 
 		for (Textbox textbox : textboxs) {
 			textbox.dispose();

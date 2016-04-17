@@ -3,9 +3,9 @@ package info.nt5.test.states;
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.Stage;
-import info.nt5.engine.game.elements.Textbox;
 import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.elements.actor.actors.Maru;
+import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
@@ -89,6 +89,7 @@ public class StageTest implements State {
 		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat(LongText, Color.PURPLE));
 		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat("nyan\nnyan", Color.BLUE));
 		stage.getTextbox(2).setHeaderText(new BitmapFormat("header-san"));
+		stage.getTextbox(2).getCollectionCurrent().setRenderSpeed(1);
 
 		stage.setBackground(new Background(Color.GRAY));
 	}
@@ -103,7 +104,7 @@ public class StageTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {
-			stage.getTextbox(2).setTextSpeed(0);
+			stage.getTextbox(2).getCollectionCurrent().setRenderSpeed(0);
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {

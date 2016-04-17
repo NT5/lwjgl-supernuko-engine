@@ -11,13 +11,23 @@ public class Animation {
 
 	private AnimationInterface callback;
 
+	private boolean isAnimating;
+
 	public Animation(AnimationInterface cb) {
 		this.callback = cb;
+	}
+
+	public void reset() {
+		this.activeAnimation = true;
+		this.activeWaiting = false;
+		this.duration = this.deltaAnimation = this.deltaWaiting = 0;
+		this.callback.setFirtsTextureObject();
 	}
 
 	public void end() {
 		this.animationDuration = this.duration;
 		this.callback.setFirtsTextureObject();
+		this.isAnimating = false;
 	}
 
 	public void set(int speed, double rate, double wait, double duration) {
@@ -25,6 +35,7 @@ public class Animation {
 		this.animationRate = rate;
 		this.animationSleep = wait;
 		this.animationDuration = duration;
+		this.isAnimating = true;
 	}
 
 	public void update() {
@@ -50,6 +61,8 @@ public class Animation {
 				}
 				deltaWaiting++;
 			}
+		} else if (!isAnimating) {
+			end();
 		}
 	}
 
@@ -107,6 +120,10 @@ public class Animation {
 
 	public void setActiveAnimation(boolean activeAnimation) {
 		this.activeAnimation = activeAnimation;
+	}
+
+	public boolean isAnimating() {
+		return isAnimating;
 	}
 
 	public boolean isActiveWaiting() {

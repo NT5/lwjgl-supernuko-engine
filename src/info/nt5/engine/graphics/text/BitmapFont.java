@@ -2,6 +2,7 @@ package info.nt5.engine.graphics.text;
 
 import java.util.ArrayList;
 
+import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
@@ -12,13 +13,16 @@ public class BitmapFont {
 
 	private ArrayList<BitmapChar> CharList = new ArrayList<BitmapChar>();
 
+	private FontEventHandler eventHandler;
+
+	private int renderSpeed;
 	private int delta;
 	private int CurrentRenderList;
 
 	private ArrayList<BitmapFormat> text = new ArrayList<BitmapFormat>();
 	private Texture texture;
 	private Vector3f position = new Vector3f();
-	private Vector2f cursorPos = new Vector2f();;
+	private Vector2f cursorPos = new Vector2f();
 
 	public BitmapFont(BitmapFormat[] text) {
 		this(text, Texture.fromImage(defaultFont), new Vector3f());
@@ -34,6 +38,30 @@ public class BitmapFont {
 		}
 		this.texture = texture;
 		this.position = position;
+
+		class FontEventHandleClass implements FontEventHandler {
+			@Override
+			public void onCreateChar(int asciiCode, Vector3f position, Color color) {
+			}
+
+			@Override
+			public void onUpdate(int speed, int delta) {
+			}
+
+			@Override
+			public void onRender(int fromIndex, int toIndex) {
+			}
+
+			@Override
+			public void onAddToRenderList(int currentRenderIndex) {
+			}
+
+			@Override
+			public void onRenderListEnd() {
+			}
+		}
+
+		this.eventHandler = new FontEventHandleClass();
 
 		createChars(0, this.text.size());
 	}
@@ -84,9 +112,23 @@ public class BitmapFont {
 
 				CharList.add(Char);
 
+				eventHandler.onCreateChar(asciiCode, position, textPart.color);
+
 				cursorPos.x += offset.x;
 			}
 		}
+	}
+
+	public void setEventHandler(FontEventHandler callback) {
+		this.eventHandler = callback;
+	}
+
+	public void setRenderSpeed(int speed) {
+		this.renderSpeed = speed;
+	}
+
+	public int getRenderSpeed() {
+		return this.renderSpeed;
 	}
 
 	public void addText(BitmapFormat[] text) {
@@ -132,31 +174,41 @@ public class BitmapFont {
 		}
 	}
 
-	public void render() {
-		render(-1);
+	public void update() {
+		if (!isRenderListEnd()) {
+			if (this.renderSpeed <= 0) {
+				CurrentRenderList = CharList.size();
+				eventHandler.onRenderListEnd();
+			} else {
+				if (CurrentRenderList < CharList.size()) {
+					if ((delta % this.renderSpeed) == 0) {
+						delta = 0;
+						CurrentRenderList++;
+						eventHandler.onAddToRenderList(CurrentRenderList);
+					}
+					delta++;
+				}
+				if (isRenderListEnd()) {
+					eventHandler.onRenderListEnd();
+				}
+			}
+			eventHandler.onUpdate(this.renderSpeed, this.delta);
+		}
 	}
 
-	public void render(int speed) {
-		if (isRenderListEnd()) {
-		} else if (speed <= 0) {
-			CurrentRenderList = CharList.size();
-		} else {
-			if (CurrentRenderList < CharList.size()) {
-				if ((delta % speed) == 0) {
-					delta = 0;
-					CurrentRenderList++;
-				}
-				delta++;
-			}
-		}
-
-		for (BitmapChar Char : CharList.subList(0, CurrentRenderList)) {
+	public void render() {
+		for (BitmapChar Char : CharList.subList(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()))) {
 			Char.render();
+			eventHandler.onRender(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()));
 		}
 	}
 
 	public boolean isRenderListEnd() {
 		return (CurrentRenderList >= CharList.size() ? true : false);
+	}
+
+	public int getCurrentRenderList() {
+		return CurrentRenderList;
 	}
 
 	public void dispose() {

@@ -1,15 +1,17 @@
-package info.nt5.engine.game.elements;
+package info.nt5.engine.game.elements.textbox;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import info.nt5.engine.game.GameObject;
+import info.nt5.engine.game.animation.Animation;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.FontEventHandler;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 
@@ -26,7 +28,10 @@ public class Textbox extends GameObject {
 
 	private Textbox textboxHeader;
 
-	private int textSpeed;
+	FontEventHandler textEventHandler;
+	TextboxEventHandler textboxEventHandler;
+
+	Animation actorCallback;
 
 	private int currentTextId;
 	private List<BitmapFont> text = new ArrayList<BitmapFont>();
@@ -253,6 +258,10 @@ public class Textbox extends GameObject {
 		super(quad, texture, position);
 		this.heigth = quad.height;
 		this.width = quad.width;
+
+		this.textboxEventHandler = new TextboxEventHandlerClass(this);
+		this.textEventHandler = new FontEventHandleClass(this);
+
 		this.text.add(
 
 				new BitmapFont(
@@ -268,6 +277,29 @@ public class Textbox extends GameObject {
 				)
 
 		);
+
+		this.getCollectionCurrent().setEventHandler(this.textEventHandler);
+	}
+
+	public void setEventHandler(TextboxEventHandler cb) {
+		this.textboxEventHandler = cb;
+	}
+
+	public void bindAnimationCallback(Animation cb) {
+		this.actorCallback = cb;
+		this.textboxEventHandler.onBindAnimationCallback(cb);
+	}
+
+	public void unbindAnimationCallback() {
+		this.actorCallback = null;
+		this.textboxEventHandler.onUnbinAnimationCallback();
+	}
+
+	public void setGlobalTextSpeed(int speed) {
+		this.textboxEventHandler.onSetGlobalTextSpeed(speed);
+		for (BitmapFont text : this.text) {
+			text.setRenderSpeed(speed);
+		}
 	}
 
 	public List<BitmapFont> getTextCollection() {
@@ -288,6 +320,7 @@ public class Textbox extends GameObject {
 		} else {
 			currentTextId = 0;
 		}
+		this.textboxEventHandler.onCollectionChange(getCollectionCurrent());
 	}
 
 	public void setPrevCollection() {
@@ -296,11 +329,13 @@ public class Textbox extends GameObject {
 		} else {
 			currentTextId = (this.text.size() - 1);
 		}
+		this.textboxEventHandler.onCollectionChange(getCollectionCurrent());
 	}
 
 	public void addTextCollection(BitmapFont text) {
 		text.translate(calcFontPosition());
 		this.text.add(text);
+		this.textboxEventHandler.onAddTextCollection(text);
 	}
 
 	public void addTextCollection(BitmapFont[] texts) {
@@ -311,10 +346,12 @@ public class Textbox extends GameObject {
 
 	public void removeTextCollection(int index) {
 		this.text.remove(index);
+		this.textboxEventHandler.onRemoveTextCollection(index);
 	}
 
 	public void addTextToCurrentCollection(BitmapFormat text) {
 		this.getCollectionCurrent().addText(text.setText(parseText(text.size.x, text.text)));
+		this.textboxEventHandler.onAddTextToCurrentCollection(text);
 	}
 
 	public void addTextToCurrentCollection(BitmapFormat[] text) {
@@ -325,10 +362,6 @@ public class Textbox extends GameObject {
 
 	public Vector3f calcFontPosition() {
 		return new Vector3f((position.x - (this.width - 0.40f)), (position.y + (this.heigth - 0.35f)), position.z);
-	}
-
-	public int calcTextRenderTime() {
-		return (int) (((this.getCurrentText().length() * this.getTextSpeed()) / 3) + 3);
 	}
 
 	private String parseText(float charWidth, String text) {
@@ -352,6 +385,7 @@ public class Textbox extends GameObject {
 			current += charWidth;
 			str_new.append(text.charAt(i));
 		}
+		this.textboxEventHandler.onParseText(text, str_new.toString());
 		return str_new.toString();
 	}
 
@@ -363,16 +397,8 @@ public class Textbox extends GameObject {
 		return this.heigth;
 	}
 
-	public int getTextSpeed() {
-		return textSpeed;
-	}
-
 	public String getCurrentText() {
 		return this.getCollectionCurrent().toString();
-	}
-
-	public void setTextSpeed(int speed) {
-		this.textSpeed = speed;
 	}
 
 	public void setHeaderText(BitmapFormat text) {
@@ -385,6 +411,7 @@ public class Textbox extends GameObject {
 				text.setBold(true)
 
 		);
+		this.textboxEventHandler.onSetHeaderText(text);
 	}
 
 	@Override
@@ -443,6 +470,14 @@ public class Textbox extends GameObject {
 	}
 
 	@Override
+	public void update() {
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().update();
+		}
+		this.textboxEventHandler.onUpdate();
+	}
+
+	@Override
 	public void render() {
 		texture.bind();
 		Shader.geometryShader.bind();
@@ -452,16 +487,13 @@ public class Textbox extends GameObject {
 		texture.unbind();
 
 		if (this.getCollectionCurrent() != null) {
-			if (textSpeed > 0) {
-				this.getCollectionCurrent().render(textSpeed);
-			} else {
-				this.getCollectionCurrent().render();
-			}
+			this.getCollectionCurrent().render();
 		}
 
 		if (textboxHeader != null) {
 			textboxHeader.render();
 		}
+		this.textboxEventHandler.onRender();
 	}
 
 	@Override

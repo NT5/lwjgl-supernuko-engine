@@ -3,11 +3,14 @@ package info.nt5.test.states;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.actor.Actor;
+import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.FontEventHandler;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -17,6 +20,7 @@ public class FontTest implements State {
 	private static final Color clearColor = Color.PURPLE;
 
 	private BitmapFont text;
+	private Actor actor;
 
 	@Override
 	public int getID() {
@@ -50,10 +54,41 @@ public class FontTest implements State {
 
 		);
 		text.addText(new BitmapFormat("onii-chan!!! daisukiiii~", Color.WHITE));
+		text.setRenderSpeed(3);
+		actor = new Kanon();
+
+		class FontEventHandleClass implements FontEventHandler {
+			@Override
+			public void onCreateChar(int asciiCode, Vector3f position, Color color) {
+			}
+
+			@Override
+			public void onUpdate(int speed, int delta) {
+			}
+
+			@Override
+			public void onRender(int fromIndex, int toIndex) {
+			}
+
+			@Override
+			public void onAddToRenderList(int currentRenderIndex) {
+			}
+
+			@Override
+			public void onRenderListEnd() {
+				actor.getPart(2).animation.end();
+			}
+		}
+
+		actor.getPart(2).animation.set(3, 0, 2, -1);
+		text.setEventHandler(new FontEventHandleClass());
+
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+		text.update();
+		actor.update();
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(3);
 		}
@@ -74,7 +109,8 @@ public class FontTest implements State {
 
 	@Override
 	public void render(GameManager gm, StateGame game) {
-		text.render(1);
+		actor.render();
+		text.render();
 	}
 
 	@Override
@@ -82,6 +118,7 @@ public class FontTest implements State {
 		Logger.debug("Font state lave!");
 
 		text.dispose();
+		actor.dispose();
 	}
 
 }
