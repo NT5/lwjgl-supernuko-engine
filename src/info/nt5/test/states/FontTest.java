@@ -7,7 +7,7 @@ import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
@@ -29,12 +29,12 @@ public class FontTest implements State {
 	}
 
 	@Override
-	public void init(GameManager gm, StateGame game) {
+	public void init(GameManager gm, StateManager game) {
 		Logger.debug("Font state init!");
 	}
 
 	@Override
-	public void enter(GameManager gm, StateGame game) {
+	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Font state enter!");
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
@@ -86,7 +86,7 @@ public class FontTest implements State {
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
+	public void update(GameManager gm, StateManager game) {
 		GUIOverlay.update(gm, game);
 		text.update();
 		actor.update();
@@ -109,14 +109,14 @@ public class FontTest implements State {
 	}
 
 	@Override
-	public void render(GameManager gm, StateGame game) {
+	public void render(GameManager gm, StateManager game) {
 		actor.render();
 		text.render();
 		GUIOverlay.render(gm, game);
 	}
 
 	@Override
-	public void leave(GameManager gm, StateGame game) {
+	public void leave(GameManager gm, StateManager game) {
 		Logger.debug("Font state lave!");
 
 		text.dispose();

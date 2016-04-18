@@ -8,7 +8,7 @@ import info.nt5.engine.game.state.transition.BlankTransition;
 import info.nt5.engine.game.state.transition.Transition;
 import info.nt5.engine.util.Logger;
 
-public abstract class StateGame extends GameAbstract {
+public abstract class StateManager extends GameAbstract {
 
 	private HashMap<Integer, State> states = new HashMap<Integer, State>();
 
@@ -20,7 +20,7 @@ public abstract class StateGame extends GameAbstract {
 
 	private GameManager manager;
 
-	public StateGame(GameManager manager, String title) {
+	public StateManager(GameManager manager, String title) {
 		super(manager, title);
 	}
 
@@ -30,14 +30,11 @@ public abstract class StateGame extends GameAbstract {
 	public void init(GameManager gm) {
 		this.manager = gm;
 
-		currentState = new LoadingState();
-		currentState.init(gm, this);
-		currentState.enter(gm, this);
-
 		initStatesList();
-		for (State state : states.values()) {
-			state.init(manager, this);
-		}
+
+		currentState = new LoadingState(states.values());
+		currentState.init(manager, this);
+		currentState.enter(manager, this);
 	}
 
 	@Override

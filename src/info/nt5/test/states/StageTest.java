@@ -8,7 +8,7 @@ import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
@@ -25,15 +25,18 @@ public class StageTest implements State {
 	}
 
 	@Override
-	public void init(GameManager gm, StateGame game) {
+	public void init(GameManager gm, StateManager game) {
 		Logger.debug("Stage state init!");
 
 		stage = new Stage();
 
+		for (int i = 0; i <= 50; i++) {
+			stage.addActor(new Kanon());
+		}
 	}
 
 	@Override
-	public void enter(GameManager gm, StateGame game) {
+	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Stage state enter!");
 		String LongText = "12345678910111213141516171819201234567891011121314151617181920123456789101112131415161718192012345678910111213141516171819201234567891011121314151617181920";
 		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
@@ -96,7 +99,7 @@ public class StageTest implements State {
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
+	public void update(GameManager gm, StateManager game) {
 		GUIOverlay.update(gm, game);
 
 		stage.update();
@@ -124,13 +127,13 @@ public class StageTest implements State {
 	}
 
 	@Override
-	public void render(GameManager gm, StateGame game) {
+	public void render(GameManager gm, StateManager game) {
 		stage.render();
 		GUIOverlay.render(gm, game);
 	}
 
 	@Override
-	public void leave(GameManager gm, StateGame game) {
+	public void leave(GameManager gm, StateManager game) {
 		Logger.debug("Stage state leave");
 		stage.dispose();
 	}

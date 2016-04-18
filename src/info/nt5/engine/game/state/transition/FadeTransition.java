@@ -2,7 +2,7 @@ package info.nt5.engine.game.state.transition;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.state.State;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexArray;
@@ -60,11 +60,11 @@ public class FadeTransition implements Transition {
 	}
 
 	@Override
-	public void preRender(GameManager gm, StateGame game) {
+	public void preRender(GameManager gm, StateManager game) {
 	}
 
 	@Override
-	public void postRender(GameManager gm, StateGame game) {
+	public void postRender(GameManager gm, StateManager game) {
 		Shader.fadeShader.bind();
 		Shader.fadeShader.setUniform1f("time", time);
 		Shader.fadeShader.setUniform4f("color", fadeColor);
@@ -73,7 +73,7 @@ public class FadeTransition implements Transition {
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
+	public void update(GameManager gm, StateManager game) {
 		switch (this.fadeType) {
 		case 1:
 			if (time <= 1f) {

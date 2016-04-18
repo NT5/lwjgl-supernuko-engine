@@ -25,12 +25,24 @@ public class BitmapFont {
 	private Vector3f position = new Vector3f();
 	private Vector2f cursorPos = new Vector2f();
 
+	public BitmapFont(BitmapFormat text) {
+		this(new BitmapFormat[] { text }, Texture.fromImage(defaultFont), new Vector3f());
+	}
+
 	public BitmapFont(BitmapFormat[] text) {
 		this(text, Texture.fromImage(defaultFont), new Vector3f());
 	}
 
+	public BitmapFont(BitmapFormat text, Vector3f position) {
+		this(new BitmapFormat[] { text }, Texture.fromImage(defaultFont), position);
+	}
+
 	public BitmapFont(BitmapFormat[] text, Vector3f position) {
 		this(text, Texture.fromImage(defaultFont), position);
+	}
+
+	public BitmapFont(BitmapFormat text, Texture texture, Vector3f position) {
+		this(new BitmapFormat[] { text }, texture, position);
 	}
 
 	public BitmapFont(BitmapFormat[] text, Texture texture, Vector3f position) {
@@ -202,6 +214,10 @@ public class BitmapFont {
 			Char.render();
 		}
 		eventHandler.onRender(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()));
+	}
+
+	public void setRenderListIndex(int index) {
+		CurrentRenderList = index;
 	}
 
 	public boolean isRenderListEnd() {

@@ -4,7 +4,7 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.state.*;
 import info.nt5.test.states.*;
 
-public class Main2 extends StateGame {
+public class Main2 extends StateManager {
 
 	private static GameManager game;
 

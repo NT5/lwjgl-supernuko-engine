@@ -1,7 +1,7 @@
 package info.nt5.engine.game.elements;
 
 import info.nt5.engine.game.GameManager;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
@@ -13,12 +13,12 @@ public class GUIOverlay {
 
 	private static BitmapFont text;
 
-	public static void init(GameManager gm, StateGame game) {
+	public static void init(GameManager gm, StateManager game) {
 		text = new BitmapFont(
 
 				new BitmapFormat[] {
 
-						new BitmapFormat("Dev build.", Color.BLACK, true).setSize(new Vector2f(0.15f))
+						new BitmapFormat("Dev build.", Color.BLACK).setSize(new Vector2f(0.15f))
 
 				},
 
@@ -27,7 +27,7 @@ public class GUIOverlay {
 		);
 	}
 
-	public static void update(GameManager gm, StateGame game) {
+	public static void update(GameManager gm, StateManager game) {
 		text.update();
 
 		if (Keyboard.isPressed(Keyboard.KEY_0)) {
@@ -51,7 +51,7 @@ public class GUIOverlay {
 		}
 	}
 
-	public static void render(GameManager gm, StateGame game) {
+	public static void render(GameManager gm, StateManager game) {
 		text.render();
 	}
 

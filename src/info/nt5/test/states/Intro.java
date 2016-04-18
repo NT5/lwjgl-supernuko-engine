@@ -6,7 +6,7 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Crate;
 import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.state.State;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
@@ -25,12 +25,12 @@ public class Intro implements State {
 	}
 
 	@Override
-	public void init(GameManager gm, StateGame game) {
+	public void init(GameManager gm, StateManager game) {
 		Logger.debug("Intro state init!");
 	}
 
 	@Override
-	public void enter(GameManager gm, StateGame game) {
+	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Intro state enter!");
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		crate1 = new Crate(Color.GREEN);
@@ -41,7 +41,7 @@ public class Intro implements State {
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
+	public void update(GameManager gm, StateManager game) {
 		GUIOverlay.update(gm, game);
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
@@ -77,14 +77,14 @@ public class Intro implements State {
 	}
 
 	@Override
-	public void render(GameManager gm, StateGame game) {
+	public void render(GameManager gm, StateManager game) {
 		crate1.render();
 		crate2.render();
 		GUIOverlay.render(gm, game);
 	}
 
 	@Override
-	public void leave(GameManager gm, StateGame game) {
+	public void leave(GameManager gm, StateManager game) {
 		Logger.debug("Intro state leave!");
 
 		crate1.dispose();

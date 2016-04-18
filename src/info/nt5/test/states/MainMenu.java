@@ -9,7 +9,7 @@ import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
-import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
@@ -29,12 +29,12 @@ public class MainMenu implements State {
 	}
 
 	@Override
-	public void init(GameManager gm, StateGame game) {
+	public void init(GameManager gm, StateManager game) {
 		Logger.debug("Menu state init!");
 	}
 
 	@Override
-	public void enter(GameManager gm, StateGame game) {
+	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Menu state enter!");
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
@@ -117,7 +117,7 @@ public class MainMenu implements State {
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
+	public void update(GameManager gm, StateManager game) {
 		GUIOverlay.update(gm, game);
 		actor.update();
 		textbox.update();
@@ -155,7 +155,7 @@ public class MainMenu implements State {
 	}
 
 	@Override
-	public void render(GameManager gm, StateGame game) {
+	public void render(GameManager gm, StateManager game) {
 		bg.render();
 		actor.render();
 		textbox.render();
@@ -163,7 +163,7 @@ public class MainMenu implements State {
 	}
 
 	@Override
-	public void leave(GameManager gm, StateGame game) {
+	public void leave(GameManager gm, StateManager game) {
 		Logger.debug("Menu state leave!");
 		actor.dispose();
 		bg.dispose();

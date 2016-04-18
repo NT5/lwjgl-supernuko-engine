@@ -9,8 +9,12 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.GUIOverlay;
+import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
@@ -25,8 +29,18 @@ import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
 public class LoadingState implements State {
-	private BitmapFont text;
+
+	private ArrayList<State> states;
+	private int currentStateLoading;
+
+	private Stage stage;
 	private Camera camera = new Camera(new Matrix4f());
+
+	private float delta = 0f;
+
+	public LoadingState(Collection<State> collection) {
+		this.states = new ArrayList<State>(collection);
+	}
 
 	@Override
 	public int getID() {
@@ -34,7 +48,7 @@ public class LoadingState implements State {
 	}
 
 	@Override
-	public void init(GameManager gm, StateGame game) {
+	public void init(GameManager gm, StateManager game) {
 		Logger.debug("Loading state init!");
 
 		glActiveTexture(GL_TEXTURE1);
@@ -44,6 +58,8 @@ public class LoadingState implements State {
 
 		Shader.LoadAllShaders();
 		GUIOverlay.init(gm, game);
+
+		stage = new Stage();
 
 		Shader.geometryShader.bind();
 		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
@@ -64,41 +80,82 @@ public class LoadingState implements State {
 	}
 
 	@Override
-	public void enter(GameManager gm, StateGame game) {
+	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Loading state enter!");
 		glClearColor(1f, 1f, 1f, 1f);
-		text = new BitmapFont(
+		stage.addText(
 
-				new BitmapFormat[] {
+				new BitmapFont(
 
-						new BitmapFormat("Cargando...", Color.WHITE, true).setSize(new Vector2f(0.6f))
+						new BitmapFormat("Cargando...", Color.WHITE, true).setSize(new Vector2f(0.35f)),
+						new Vector3f(-2f, 0f, 0f)
 
-				},
-
-				new Vector3f(-3f, 0f, 0f)
+				)
 
 		);
-		text.setRenderSpeed(3);
+		stage.addText(
+
+				new BitmapFont(
+
+						new BitmapFormat("A life with....", Color.WHITE, true), new Vector3f(-2f, -5f, 0f)
+
+				)
+
+		);
+		stage.addText(
+
+				new BitmapFont(
+
+						new BitmapFormat(this.getClass().getSimpleName() + " loaded!\n", Color.WHITE),
+						new Vector3f(-9.5f, 5f, 0f)
+
+				)
+
+		);
 	}
 
 	@Override
-	public void update(GameManager gm, StateGame game) {
-		text.update();
-		if (text.isRenderListEnd()) {
-			game.enterState(0, null, new FadeTransition(1));
+	public void update(GameManager gm, StateManager game) {
+		stage.update();
+		if (stage.getText(0).isRenderListEnd() && stage.getText(0).getRenderSpeed() > 0) {
+			stage.getText(0).setRenderListIndex(0);
+		}
+		if (this.currentStateLoading < states.size()) {
+			stage.getText(2).addText(
+
+					new BitmapFormat(
+
+							this.states.get(currentStateLoading).getClass().getSimpleName() + " loaded!\n", Color.WHITE
+
+					)
+
+			);
+
+			this.states.get(this.currentStateLoading).init(gm, game);
+			this.currentStateLoading++;
+
+			if (this.currentStateLoading >= this.states.size()) {
+				stage.getText(0).setRenderSpeed(3);
+				stage.getText(2).addText(new BitmapFormat("\nAll done!", Color.WHITE));
+			}
+		} else {
+			if (delta >= 0.8f) {
+				game.enterState(0, null, new FadeTransition(1));
+			}
+			delta += 0.01f;
 		}
 	}
 
 	@Override
-	public void render(GameManager gm, StateGame game) {
+	public void render(GameManager gm, StateManager game) {
 		glClearColor(0f, 0f, 0f, 1f);
 		camera.render();
-		text.render();
+		stage.render();
 	}
 
 	@Override
-	public void leave(GameManager gm, StateGame game) {
+	public void leave(GameManager gm, StateManager game) {
 		Logger.debug("Loading state leave!");
-		text.dispose();
+		stage.dispose();
 	}
 }
