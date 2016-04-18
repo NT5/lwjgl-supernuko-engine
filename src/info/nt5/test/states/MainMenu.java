@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
+import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Maru;
 import info.nt5.engine.game.elements.textbox.Textbox;
@@ -117,6 +118,7 @@ public class MainMenu implements State {
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+		GUIOverlay.update(gm, game);
 		actor.update();
 		textbox.update();
 
@@ -157,6 +159,7 @@ public class MainMenu implements State {
 		bg.render();
 		actor.render();
 		textbox.render();
+		GUIOverlay.render(gm, game);
 	}
 
 	@Override

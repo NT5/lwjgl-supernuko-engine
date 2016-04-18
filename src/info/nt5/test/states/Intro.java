@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Crate;
+import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
 import info.nt5.engine.game.state.transition.FadeTransition;
@@ -26,15 +27,12 @@ public class Intro implements State {
 	@Override
 	public void init(GameManager gm, StateGame game) {
 		Logger.debug("Intro state init!");
-		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	}
 
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Intro state enter!");
-
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
 
@@ -44,26 +42,10 @@ public class Intro implements State {
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
-		if (Keyboard.isPressed(Keyboard.KEY_ESCAPE)) {
-			gm.getWindow().close();
-		}
+		GUIOverlay.update(gm, game);
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(1, null, new FadeTransition());
-		}
-
-		if (Keyboard.isPressed(Keyboard.KEY_1)) {
-			game.enterState(1);
-		}
-		if (Keyboard.isPressed(Keyboard.KEY_2)) {
-			game.enterState(2);
-		}
-		if (Keyboard.isPressed(Keyboard.KEY_3)) {
-			game.enterState(3);
-		}
-
-		if (Keyboard.isPressed(Keyboard.KEY_F11)) {
-			gm.getWindow().setFullscreen(gm.getWindow().isFullscreen() ? false : true);
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
@@ -98,6 +80,7 @@ public class Intro implements State {
 	public void render(GameManager gm, StateGame game) {
 		crate1.render();
 		crate2.render();
+		GUIOverlay.render(gm, game);
 	}
 
 	@Override

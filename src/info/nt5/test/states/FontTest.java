@@ -3,6 +3,7 @@ package info.nt5.test.states;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Kanon;
 import info.nt5.engine.game.state.State;
@@ -35,8 +36,8 @@ public class FontTest implements State {
 	@Override
 	public void enter(GameManager gm, StateGame game) {
 		Logger.debug("Font state enter!");
-
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
 		text = new BitmapFont(
 
 				new BitmapFormat[] {
@@ -82,11 +83,11 @@ public class FontTest implements State {
 
 		actor.getPart(2).animation.set(3, 0, 2, -1);
 		text.setEventHandler(new FontEventHandleClass());
-
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
+		GUIOverlay.update(gm, game);
 		text.update();
 		actor.update();
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
@@ -111,6 +112,7 @@ public class FontTest implements State {
 	public void render(GameManager gm, StateGame game) {
 		actor.render();
 		text.render();
+		GUIOverlay.render(gm, game);
 	}
 
 	@Override

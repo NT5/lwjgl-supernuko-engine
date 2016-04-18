@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
@@ -42,6 +43,7 @@ public class LoadingState implements State {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		Shader.LoadAllShaders();
+		GUIOverlay.init(gm, game);
 
 		Shader.geometryShader.bind();
 		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
