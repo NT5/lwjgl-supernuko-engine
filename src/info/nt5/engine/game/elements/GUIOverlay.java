@@ -30,6 +30,9 @@ public class GUIOverlay {
 	public static void update(GameManager gm, StateGame game) {
 		text.update();
 
+		if (Keyboard.isPressed(Keyboard.KEY_0)) {
+			game.enterState(0);
+		}
 		if (Keyboard.isPressed(Keyboard.KEY_1)) {
 			game.enterState(1);
 		}

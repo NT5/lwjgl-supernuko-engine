@@ -85,7 +85,7 @@ public class LoadingState implements State {
 	public void update(GameManager gm, StateGame game) {
 		text.update();
 		if (text.isRenderListEnd()) {
-			game.enterState(0, null, new FadeTransition());
+			game.enterState(0, null, new FadeTransition(1));
 		}
 	}
 

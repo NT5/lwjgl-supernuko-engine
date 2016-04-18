@@ -6,16 +6,12 @@ import info.nt5.engine.game.state.StateGame;
 
 public class BlankTransition implements Transition {
 
-	private State current;
-
 	@Override
 	public void init(State current, State next) {
-		this.current = current;
 	}
 
 	@Override
 	public void preRender(GameManager gm, StateGame game) {
-		this.current.render(gm, game);
 	}
 
 	@Override

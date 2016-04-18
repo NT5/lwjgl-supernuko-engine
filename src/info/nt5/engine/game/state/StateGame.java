@@ -51,6 +51,7 @@ public abstract class StateGame extends GameAbstract {
 			leave.update(gm, this);
 			if (leave.isComplete()) {
 				currentState.leave(gm, this);
+				nextState.enter(gm, this);
 				State previous = currentState;
 				currentState = nextState;
 				nextState = null;
@@ -68,7 +69,6 @@ public abstract class StateGame extends GameAbstract {
 		if (enter != null) {
 			enter.update(gm, this);
 			if (enter.isComplete()) {
-				currentState.enter(gm, this);
 				enter = null;
 			} else {
 				return;
@@ -86,9 +86,7 @@ public abstract class StateGame extends GameAbstract {
 			enter.preRender(gm, this);
 		}
 
-		if (!this.isTransitioning()) {
-			currentState.render(gm, this);
-		}
+		currentState.render(gm, this);
 
 		if (leave != null) {
 			leave.postRender(gm, this);
@@ -120,10 +118,6 @@ public abstract class StateGame extends GameAbstract {
 
 	public void addState(State state) {
 		states.put(state.getID(), state);
-
-		// if (state.getID() == 0) {
-		// currentState = state;
-		// }
 	}
 
 	public void enterState(int state) {

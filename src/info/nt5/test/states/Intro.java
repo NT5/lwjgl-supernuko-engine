@@ -45,7 +45,7 @@ public class Intro implements State {
 		GUIOverlay.update(gm, game);
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
-			game.enterState(1, null, new FadeTransition());
+			game.enterState(1, new FadeTransition(), new FadeTransition(1));
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {

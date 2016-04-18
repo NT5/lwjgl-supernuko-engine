@@ -9,28 +9,58 @@ import info.nt5.engine.graphics.shader.VertexArray;
 
 public class FadeTransition implements Transition {
 
-	private VertexArray fade;
-	private Color fadeColor = Color.BLACK;
-	private float time = 0.0f;
+	private VertexArray fadeMesh;
 
-	private State next;
+	private Color fadeColor = Color.BLACK;
+
+	private int fadeType;
+
+	private float fadeSpeed = 0.01f;
+	private float time;
 
 	private boolean isComplete = false;
-	private boolean isEnterStage = false;
+
+	public FadeTransition() {
+		this.setFadeTimeType();
+	}
+
+	public FadeTransition(int fadeType) {
+		this.fadeType = fadeType;
+
+		this.setFadeTimeType();
+	}
+
+	public FadeTransition(Color fadeColor) {
+		this.fadeColor = fadeColor;
+
+		this.setFadeTimeType();
+	}
+
+	public FadeTransition(int fadeType, Color fadeColor) {
+		this.fadeType = fadeType;
+		this.fadeColor = fadeColor;
+
+		this.setFadeTimeType();
+	}
+
+	private void setFadeTimeType() {
+		switch (this.fadeType) {
+		case 1:
+			this.time = 0.0f;
+			break;
+		default:
+			this.time = 1.0f;
+			break;
+		}
+	}
 
 	@Override
 	public void init(State current, State next) {
-		fade = new VertexArray(6);
-		this.next = current;
+		fadeMesh = new VertexArray(6);
 	}
 
 	@Override
 	public void preRender(GameManager gm, StateGame game) {
-		if (!isEnterStage) {
-			this.next.enter(gm, game);
-			isEnterStage = true;
-		}
-		this.next.render(gm, game);
 	}
 
 	@Override
@@ -38,15 +68,27 @@ public class FadeTransition implements Transition {
 		Shader.fadeShader.bind();
 		Shader.fadeShader.setUniform1f("time", time);
 		Shader.fadeShader.setUniform4f("color", fadeColor);
-		fade.render();
+		fadeMesh.render();
 		Shader.fadeShader.unbind();
 	}
 
 	@Override
 	public void update(GameManager gm, StateGame game) {
-		time += 0.01f;
-		if (time >= 1f) {
-			isComplete = true;
+		switch (this.fadeType) {
+		case 1:
+			if (time <= 1f) {
+				time += fadeSpeed;
+			} else {
+				isComplete = true;
+			}
+			break;
+		default:
+			if (time >= 0f) {
+				time -= fadeSpeed;
+			} else {
+				isComplete = true;
+			}
+			break;
 		}
 	}
 
