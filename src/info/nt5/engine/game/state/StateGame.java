@@ -30,40 +30,14 @@ public abstract class StateGame extends GameAbstract {
 	public void init(GameManager gm) {
 		this.manager = gm;
 
-		currentState = new State() {
-
-			@Override
-			public int getID() {
-				return -1;
-			}
-
-			@Override
-			public void init(GameManager gm, StateGame game) {
-			}
-
-			@Override
-			public void enter(GameManager gm, StateGame game) {
-			}
-
-			@Override
-			public void update(GameManager gm, StateGame game) {
-			}
-
-			@Override
-			public void render(GameManager gm, StateGame game) {
-			}
-
-			@Override
-			public void leave(GameManager gm, StateGame game) {
-			}
-
-		};
+		currentState = new LoadingState();
+		currentState.init(gm, this);
+		currentState.enter(gm, this);
 
 		initStatesList();
 		for (State state : states.values()) {
 			state.init(manager, this);
 		}
-		currentState.enter(manager, this);
 	}
 
 	@Override
@@ -73,7 +47,6 @@ public abstract class StateGame extends GameAbstract {
 
 	@Override
 	public void update(GameManager gm) {
-
 		if (leave != null) {
 			leave.update(gm, this);
 			if (leave.isComplete()) {
@@ -82,7 +55,6 @@ public abstract class StateGame extends GameAbstract {
 				currentState = nextState;
 				nextState = null;
 				leave = null;
-
 				if (enter == null) {
 					currentState.enter(gm, this);
 				} else {
@@ -114,7 +86,9 @@ public abstract class StateGame extends GameAbstract {
 			enter.preRender(gm, this);
 		}
 
-		currentState.render(gm, this);
+		if (!this.isTransitioning()) {
+			currentState.render(gm, this);
+		}
 
 		if (leave != null) {
 			leave.postRender(gm, this);
@@ -147,9 +121,9 @@ public abstract class StateGame extends GameAbstract {
 	public void addState(State state) {
 		states.put(state.getID(), state);
 
-		if (state.getID() == 0) {
-			currentState = state;
-		}
+		// if (state.getID() == 0) {
+		// currentState = state;
+		// }
 	}
 
 	public void enterState(int state) {

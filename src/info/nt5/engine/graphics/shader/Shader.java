@@ -18,6 +18,7 @@ public class Shader {
 
 	public static Shader geometryShader;
 	public static Shader textShader;
+	public static Shader fadeShader;
 
 	private Shader(int id) {
 		this.id = id;
@@ -40,6 +41,7 @@ public class Shader {
 	public static void LoadAllShaders() {
 		geometryShader = Shader.fromPath("assets/shaders/geometry.vs", "assets/shaders/geometry.fs");
 		textShader = Shader.fromPath("assets/shaders/geometry.vs", "assets/shaders/text.fs");
+		fadeShader = Shader.fromPath("assets/shaders/fade.vs", "assets/shaders/fade.fs");
 	}
 
 	private static Shader load() {

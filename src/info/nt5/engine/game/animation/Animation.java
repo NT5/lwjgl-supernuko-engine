@@ -9,11 +9,11 @@ public class Animation {
 
 	private boolean activeAnimation, activeWaiting;
 
-	private AnimationInterface callback;
+	private AnimationCallbacks callback;
 
 	private boolean isAnimating;
 
-	public Animation(AnimationInterface cb) {
+	public Animation(AnimationCallbacks cb) {
 		this.callback = cb;
 	}
 

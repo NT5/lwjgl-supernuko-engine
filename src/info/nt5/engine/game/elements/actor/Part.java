@@ -2,12 +2,12 @@ package info.nt5.engine.game.elements.actor;
 
 import info.nt5.engine.game.GameObject;
 import info.nt5.engine.game.animation.Animation;
-import info.nt5.engine.game.animation.AnimationInterface;
+import info.nt5.engine.game.animation.AnimationCallbacks;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.math.Vector3f;
 
-public class Part implements AnimationInterface {
+public class Part implements AnimationCallbacks {
 
 	private GameObject Object;
 	private Textures Textures;

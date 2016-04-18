@@ -1,6 +1,7 @@
 package info.nt5.engine.graphics.text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
@@ -11,7 +12,7 @@ public class BitmapFont {
 
 	private static String defaultFont = "assets/img/font.png";
 
-	private ArrayList<BitmapChar> CharList = new ArrayList<BitmapChar>();
+	private List<BitmapChar> CharList = new ArrayList<BitmapChar>();
 
 	private FontEventHandler eventHandler;
 
@@ -199,8 +200,8 @@ public class BitmapFont {
 	public void render() {
 		for (BitmapChar Char : CharList.subList(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()))) {
 			Char.render();
-			eventHandler.onRender(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()));
 		}
+		eventHandler.onRender(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()));
 	}
 
 	public boolean isRenderListEnd() {
@@ -219,7 +220,7 @@ public class BitmapFont {
 		CharList.clear();
 	}
 
-	public ArrayList<BitmapChar> getCharList() {
+	public List<BitmapChar> getCharList() {
 		return CharList;
 	}
 

@@ -249,9 +249,7 @@ public class Textbox extends GameObject {
 	}
 
 	public Textbox(VertexQuad quad, Texture texture, Vector3f position) {
-		super(quad, texture, position);
-		this.heigth = quad.height;
-		this.width = quad.width;
+		this(quad, texture, position, new BitmapFormat(""));
 	}
 
 	public Textbox(VertexQuad quad, Texture texture, Vector3f position, BitmapFormat text) {

@@ -2,7 +2,7 @@ package info.nt5.engine.game.animation;
 
 import info.nt5.engine.graphics.Texture;
 
-public interface AnimationInterface {
+public interface AnimationCallbacks {
 	public int getSpriteSize();
 
 	public int getSetID();

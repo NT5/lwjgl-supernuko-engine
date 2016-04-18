@@ -107,7 +107,7 @@ public class MainMenu implements State {
 
 		textbox.setHeaderText(new BitmapFormat("Maru-chan", Color.CYAN, true));
 
-		textbox.setGlobalTextSpeed(5);
+		textbox.setGlobalTextSpeed(1);
 		textbox.bindAnimationCallback(actor.getPart(2).animation);
 
 		actor.getPart(1).animation.set(10, 0.80, 5, -1); // Eye

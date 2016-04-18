@@ -1,28 +1,21 @@
 package info.nt5.test.states;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL13.*;
+import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Crate;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateGame;
+import info.nt5.engine.game.state.transition.FadeTransition;
+import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
-import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
-
-import info.nt5.engine.graphics.shader.Shader;
-import info.nt5.engine.graphics.Camera;
-import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.Cursor;
-import info.nt5.engine.graphics.Texture;
 
 public class Intro implements State {
 
 	private Crate crate1, crate2;
 
-	public Camera camera = new Camera(new Matrix4f());
 	private static final Color clearColor = Color.CYAN;
 
 	@Override
@@ -32,33 +25,8 @@ public class Intro implements State {
 
 	@Override
 	public void init(GameManager gm, StateGame game) {
-
 		Logger.debug("Intro state init!");
-
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-		glActiveTexture(GL_TEXTURE1);
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		Shader.LoadAllShaders();
-
-		Shader.geometryShader.bind();
-		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
-				10.0f);
-		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
-		Shader.geometryShader.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.geometryShader.setUniform1i("tex", 1);
-		Shader.geometryShader.unbind();
-
-		Shader.textShader.bind();
-		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
-		Shader.textShader.setUniformMat4f("pr_matrix", pr_matrix);
-		Shader.textShader.setUniform1i("tex", 1);
-		Shader.textShader.unbind();
-
-		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
-		gm.getWindow().setIcon();
 	}
 
 	@Override
@@ -81,7 +49,7 @@ public class Intro implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
-			game.enterState(1);
+			game.enterState(1, null, new FadeTransition());
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_1)) {
@@ -98,33 +66,16 @@ public class Intro implements State {
 			gm.getWindow().setFullscreen(gm.getWindow().isFullscreen() ? false : true);
 		}
 
-		if (Keyboard.isDown(Keyboard.KEY_C)) {
-			camera.position = new Vector3f();
-		}
-
 		if (Keyboard.isDown(Keyboard.KEY_W)) {
-			camera.position.y -= 0.08f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_S)) {
-			camera.position.y += 0.08f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_D)) {
-			camera.position.x -= 0.08f;
-		}
-		if (Keyboard.isDown(Keyboard.KEY_A)) {
-			camera.position.x += 0.08f;
-		}
-
-		if (Keyboard.isDown(Keyboard.KEY_UP)) {
 			crate1.position.y += 0.08f;
 		}
-		if (Keyboard.isDown(Keyboard.KEY_DOWN)) {
+		if (Keyboard.isDown(Keyboard.KEY_S)) {
 			crate1.position.y -= 0.08f;
 		}
-		if (Keyboard.isDown(Keyboard.KEY_LEFT)) {
+		if (Keyboard.isDown(Keyboard.KEY_A)) {
 			crate1.position.x -= 0.08f;
 		}
-		if (Keyboard.isDown(Keyboard.KEY_RIGHT)) {
+		if (Keyboard.isDown(Keyboard.KEY_D)) {
 			crate1.position.x += 0.08f;
 		}
 
@@ -145,7 +96,6 @@ public class Intro implements State {
 
 	@Override
 	public void render(GameManager gm, StateGame game) {
-		camera.render();
 		crate1.render();
 		crate2.render();
 	}

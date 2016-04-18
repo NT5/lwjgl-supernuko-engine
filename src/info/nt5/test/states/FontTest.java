@@ -54,7 +54,7 @@ public class FontTest implements State {
 
 		);
 		text.addText(new BitmapFormat("onii-chan!!! daisukiiii~", Color.WHITE));
-		text.setRenderSpeed(3);
+		text.setRenderSpeed(1);
 		actor = new Kanon();
 
 		class FontEventHandleClass implements FontEventHandler {
