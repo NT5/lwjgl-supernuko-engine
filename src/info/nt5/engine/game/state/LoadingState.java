@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import info.nt5.engine.game.GameManager;
-import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.elements.Stage;
+import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;

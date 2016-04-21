@@ -4,9 +4,9 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
-import info.nt5.engine.game.elements.GUIOverlay;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Maru;
+import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;

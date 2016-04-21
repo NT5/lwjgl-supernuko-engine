@@ -4,7 +4,7 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Crate;
-import info.nt5.engine.game.elements.GUIOverlay;
+import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.game.state.transition.FadeTransition;

@@ -3,6 +3,9 @@ package info.nt5.engine.graphics.shader;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
@@ -14,6 +17,7 @@ import info.nt5.engine.util.Logger;
 public class Shader {
 
 	private int id;
+	private Map<String, Integer> uniformLocationCache = new HashMap<String, Integer>();
 	private static String vertexSource, fragmentSource;
 
 	public static Shader geometryShader;
@@ -98,6 +102,7 @@ public class Shader {
 	}
 
 	public void dispose() {
+		this.uniformLocationCache.clear();
 		glDeleteProgram(id);
 	}
 
@@ -110,7 +115,17 @@ public class Shader {
 	}
 
 	private int getUniformLocation(String name) {
-		return glGetUniformLocation(id, name);
+		if (uniformLocationCache.containsKey(name)) {
+			return uniformLocationCache.get(name);
+		} else {
+			int result = glGetUniformLocation(id, name);
+			if (result == -1) {
+				Logger.error("Could not find uniform variable '%s'!", name);
+			} else {
+				uniformLocationCache.put(name, result);
+			}
+			return result;
+		}
 	}
 
 	public void setUniform1f(String name, float value) {

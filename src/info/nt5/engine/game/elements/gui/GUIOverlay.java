@@ -1,6 +1,7 @@
-package info.nt5.engine.game.elements;
+package info.nt5.engine.game.elements.gui;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;

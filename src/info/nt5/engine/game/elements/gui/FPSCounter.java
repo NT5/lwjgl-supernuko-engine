@@ -1,4 +1,4 @@
-package info.nt5.engine.game.elements;
+package info.nt5.engine.game.elements.gui;
 
 import java.util.ArrayList;
 import java.util.List;
