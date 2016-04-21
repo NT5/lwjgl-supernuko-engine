@@ -3,8 +3,8 @@ package info.nt5.engine.game.elements.textbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.nt5.engine.game.GameObject;
 import info.nt5.engine.game.animation.Animation;
+import info.nt5.engine.game.elements.GameObject;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
@@ -359,7 +359,7 @@ public class Textbox extends GameObject {
 	}
 
 	public Vector3f calcFontPosition() {
-		return new Vector3f((position.x - (this.width - 0.40f)), (position.y + (this.heigth - 0.35f)), position.z);
+		return new Vector3f((position.x - (this.width - 0.40f)), (position.y + (this.heigth - 0.30f)), position.z);
 	}
 
 	private String parseText(float charWidth, String text) {

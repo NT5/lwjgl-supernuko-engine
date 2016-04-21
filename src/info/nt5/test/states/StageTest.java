@@ -30,8 +30,8 @@ public class StageTest implements State {
 
 		stage = new Stage();
 
-		for (int i = 0; i <= 50; i++) {
-			stage.addActor(new Kanon());
+		for (int i = 0; i < 100; i++) {
+			//stage.addActor(new Kanon());
 		}
 	}
 

@@ -33,6 +33,8 @@ public class Window {
 	private int width, height;
 	private boolean vsync, fullscreen, visible, resizable;
 
+	private int refreshRate;
+
 	private Cursor cursor;
 	private Icon icons;
 
@@ -79,6 +81,8 @@ public class Window {
 		} else {
 			GLFW.glfwSetWindowSize(window, vidmode.width(), vidmode.height());
 		}
+
+		this.refreshRate = vidmode.refreshRate();
 
 		// TODO methods instead
 		GLFW.glfwSetWindowAspectRatio(window, 16, 9);
@@ -161,6 +165,10 @@ public class Window {
 
 	public GLFWVidMode getVidModes() {
 		return GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor());
+	}
+
+	public int getRefreshRate() {
+		return refreshRate;
 	}
 
 	public String getTitle() {

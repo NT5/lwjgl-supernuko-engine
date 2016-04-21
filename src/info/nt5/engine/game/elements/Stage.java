@@ -6,6 +6,7 @@ import java.util.List;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFontCollection;
 
 public class Stage {
 
@@ -13,6 +14,23 @@ public class Stage {
 	private List<Actor> actors = new ArrayList<Actor>();
 	private List<Textbox> textboxs = new ArrayList<Textbox>();
 	private List<BitmapFont> texts = new ArrayList<BitmapFont>();
+	private List<BitmapFontCollection> textsCollection = new ArrayList<BitmapFontCollection>();
+
+	public void addTextCollection(BitmapFontCollection text) {
+		textsCollection.add(text);
+	}
+
+	public void removeTextCollecion(int index) {
+		textsCollection.remove(index);
+	}
+
+	public BitmapFontCollection getTextCollecion(int index) {
+		return textsCollection.get(index);
+	}
+
+	public List<BitmapFontCollection> getTextsCollecion() {
+		return textsCollection;
+	}
 
 	public void addText(BitmapFont text) {
 		texts.add(text);
@@ -79,17 +97,13 @@ public class Stage {
 	}
 
 	public void update() {
-		for (Actor actor : actors) {
-			actor.update();
-		}
+		actors.forEach(actor -> actor.update());
 
-		for (BitmapFont text : texts) {
-			text.update();
-		}
+		texts.forEach(text -> text.update());
 
-		for (Textbox textbox : textboxs) {
-			textbox.update();
-		}
+		textsCollection.forEach(collection -> collection.update());
+
+		textboxs.forEach(textbox -> textbox.update());
 	}
 
 	public void render() {
@@ -97,17 +111,13 @@ public class Stage {
 			background.render();
 		}
 
-		for (Actor actor : actors) {
-			actor.render();
-		}
+		actors.forEach(actor -> actor.render());
 
-		for (BitmapFont text : texts) {
-			text.render();
-		}
+		texts.forEach(text -> text.render());
 
-		for (Textbox textbox : textboxs) {
-			textbox.render();
-		}
+		textsCollection.forEach(collection -> collection.render());
+
+		textboxs.forEach(textbox -> textbox.render());
 	}
 
 	public void dispose() {
@@ -124,6 +134,11 @@ public class Stage {
 			text.dispose();
 		}
 		texts.clear();
+
+		for (BitmapFontCollection collection : textsCollection) {
+			collection.dispose();
+		}
+		textsCollection.clear();
 
 		for (Textbox textbox : textboxs) {
 			textbox.dispose();

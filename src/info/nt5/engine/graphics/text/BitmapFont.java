@@ -144,6 +144,33 @@ public class BitmapFont {
 		return this.renderSpeed;
 	}
 
+	public void setText(BitmapFormat newText) {
+		this.cursorPos.x = 0f;
+		this.cursorPos.y = 0f;
+		this.text.clear();
+		for (BitmapChar bitmapChar : CharList) {
+			bitmapChar.getVAO().dispose();
+		}
+		this.CharList.clear();
+		this.text.add(newText);
+		createChars(0, this.text.size());
+	}
+
+	public void setText(BitmapFormat[] newText) {
+		this.cursorPos.x = 0f;
+		this.cursorPos.y = 0f;
+		this.text.clear();
+		for (BitmapChar bitmapChar : CharList) {
+			bitmapChar.getVAO().dispose();
+		}
+		this.CharList.clear();
+		for (BitmapFormat text : newText) {
+			this.text.add(text);
+		}
+
+		createChars(0, this.text.size());
+	}
+
 	public void addText(BitmapFormat[] text) {
 		for (BitmapFormat bitmapFormat : text) {
 			addText(bitmapFormat);
@@ -230,9 +257,7 @@ public class BitmapFont {
 
 	public void dispose() {
 		texture.dispose();
-		for (BitmapChar Char : CharList) {
-			Char.dispose();
-		}
+		CharList.forEach(Char -> Char.dispose());
 		CharList.clear();
 	}
 
@@ -243,9 +268,7 @@ public class BitmapFont {
 	@Override
 	public String toString() {
 		StringBuilder str_new = new StringBuilder();
-		for (BitmapFormat str : this.text) {
-			str_new.append(str.text);
-		}
+		this.text.forEach(str -> str_new.append(str.text));
 		return str_new.toString();
 	}
 

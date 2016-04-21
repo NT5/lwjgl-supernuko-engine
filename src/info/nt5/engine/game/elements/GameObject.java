@@ -1,4 +1,4 @@
-package info.nt5.engine.game;
+package info.nt5.engine.game.elements;
 
 import java.nio.ByteBuffer;
 

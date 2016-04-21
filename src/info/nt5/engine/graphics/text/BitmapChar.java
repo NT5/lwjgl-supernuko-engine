@@ -282,6 +282,14 @@ public class BitmapChar {
 		VAO.dispose();
 	}
 
+	public VertexArray getVAO() {
+		return this.VAO;
+	}
+
+	public TextureAtlas getTextureAtlas() {
+		return textureAtlas;
+	}
+
 	public void setColor(Color color) {
 		this.color = color;
 	}

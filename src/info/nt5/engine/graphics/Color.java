@@ -16,6 +16,7 @@ public class Color {
 	public static final Color CYAN = new Color(0x00C4CC);
 	public static final Color SILVER = new Color(0xC0C0C0);
 	public static final Color YELLOW = new Color(0xFFFF00);
+	public static final Color ORANGE = new Color(0xFFA500);
 	public static final Color GRAY = new Color(0x808080);
 	public static final Color PURPLE = new Color(0x800080);
 	public static final Color PINK = new Color(0xFFC0CB);

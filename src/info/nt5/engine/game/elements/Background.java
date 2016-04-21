@@ -1,6 +1,5 @@
 package info.nt5.engine.game.elements;
 
-import info.nt5.engine.game.GameObject;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;

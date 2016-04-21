@@ -22,6 +22,7 @@ import info.nt5.engine.graphics.Cursor;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFontCollection;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
@@ -82,31 +83,33 @@ public class LoadingState implements State {
 	@Override
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug("Loading state enter!");
-		glClearColor(1f, 1f, 1f, 1f);
-		stage.addText(
+
+		stage.addTextCollection(new BitmapFontCollection());
+		stage.getTextCollecion(0).addTextCollection(
 
 				new BitmapFont(
 
-						new BitmapFormat("Cargando...", Color.WHITE, true).setSize(new Vector2f(0.35f)),
-						new Vector3f(-2f, 0f, 0f)
+						new BitmapFormat("Cargando...", Color.WHITE, true), new Vector3f(-1.5f, -5f, 0f)
 
 				)
 
 		);
-		stage.addText(
+		stage.getTextCollecion(0).addTextCollection(
 
 				new BitmapFont(
 
-						new BitmapFormat("A life with....", Color.WHITE, true), new Vector3f(-2f, -5f, 0f)
+						new BitmapFormat("Cargado!", Color.WHITE, true), new Vector3f(-1.5f, -5f, 0f)
 
 				)
 
 		);
+		stage.getTextCollecion(0).getTextCollection(1).setRenderSpeed(3);
 		stage.addText(
 
 				new BitmapFont(
 
-						new BitmapFormat(this.getClass().getSimpleName() + " loaded!\n", Color.WHITE),
+						new BitmapFormat(this.getClass().getSimpleName() + " loaded!\n", Color.WHITE)
+								.setSize(new Vector2f(0.15f)),
 						new Vector3f(-9.5f, 5f, 0f)
 
 				)
@@ -117,17 +120,15 @@ public class LoadingState implements State {
 	@Override
 	public void update(GameManager gm, StateManager game) {
 		stage.update();
-		if (stage.getText(0).isRenderListEnd() && stage.getText(0).getRenderSpeed() > 0) {
-			stage.getText(0).setRenderListIndex(0);
-		}
+
 		if (this.currentStateLoading < states.size()) {
-			stage.getText(2).addText(
+			stage.getText(0).addText(
 
 					new BitmapFormat(
 
 							this.states.get(currentStateLoading).getClass().getSimpleName() + " loaded!\n", Color.WHITE
 
-					)
+					).setSize(new Vector2f(0.15f))
 
 			);
 
@@ -135,11 +136,11 @@ public class LoadingState implements State {
 			this.currentStateLoading++;
 
 			if (this.currentStateLoading >= this.states.size()) {
-				stage.getText(0).setRenderSpeed(3);
-				stage.getText(2).addText(new BitmapFormat("\nAll done!", Color.WHITE));
+				stage.getTextCollecion(0).setNextCollection();
+				stage.getText(0).addText(new BitmapFormat("\nAll done!", Color.WHITE).setSize(new Vector2f(0.15f)));
 			}
 		} else {
-			if (delta >= 0.8f) {
+			if (delta >= 0.5f) {
 				game.enterState(0, null, new FadeTransition(1));
 			}
 			delta += 0.01f;
