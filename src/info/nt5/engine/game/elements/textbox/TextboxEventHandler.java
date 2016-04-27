@@ -1,14 +1,14 @@
 package info.nt5.engine.game.elements.textbox;
 
 import info.nt5.engine.game.animation.Animation;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 
 public interface TextboxEventHandler {
 
 	public void onCollectionChange(BitmapFont currentCollection);
 
-	public void onAddTextToCurrentCollection(BitmapFormat text);
+	public void onAddTextToCurrentCollection(String text);
 
 	public void onAddTextCollection(BitmapFont text);
 

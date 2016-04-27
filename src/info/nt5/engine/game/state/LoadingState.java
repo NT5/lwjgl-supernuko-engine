@@ -16,14 +16,15 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.transition.FadeTransition;
+import info.nt5.engine.game.state.transition.Transition;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Cursor;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFontCollection;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
@@ -35,9 +36,12 @@ public class LoadingState implements State {
 	private int currentStateLoading;
 
 	private Stage stage;
-	private Camera camera = new Camera(new Matrix4f());
 
 	private float delta = 0f;
+
+	private int FIRST_STATE = 0;
+	private Transition JOIN_TRASITION = null;
+	private Transition LEAVE_TRANSITION = new FadeTransition(1);
 
 	public LoadingState(Collection<State> collection) {
 		this.states = new ArrayList<State>(collection);
@@ -65,13 +69,13 @@ public class LoadingState implements State {
 		Shader.geometryShader.bind();
 		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
 				10.0f);
-		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
+		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
 		Shader.geometryShader.setUniformMat4f("pr_matrix", pr_matrix);
 		Shader.geometryShader.setUniform1i("tex", 1);
 		Shader.geometryShader.unbind();
 
 		Shader.textShader.bind();
-		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(camera.position));
+		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
 		Shader.textShader.setUniformMat4f("pr_matrix", pr_matrix);
 		Shader.textShader.setUniform1i("tex", 1);
 		Shader.textShader.unbind();
@@ -109,7 +113,7 @@ public class LoadingState implements State {
 				new BitmapFont(
 
 						new BitmapFormat(this.getClass().getSimpleName() + " loaded!\n", Color.WHITE)
-								.setSize(new Vector2f(0.15f)),
+								.setSize(new Vector2f(0.2f)),
 						new Vector3f(-9.5f, 5f, 0f)
 
 				)
@@ -122,26 +126,23 @@ public class LoadingState implements State {
 		stage.update();
 
 		if (this.currentStateLoading < states.size()) {
-			stage.getText(0).addText(
-
-					new BitmapFormat(
-
-							this.states.get(currentStateLoading).getClass().getSimpleName() + " loaded!\n", Color.WHITE
-
-					).setSize(new Vector2f(0.15f))
-
-			);
+			stage.getText(0).addText(this.states.get(currentStateLoading).getClass().getSimpleName() + " loaded!\n");
 
 			this.states.get(this.currentStateLoading).init(gm, game);
 			this.currentStateLoading++;
 
 			if (this.currentStateLoading >= this.states.size()) {
 				stage.getTextCollecion(0).setNextCollection();
-				stage.getText(0).addText(new BitmapFormat("\nAll done!", Color.WHITE).setSize(new Vector2f(0.15f)));
+				stage.getText(0).addText("\nAll done!");
 			}
 		} else {
 			if (delta >= 0.5f) {
-				game.enterState(0, null, new FadeTransition(1));
+				if (game.getState(FIRST_STATE) != null) {
+					game.enterState(FIRST_STATE, JOIN_TRASITION, LEAVE_TRANSITION);
+				} else {
+					Logger.warn(String.format("The state with the ID %s is an invalid", FIRST_STATE));
+					game.enterState(this.states.get(0).getID(), JOIN_TRASITION, LEAVE_TRANSITION);
+				}
 			}
 			delta += 0.01f;
 		}
@@ -150,7 +151,7 @@ public class LoadingState implements State {
 	@Override
 	public void render(GameManager gm, StateManager game) {
 		glClearColor(0f, 0f, 0f, 1f);
-		camera.render();
+		Camera.defaultCam.render();
 		stage.render();
 	}
 

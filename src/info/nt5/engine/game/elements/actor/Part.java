@@ -15,30 +15,20 @@ public class Part implements AnimationCallbacks {
 
 	private int currentTextureSet, currentTextureSprite;
 
+	public Part(VertexQuad quad, String[] textureset, Vector3f position) {
+		this.Textures = new Textures(textureset);
+		this.Object = new GameObject(quad, this.Textures.firstInSet(), position);
+		this.animation = new Animation(this);
+	}
+
 	public Part(VertexQuad quad, String[][] textureset, Vector3f position) {
-		this(quad, textureset);
-		this.Object.translate(position);
-	}
-
-	public Part(VertexQuad quad, String[] texturese, Vector3f position) {
-		this(quad, texturese);
-		this.Object.translate(position);
-	}
-
-	public Part(VertexQuad quad, String[] textureset) {
 		this.Textures = new Textures(textureset);
-		this.Object = new GameObject(quad, this.Textures.firstInSet());
+		this.Object = new GameObject(quad, this.Textures.firstInSet(), position);
 		this.animation = new Animation(this);
 	}
 
-	public Part(VertexQuad quad, String[][] textureset) {
-		this.Textures = new Textures(textureset);
-		this.Object = new GameObject(quad, this.Textures.firstInSet());
-		this.animation = new Animation(this);
-	}
-
-	public Part(VertexQuad quad, Textures textures) {
-		this(new GameObject(quad, textures.firstInSet()), textures);
+	public Part(VertexQuad quad, Textures textures, Vector3f position) {
+		this(new GameObject(quad, textures.firstInSet(), position), textures);
 	}
 
 	public Part(GameObject object, Textures textures) {

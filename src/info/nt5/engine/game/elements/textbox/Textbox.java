@@ -9,9 +9,9 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexQuad;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.FontEventHandler;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
 
@@ -264,11 +264,7 @@ public class Textbox extends GameObject {
 
 				new BitmapFont(
 
-						new BitmapFormat[] {
-
-								text.setText(parseText(text.size.x, text.text))
-
-						},
+						text.setText(parseText(text.size.x, text.text)),
 
 						calcFontPosition()
 
@@ -347,19 +343,19 @@ public class Textbox extends GameObject {
 		this.textboxEventHandler.onRemoveTextCollection(index);
 	}
 
-	public void addTextToCurrentCollection(BitmapFormat text) {
-		this.getCollectionCurrent().addText(text.setText(parseText(text.size.x, text.text)));
+	public void addTextToCurrentCollection(String text) {
+		this.getCollectionCurrent().addText(parseText(getCollectionCurrent().getFormat().size.x, text));
 		this.textboxEventHandler.onAddTextToCurrentCollection(text);
 	}
 
-	public void addTextToCurrentCollection(BitmapFormat[] text) {
-		for (BitmapFormat bitmapFormat : text) {
-			addTextToCurrentCollection(bitmapFormat);
+	public void addTextToCurrentCollection(String[] text) {
+		for (String str : text) {
+			addTextToCurrentCollection(str);
 		}
 	}
 
-	public Vector3f calcFontPosition() {
-		return new Vector3f((position.x - (this.width - 0.40f)), (position.y + (this.heigth - 0.30f)), position.z);
+	private Vector3f calcFontPosition() {
+		return new Vector3f((position.x - (this.width - 0.10f)), (position.y + (this.heigth - 0.55f)), position.z);
 	}
 
 	private String parseText(float charWidth, String text) {
@@ -480,7 +476,7 @@ public class Textbox extends GameObject {
 		texture.bind();
 		Shader.geometryShader.bind();
 		Shader.geometryShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
-		VAO.render();
+		mesh.render();
 		Shader.geometryShader.unbind();
 		texture.unbind();
 
@@ -498,7 +494,7 @@ public class Textbox extends GameObject {
 	public void dispose() {
 
 		texture.dispose();
-		VAO.dispose();
+		mesh.dispose();
 
 		if (textboxHeader != null) {
 			textboxHeader.dispose();

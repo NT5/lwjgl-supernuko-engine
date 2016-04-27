@@ -4,9 +4,10 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.StateManager;
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
@@ -22,11 +23,7 @@ public class GUIOverlay {
 
 				new BitmapFont(
 
-						new BitmapFormat[] {
-
-								new BitmapFormat("Development build", Color.BLACK).setSize(new Vector2f(0.15f))
-
-						},
+						new BitmapFormat("Development build", Color.BLACK).setSize(new Vector2f(0.12f)),
 
 						new Vector3f(-9.9f, -5.5f, 0f)
 
@@ -42,6 +39,7 @@ public class GUIOverlay {
 	}
 
 	public static void update(GameManager gm, StateManager game) {
+		Camera.defaultCam.update();
 		stage.update();
 		FPSCounter.update(gm, game);
 
@@ -64,9 +62,47 @@ public class GUIOverlay {
 		if (Keyboard.isPressed(Keyboard.KEY_ESCAPE)) {
 			gm.getWindow().close();
 		}
+
+		if (Keyboard.isDown(Keyboard.KEY_LEFT_CONTROL)) {
+			if (Keyboard.isPressed(Keyboard.KEY_C)) {
+				Camera.defaultCam.position = new Vector3f();
+				Camera.defaultCam.scale = new Vector3f(1f);
+				Camera.defaultCam.roll = 0f;
+			}
+
+			if (Keyboard.isDown(Keyboard.KEY_W)) {
+				Camera.defaultCam.position.y -= 0.08f;
+			}
+			if (Keyboard.isDown(Keyboard.KEY_S)) {
+				Camera.defaultCam.position.y += 0.08f;
+			}
+			if (Keyboard.isDown(Keyboard.KEY_D)) {
+				Camera.defaultCam.position.x -= 0.08f;
+			}
+			if (Keyboard.isDown(Keyboard.KEY_A)) {
+				Camera.defaultCam.position.x += 0.08f;
+			}
+
+			if (Keyboard.isDown(Keyboard.KEY_E)) {
+				Camera.defaultCam.roll += 1f;
+			}
+			if (Keyboard.isDown(Keyboard.KEY_Q)) {
+				Camera.defaultCam.roll -= 1f;
+			}
+
+			if (Keyboard.isDown(Keyboard.KEY_Z)) {
+				Camera.defaultCam.scale.x -= 0.008f;
+				Camera.defaultCam.scale.y -= 0.008f;
+			}
+			if (Keyboard.isDown(Keyboard.KEY_X)) {
+				Camera.defaultCam.scale.x += 0.008f;
+				Camera.defaultCam.scale.y += 0.008f;
+			}
+		}
 	}
 
 	public static void render(GameManager gm, StateManager game) {
+		Camera.defaultCam.render();
 		stage.render();
 		FPSCounter.render(gm, game);
 	}

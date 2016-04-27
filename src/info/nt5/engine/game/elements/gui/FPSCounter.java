@@ -6,8 +6,8 @@ import java.util.List;
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 
@@ -20,11 +20,7 @@ public class FPSCounter {
 
 				new BitmapFont(
 
-						new BitmapFormat[] {
-
-								new BitmapFormat("FPS: ", Color.PURPLE).setSize(new Vector2f(0.15f))
-
-						},
+						new BitmapFormat("FPS: ", Color.PURPLE).setSize(new Vector2f(0.15f)),
 
 						new Vector3f(9f, -5.5f, 0f)
 
@@ -35,11 +31,7 @@ public class FPSCounter {
 
 				new BitmapFont(
 
-						new BitmapFormat[] {
-
-								new BitmapFormat("60", Color.GREEN).setSize(new Vector2f(0.15f))
-
-						},
+						new BitmapFormat("60", Color.GREEN).setSize(new Vector2f(0.15f)),
 
 						new Vector3f(9.6f, -5.5f, 0f)
 

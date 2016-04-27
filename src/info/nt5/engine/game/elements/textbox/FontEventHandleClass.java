@@ -1,8 +1,6 @@
 package info.nt5.engine.game.elements.textbox;
 
-import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.FontEventHandler;
-import info.nt5.engine.math.Vector3f;
 
 public class FontEventHandleClass implements FontEventHandler {
 	private Textbox textbox;
@@ -12,7 +10,7 @@ public class FontEventHandleClass implements FontEventHandler {
 	}
 
 	@Override
-	public void onCreateChar(int asciiCode, Vector3f position, Color color) {
+	public void onCreateChar(int asciiCode) {
 	}
 
 	@Override
@@ -20,7 +18,7 @@ public class FontEventHandleClass implements FontEventHandler {
 	}
 
 	@Override
-	public void onRender(int fromIndex, int toIndex) {
+	public void onRender() {
 	}
 
 	@Override

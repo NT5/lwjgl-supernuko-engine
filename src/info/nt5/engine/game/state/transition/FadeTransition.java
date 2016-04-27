@@ -4,12 +4,12 @@ import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.shader.Mesh;
 import info.nt5.engine.graphics.shader.Shader;
-import info.nt5.engine.graphics.shader.VertexArray;
 
 public class FadeTransition implements Transition {
 
-	private VertexArray fadeMesh;
+	private Mesh fadeMesh;
 
 	private Color fadeColor = Color.BLACK;
 
@@ -56,7 +56,7 @@ public class FadeTransition implements Transition {
 
 	@Override
 	public void init(State current, State next) {
-		fadeMesh = new VertexArray(6);
+		fadeMesh = new Mesh(6);
 	}
 
 	@Override

@@ -80,6 +80,7 @@ public class Intro implements State {
 	public void render(GameManager gm, StateManager game) {
 		crate1.render();
 		crate2.render();
+
 		GUIOverlay.render(gm, game);
 	}
 

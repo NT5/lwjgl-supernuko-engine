@@ -50,13 +50,13 @@ public class BitmapFontCollection {
 		this.textCollection.remove(index);
 	}
 
-	public void addTextToCurrentCollection(BitmapFormat text) {
+	public void addTextToCurrentCollection(String text) {
 		this.getCollectionCurrent().addText(text);
 	}
 
-	public void addTextToCurrentCollection(BitmapFormat[] text) {
-		for (BitmapFormat bitmapFormat : text) {
-			addTextToCurrentCollection(bitmapFormat);
+	public void addTextToCurrentCollection(String[] text) {
+		for (String str : text) {
+			addTextToCurrentCollection(str);
 		}
 	}
 

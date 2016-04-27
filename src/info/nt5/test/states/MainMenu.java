@@ -11,8 +11,8 @@ import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
@@ -53,13 +53,10 @@ public class MainMenu implements State {
 
 		textbox.addTextToCurrentCollection(
 
-				new BitmapFormat[] {
+				new String[] {
 
-						new BitmapFormat("onii-chan!!! daisukiiii~", Color.RED),
-						new BitmapFormat("onii-chan!!! daisukiiii~\n", Color.BLACK),
-						new BitmapFormat("onii-chan!!!\ndaisukiiii~", Color.CYAN),
-						new BitmapFormat("onii-chan!!! daisukiiii~", Color.PINK),
-						new BitmapFormat("onii-chan!!! daisukiiii~", Color.LIME)
+						"onii-chan!!! daisukiiii", "onii-chan!!! daisukiiii~\n", "onii-chan!!!\ndaisukiiii~",
+						"onii-chan!!! daisukiiii~", "onii-chan!!! daisukiiii~"
 
 				}
 
@@ -71,36 +68,21 @@ public class MainMenu implements State {
 
 						new BitmapFont(
 
-								new BitmapFormat[] {
-
-										new BitmapFormat("text 1!~", Color.LIME),
-										new BitmapFormat("text 1!~", Color.BLUE)
-
-								}
+								new BitmapFormat("text 1!~", Color.CYAN)
 
 						),
 
 						new BitmapFont(
 
-								new BitmapFormat[] {
-
-										new BitmapFormat("text 2!~", Color.LIME),
-										new BitmapFormat("text 2!~", Color.BLUE)
-
-								}
+								new BitmapFormat("text 2!~", Color.YELLOW)
 
 						),
 
 						new BitmapFont(
 
-								new BitmapFormat[] {
+								new BitmapFormat("text 3!~", Color.GRAY)
 
-										new BitmapFormat("text 3!~", Color.LIME),
-										new BitmapFormat("text 3!~", Color.BLUE)
-
-								}
-
-						)
+						),
 
 				}
 

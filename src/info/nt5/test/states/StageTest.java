@@ -31,7 +31,7 @@ public class StageTest implements State {
 		stage = new Stage();
 
 		for (int i = 0; i < 100; i++) {
-			//stage.addActor(new Kanon());
+			// stage.addActor(new Kanon());
 		}
 	}
 
@@ -89,9 +89,9 @@ public class StageTest implements State {
 				)
 
 		);
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat(LongText, Color.BLACK));
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat(LongText, Color.PURPLE));
-		stage.getTextbox(2).addTextToCurrentCollection(new BitmapFormat("nyan\nnyan", Color.BLUE));
+		stage.getTextbox(2).addTextToCurrentCollection(LongText);
+		stage.getTextbox(2).addTextToCurrentCollection(LongText);
+		stage.getTextbox(2).addTextToCurrentCollection("nyan\nnyan");
 		stage.getTextbox(2).setHeaderText(new BitmapFormat("header-san"));
 		stage.getTextbox(2).getCollectionCurrent().setRenderSpeed(1);
 

@@ -3,58 +3,59 @@ package info.nt5.engine.graphics.text;
 import java.util.ArrayList;
 import java.util.List;
 
-import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.SubTexture;
 import info.nt5.engine.graphics.Texture;
+import info.nt5.engine.graphics.TextureAtlas;
+import info.nt5.engine.graphics.shader.Mesh;
+import info.nt5.engine.graphics.shader.Shader;
+import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
+import info.nt5.engine.util.BufferUtil;
 
 public class BitmapFont {
+	private static final String DEFAULT_BITMAP_PATH = "assets/img/font.png";
+	private static final float ZPOS = 0.0f;
+	private static final int VERTICES_PER_QUAD = 4;
 
-	private static String defaultFont = "assets/img/font.png";
+	private static final int GRID_SIZE = 16;
+	private static final int CELL_SIZE = 32;
 
-	private List<BitmapChar> CharList = new ArrayList<BitmapChar>();
+	private static final float BOLD_OFFSET = 0.02f;
 
-	private FontEventHandler eventHandler;
+	private Mesh mesh;
+	private BitmapFormat format;
+	private Texture texture;
+
+	private Vector3f position;
+	private Vector2f cursorPos = new Vector2f();
 
 	private int renderSpeed;
 	private int delta;
-	private int CurrentRenderList;
+	private int currentCharId;
 
-	private ArrayList<BitmapFormat> text = new ArrayList<BitmapFormat>();
-	private Texture texture;
-	private Vector3f position = new Vector3f();
-	private Vector2f cursorPos = new Vector2f();
+	private FontEventHandler eventHandler;
 
-	public BitmapFont(BitmapFormat text) {
-		this(new BitmapFormat[] { text }, Texture.fromImage(defaultFont), new Vector3f());
+	public BitmapFont(BitmapFormat format) {
+		this(format, Texture.fromImage(DEFAULT_BITMAP_PATH));
 	}
 
-	public BitmapFont(BitmapFormat[] text) {
-		this(text, Texture.fromImage(defaultFont), new Vector3f());
+	public BitmapFont(BitmapFormat format, Vector3f position) {
+		this(format, Texture.fromImage(DEFAULT_BITMAP_PATH), position);
 	}
 
-	public BitmapFont(BitmapFormat text, Vector3f position) {
-		this(new BitmapFormat[] { text }, Texture.fromImage(defaultFont), position);
+	public BitmapFont(BitmapFormat format, Texture texture) {
+		this(format, texture, new Vector3f());
 	}
 
-	public BitmapFont(BitmapFormat[] text, Vector3f position) {
-		this(text, Texture.fromImage(defaultFont), position);
-	}
-
-	public BitmapFont(BitmapFormat text, Texture texture, Vector3f position) {
-		this(new BitmapFormat[] { text }, texture, position);
-	}
-
-	public BitmapFont(BitmapFormat[] text, Texture texture, Vector3f position) {
-		for (BitmapFormat bitmapFormat : text) {
-			this.text.add(bitmapFormat);
-		}
+	public BitmapFont(BitmapFormat format, Texture texture, Vector3f position) {
+		this.format = format;
 		this.texture = texture;
 		this.position = position;
 
 		class FontEventHandleClass implements FontEventHandler {
 			@Override
-			public void onCreateChar(int asciiCode, Vector3f position, Color color) {
+			public void onCreateChar(int asciiCode) {
 			}
 
 			@Override
@@ -62,7 +63,7 @@ public class BitmapFont {
 			}
 
 			@Override
-			public void onRender(int fromIndex, int toIndex) {
+			public void onRender() {
 			}
 
 			@Override
@@ -76,60 +77,97 @@ public class BitmapFont {
 
 		this.eventHandler = new FontEventHandleClass();
 
-		createChars(0, this.text.size());
+		this.buildMesh(this.format.text.length());
 	}
 
-	private void createChars(int fromIndex, int toIndex) {
-		for (BitmapFormat textPart : this.text.subList(fromIndex, toIndex)) {
-			String text = textPart.text;
-
-			Vector2f offset = new Vector2f(textPart.size.x + textPart.offset.x, textPart.size.y + textPart.offset.y);
-
-			for (int i = 0; i < text.length(); i++) {
-				char character = text.charAt(i);
-				int asciiCode = (int) character;
-
-				if (asciiCode == 10) {
-					cursorPos.x = 0f;
-					cursorPos.y -= offset.y;
-					continue;
-				}
-
-				Vector3f position = new Vector3f(
-
-						(this.position.x + cursorPos.x),
-
-						(this.position.y + cursorPos.y),
-
-						this.position.z
-
-				);
-
-				BitmapChar Char = new BitmapChar(
-
-						asciiCode,
-
-						textPart.size.x,
-
-						textPart.size.y,
-
-						this.texture,
-
-						position,
-
-						textPart.color,
-
-						textPart.bold
-
-				);
-
-				CharList.add(Char);
-
-				eventHandler.onCreateChar(asciiCode, position, textPart.color);
-
-				cursorPos.x += offset.x;
-			}
+	private void buildMesh(int range) {
+		if (this.mesh != null) {
+			this.mesh.dispose();
 		}
+		this.cursorPos = new Vector2f();
+
+		TextureAtlas textureAtlas = new TextureAtlas(this.texture, CELL_SIZE);
+		SubTexture charTexture;
+		List<Float> positions = new ArrayList<Float>();
+		List<Float> textCoords = new ArrayList<Float>();
+		float[] normals = new float[0];
+		List<Integer> indices = new ArrayList<Integer>();
+
+		float width = this.format.size.x;
+		float height = this.format.size.y;
+		char[] characters = this.format.text.substring(0, range).toCharArray();
+
+		for (int i = 0; i < characters.length; i++) {
+			if ((int) characters[i] == 10) {
+				cursorPos.x = -((i * width) + width);
+				cursorPos.y -= (height * 2);
+			}
+
+			int rowX = (int) characters[i] / GRID_SIZE;
+			int rowY = (int) characters[i] % GRID_SIZE;
+
+			charTexture = textureAtlas.getCell(rowX, rowY);
+			positions.add((float) (i * width) + cursorPos.x);
+			positions.add(0.0f + cursorPos.y);
+			positions.add(ZPOS);
+			textCoords.add(charTexture.getMinU());
+			textCoords.add(charTexture.getMaxV());
+			indices.add(i * VERTICES_PER_QUAD);
+
+			positions.add((float) (i * width) + cursorPos.x);
+			positions.add((height * 2) + cursorPos.y);
+			positions.add(ZPOS);
+			textCoords.add(charTexture.getMinU());
+			textCoords.add(charTexture.getMinV());
+			indices.add(i * VERTICES_PER_QUAD + 1);
+
+			positions.add((float) ((i * width) + width * 2) + cursorPos.x);
+			positions.add((height * 2) + cursorPos.y);
+			positions.add(ZPOS);
+			textCoords.add(charTexture.getMaxU());
+			textCoords.add(charTexture.getMinV());
+			indices.add(i * VERTICES_PER_QUAD + 2);
+
+			positions.add((float) ((i * width) + width * 2) + cursorPos.x);
+			positions.add(0.0f + cursorPos.y);
+			positions.add(ZPOS);
+			textCoords.add(charTexture.getMaxU());
+			textCoords.add(charTexture.getMaxV());
+			indices.add(i * VERTICES_PER_QUAD + 3);
+
+			indices.add(i * VERTICES_PER_QUAD);
+			indices.add(i * VERTICES_PER_QUAD + 2);
+
+			eventHandler.onCreateChar(characters[i]);
+		}
+
+		float[] posArr = BufferUtil.listToArray(positions);
+		float[] textCoordsArr = BufferUtil.listToArray(textCoords);
+		int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
+		this.mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
+	}
+
+	public void setText(BitmapFormat newText) {
+		if (this.format.text != newText.text) {
+			this.format = newText;
+			buildMesh(this.format.text.length());
+		}
+	}
+
+	public void addText(String text) {
+		this.format.text = this.format.text.concat(text);
+	}
+
+	public BitmapFormat getFormat() {
+		return this.format;
+	}
+
+	public Vector3f getPosition() {
+		return this.position;
+	}
+
+	public Vector2f getCursorPos() {
+		return this.cursorPos;
 	}
 
 	public void setEventHandler(FontEventHandler callback) {
@@ -144,87 +182,45 @@ public class BitmapFont {
 		return this.renderSpeed;
 	}
 
-	public void setText(BitmapFormat newText) {
-		this.cursorPos.x = 0f;
-		this.cursorPos.y = 0f;
-		this.text.clear();
-		for (BitmapChar bitmapChar : CharList) {
-			bitmapChar.getVAO().dispose();
-		}
-		this.CharList.clear();
-		this.text.add(newText);
-		createChars(0, this.text.size());
+	public void setRenderListIndex(int index) {
+		currentCharId = index;
 	}
 
-	public void setText(BitmapFormat[] newText) {
-		this.cursorPos.x = 0f;
-		this.cursorPos.y = 0f;
-		this.text.clear();
-		for (BitmapChar bitmapChar : CharList) {
-			bitmapChar.getVAO().dispose();
-		}
-		this.CharList.clear();
-		for (BitmapFormat text : newText) {
-			this.text.add(text);
-		}
-
-		createChars(0, this.text.size());
-	}
-
-	public void addText(BitmapFormat[] text) {
-		for (BitmapFormat bitmapFormat : text) {
-			addText(bitmapFormat);
-		}
-	}
-
-	public void addText(BitmapFormat text) {
-		this.text.add(text);
-		createChars(this.text.size() - 1, this.text.size());
-	}
-
-	public Vector3f getPosition() {
-		return this.position;
-	}
-
-	public Vector2f getCursorPos() {
-		return this.cursorPos;
+	public boolean isRenderListEnd() {
+		return (currentCharId >= format.text.length() ? true : false);
 	}
 
 	public void translate(Vector3f vector) {
-		for (BitmapChar Char : CharList) {
-			Char.translate(vector);
-		}
+		this.position.x += vector.x;
+		this.position.y += vector.y;
+		this.position.z += vector.z;
 	}
 
 	public void translateX(float x) {
-		for (BitmapChar Char : CharList) {
-			Char.translateX(x);
-		}
+		this.position.x += x;
 	}
 
 	public void translateY(float y) {
-		for (BitmapChar Char : CharList) {
-			Char.translateY(y);
-		}
+		this.position.y += y;
 	}
 
 	public void translateZ(float z) {
-		for (BitmapChar Char : CharList) {
-			Char.translateZ(z);
-		}
+		this.position.z += z;
 	}
 
 	public void update() {
 		if (!isRenderListEnd()) {
 			if (this.renderSpeed <= 0) {
-				CurrentRenderList = CharList.size();
+				this.currentCharId = this.format.text.length();
+				buildMesh(currentCharId);
 				eventHandler.onRenderListEnd();
 			} else {
-				if (CurrentRenderList < CharList.size()) {
+				if (currentCharId < this.format.text.length()) {
 					if ((delta % this.renderSpeed) == 0) {
 						delta = 0;
-						CurrentRenderList++;
-						eventHandler.onAddToRenderList(CurrentRenderList);
+						currentCharId++;
+						buildMesh(currentCharId);
+						eventHandler.onAddToRenderList(currentCharId);
 					}
 					delta++;
 				}
@@ -237,39 +233,29 @@ public class BitmapFont {
 	}
 
 	public void render() {
-		for (BitmapChar Char : CharList.subList(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()))) {
-			Char.render();
+		this.texture.bind();
+		Shader.textShader.bind();
+		Shader.textShader.setUniformMat4f("ml_matrix", Matrix4f.translate(this.position));
+		Shader.textShader.setUniform4f("vColor", this.format.color);
+		this.mesh.render();
+		if (this.format.bold) {
+			Shader.textShader.setUniformMat4f("ml_matrix",
+					Matrix4f.translate(new Vector3f(this.position.x + BOLD_OFFSET, this.position.y, this.position.z)));
+			this.mesh.render();
 		}
-		eventHandler.onRender(0, (this.renderSpeed > 0 ? CurrentRenderList : CharList.size()));
-	}
-
-	public void setRenderListIndex(int index) {
-		CurrentRenderList = index;
-	}
-
-	public boolean isRenderListEnd() {
-		return (CurrentRenderList >= CharList.size() ? true : false);
-	}
-
-	public int getCurrentRenderList() {
-		return CurrentRenderList;
+		this.texture.unbind();
+		Shader.textShader.unbind();
+		eventHandler.onRender();
 	}
 
 	public void dispose() {
-		texture.dispose();
-		CharList.forEach(Char -> Char.dispose());
-		CharList.clear();
-	}
-
-	public List<BitmapChar> getCharList() {
-		return CharList;
+		this.texture.dispose();
+		this.mesh.dispose();
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder str_new = new StringBuilder();
-		this.text.forEach(str -> str_new.append(str.text));
-		return str_new.toString();
+		return this.format.text;
 	}
 
 }

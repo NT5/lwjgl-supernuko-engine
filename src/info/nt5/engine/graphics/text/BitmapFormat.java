@@ -7,8 +7,8 @@ public class BitmapFormat {
 	public String text;
 	public Color color = Color.WHITE;
 	public boolean bold;
-	public Vector2f size = new Vector2f(0.2f, 0.2f);
-	public Vector2f offset = new Vector2f(0.0f, 0.20f);
+	public Vector2f size = new Vector2f(0.25f, 0.25f);
+	public Vector2f offset = new Vector2f(0.02f);
 
 	public BitmapFormat(String text) {
 		this.text = text;
@@ -35,7 +35,6 @@ public class BitmapFormat {
 		this.color = color;
 		this.bold = bold;
 		this.size = size;
-		this.offset = offset;
 	}
 
 	public BitmapFormat setText(String text) {
@@ -45,11 +44,6 @@ public class BitmapFormat {
 
 	public BitmapFormat setBold(boolean bold) {
 		this.bold = bold;
-		return this;
-	}
-
-	public BitmapFormat setOffset(Vector2f offset) {
-		this.offset = offset;
 		return this;
 	}
 

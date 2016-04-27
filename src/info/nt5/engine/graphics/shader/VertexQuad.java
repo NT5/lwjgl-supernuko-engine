@@ -5,11 +5,39 @@ public class VertexQuad {
 	public float width = 10.0f;
 	public float height = 10.0f;
 
-	private float[] vertices = { -width, -height, 0f, -width, height, 0f, width, height, 0f, width, -height, 0f };
+	private float[] vertices = {
 
-	private float[] texCoords = { 0, 1, 0, 0, 1, 0, 1, 1 };
+			-width, -height, 0f,
 
-	private byte[] indices = { 0, 1, 3, 1, 2, 3 };
+			-width, height, 0f,
+
+			width, height, 0f,
+
+			width, -height, 0f
+
+	};
+
+	private float[] texCoords = {
+
+			0, 1,
+
+			0, 0,
+
+			1, 0,
+
+			1, 1
+
+	};
+
+	private int[] indices = {
+
+			0, 1, 3,
+
+			1, 2, 3
+
+	};
+
+	private float[] normals = new float[0];
 
 	public VertexQuad() {
 	}
@@ -46,11 +74,11 @@ public class VertexQuad {
 		this.vertices = vertices;
 	}
 
-	public byte[] getIndices() {
+	public int[] getIndices() {
 		return indices;
 	}
 
-	public void setIndices(byte[] indices) {
+	public void setIndices(int[] indices) {
 		this.indices = indices;
 	}
 
@@ -60,6 +88,14 @@ public class VertexQuad {
 
 	public void setTexCoords(float[] texCoords) {
 		this.texCoords = texCoords;
+	}
+
+	public float[] getNormals() {
+		return normals;
+	}
+
+	public void setNormals(float[] normals) {
+		this.normals = normals;
 	}
 
 }

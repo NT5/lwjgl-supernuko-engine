@@ -1,8 +1,8 @@
 package info.nt5.engine.game.elements.textbox;
 
 import info.nt5.engine.game.animation.Animation;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.text.BitmapFont;
 
 public class TextboxEventHandlerClass implements TextboxEventHandler {
 
@@ -22,7 +22,7 @@ public class TextboxEventHandlerClass implements TextboxEventHandler {
 	}
 
 	@Override
-	public void onAddTextToCurrentCollection(BitmapFormat text) {
+	public void onAddTextToCurrentCollection(String text) {
 	}
 
 	@Override

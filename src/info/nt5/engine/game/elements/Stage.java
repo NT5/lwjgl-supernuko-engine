@@ -5,8 +5,8 @@ import java.util.List;
 
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.textbox.Textbox;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFontCollection;
+import info.nt5.engine.graphics.text.BitmapFont;
 
 public class Stage {
 

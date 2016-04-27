@@ -3,6 +3,7 @@ package info.nt5.engine.game.elements;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
+import info.nt5.engine.math.Vector3f;
 
 public class Background extends GameObject {
 
@@ -52,6 +53,6 @@ public class Background extends GameObject {
 	}
 
 	public Background(VertexQuad quad, Texture texture) {
-		super(quad, texture);
+		super(quad, texture, new Vector3f());
 	}
 }
