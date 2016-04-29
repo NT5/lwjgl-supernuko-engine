@@ -22,9 +22,10 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Cursor;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFontCollection;
 import info.nt5.engine.graphics.text.BitmapFormat;
-import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
@@ -54,7 +55,8 @@ public class LoadingState implements State {
 
 	@Override
 	public void init(GameManager gm, StateManager game) {
-		Logger.debug("Loading state init!");
+		Lang.init("en", "EN");
+		Logger.debug(Lang.getString("states.init", this.getClass().getSimpleName()));
 
 		glActiveTexture(GL_TEXTURE1);
 
@@ -86,14 +88,15 @@ public class LoadingState implements State {
 
 	@Override
 	public void enter(GameManager gm, StateManager game) {
-		Logger.debug("Loading state enter!");
+		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 
 		stage.addTextCollection(new BitmapFontCollection());
 		stage.getTextCollecion(0).addTextCollection(
 
 				new BitmapFont(
 
-						new BitmapFormat("Cargando...", Color.WHITE, true), new Vector3f(-1.5f, -5f, 0f)
+						new BitmapFormat(Lang.getString("state.loading.loading"), Color.WHITE, true),
+						new Vector3f(-1.5f, -5f, 0f)
 
 				)
 
@@ -102,7 +105,8 @@ public class LoadingState implements State {
 
 				new BitmapFont(
 
-						new BitmapFormat("Cargado!", Color.WHITE, true), new Vector3f(-1.5f, -5f, 0f)
+						new BitmapFormat(Lang.getString("state.loading.loaded"), Color.WHITE, true),
+						new Vector3f(-1.5f, -5f, 0f)
 
 				)
 
@@ -112,8 +116,9 @@ public class LoadingState implements State {
 
 				new BitmapFont(
 
-						new BitmapFormat(this.getClass().getSimpleName() + " loaded!\n", Color.WHITE)
-								.setSize(new Vector2f(0.2f)),
+						new BitmapFormat(
+								Lang.getString("state.loading.statelistloaded", this.getClass().getSimpleName()) + "\n",
+								Color.WHITE).setSize(new Vector2f(0.2f)),
 						new Vector3f(-9.5f, 5f, 0f)
 
 				)
@@ -126,21 +131,22 @@ public class LoadingState implements State {
 		stage.update();
 
 		if (this.currentStateLoading < states.size()) {
-			stage.getText(0).addText(this.states.get(currentStateLoading).getClass().getSimpleName() + " loaded!\n");
+			stage.getText(0).addText(Lang.getString("state.loading.statelistloaded",
+					this.states.get(currentStateLoading).getClass().getSimpleName()) + "\n");
 
 			this.states.get(this.currentStateLoading).init(gm, game);
 			this.currentStateLoading++;
 
 			if (this.currentStateLoading >= this.states.size()) {
 				stage.getTextCollecion(0).setNextCollection();
-				stage.getText(0).addText("\nAll done!");
+				stage.getText(0).addText(Lang.getString("state.loading.statelistend"));
 			}
 		} else {
 			if (delta >= 0.5f) {
 				if (game.getState(FIRST_STATE) != null) {
 					game.enterState(FIRST_STATE, JOIN_TRASITION, LEAVE_TRANSITION);
 				} else {
-					Logger.warn(String.format("The state with the ID %s is an invalid", FIRST_STATE));
+					Logger.warn(Lang.getString("states.error.invalidId", FIRST_STATE));
 					game.enterState(this.states.get(0).getID(), JOIN_TRASITION, LEAVE_TRANSITION);
 				}
 			}
@@ -157,7 +163,7 @@ public class LoadingState implements State {
 
 	@Override
 	public void leave(GameManager gm, StateManager game) {
-		Logger.debug("Loading state leave!");
+		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 		stage.dispose();
 	}
 }

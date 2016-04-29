@@ -14,6 +14,7 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
@@ -30,12 +31,12 @@ public class MainMenu implements State {
 
 	@Override
 	public void init(GameManager gm, StateManager game) {
-		Logger.debug("Menu state init!");
+		Logger.debug(Lang.getString("states.init", this.getClass().getSimpleName()));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateManager game) {
-		Logger.debug("Menu state enter!");
+		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -146,7 +147,7 @@ public class MainMenu implements State {
 
 	@Override
 	public void leave(GameManager gm, StateManager game) {
-		Logger.debug("Menu state leave!");
+		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 		actor.dispose();
 		bg.dispose();
 		textbox.dispose();

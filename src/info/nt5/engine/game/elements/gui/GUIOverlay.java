@@ -9,6 +9,7 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Screenshot;
@@ -24,7 +25,8 @@ public class GUIOverlay {
 
 				new BitmapFont(
 
-						new BitmapFormat("Development build", Color.BLACK).setSize(new Vector2f(0.12f)),
+						new BitmapFormat(Lang.getString("guioverlay.buildtag"), Color.BLACK)
+								.setSize(new Vector2f(0.12f)),
 
 						new Vector3f(-9.9f, -5.5f, 0f)
 
@@ -33,9 +35,8 @@ public class GUIOverlay {
 		);
 
 		stage.addTextbox(new Textbox(Color.GRAY.withAlpha(0.75f), 10f, 0.35f, new Vector3f(0f, 5.3f, 0f),
-				new BitmapFormat(
-						"Utiliza la tecla espacio o los numeros 0, 1, 2, 3, para navegar entre las pantallas!, Usa F11 para cambiar a pantalla completa o preciona ESC para salir!",
-						Color.BLACK).setSize(new Vector2f(0.1f))));
+				new BitmapFormat(Lang.getString("guioverlay.upperinstructions"), Color.BLACK)
+						.setSize(new Vector2f(0.1f))));
 
 	}
 

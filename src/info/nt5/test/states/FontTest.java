@@ -9,10 +9,11 @@ import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.FontEventHandler;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
@@ -31,12 +32,12 @@ public class FontTest implements State {
 
 	@Override
 	public void init(GameManager gm, StateManager game) {
-		Logger.debug("Font state init!");
+		Logger.debug(Lang.getString("states.init", this.getClass().getSimpleName()));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateManager game) {
-		Logger.debug("Font state enter!");
+		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		actor = new Kanon();
 
@@ -68,7 +69,7 @@ public class FontTest implements State {
 
 		text = new BitmapFont(
 
-				new BitmapFormat("The quick brown fox jumps over the lazy dog.", Color.CYAN),
+				new BitmapFormat(Lang.getString("state.fonttest.pangram"), Color.CYAN),
 
 				new Vector3f(-10f, 0f, 0f)
 
@@ -100,7 +101,7 @@ public class FontTest implements State {
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_E)) {
-			this.text.addText("\nEl veloz murciélago hindú comía feliz cardillo y kiwi.");
+			this.text.addText("\n" + Lang.getString("state.fonttest.pangram"));
 		}
 	}
 
@@ -114,7 +115,7 @@ public class FontTest implements State {
 
 	@Override
 	public void leave(GameManager gm, StateManager game) {
-		Logger.debug("Font state lave!");
+		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 
 		this.actor.dispose();
 		this.text.dispose();

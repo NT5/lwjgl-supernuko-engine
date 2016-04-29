@@ -10,6 +10,7 @@ import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
@@ -26,12 +27,12 @@ public class Intro implements State {
 
 	@Override
 	public void init(GameManager gm, StateManager game) {
-		Logger.debug("Intro state init!");
+		Logger.debug(Lang.getString("states.init", this.getClass().getSimpleName()));
 	}
 
 	@Override
 	public void enter(GameManager gm, StateManager game) {
-		Logger.debug("Intro state enter!");
+		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		crate1 = new Crate(Color.GREEN);
 		crate1.translate(new Vector3f(-5f, 0f, 0.0f));
@@ -86,7 +87,7 @@ public class Intro implements State {
 
 	@Override
 	public void leave(GameManager gm, StateManager game) {
-		Logger.debug("Intro state leave!");
+		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 
 		crate1.dispose();
 		crate2.dispose();
