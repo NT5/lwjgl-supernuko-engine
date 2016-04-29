@@ -6,11 +6,12 @@ import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
+import info.nt5.engine.util.Screenshot;
 
 public class GUIOverlay {
 
@@ -42,6 +43,10 @@ public class GUIOverlay {
 		Camera.defaultCam.update();
 		stage.update();
 		FPSCounter.update(gm, game);
+
+		if (Keyboard.isPressed(Keyboard.KEY_F12)) {
+			Screenshot.take(gm.getWindow());
+		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_0)) {
 			game.enterState(0);

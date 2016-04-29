@@ -56,11 +56,15 @@ public class Crate extends GameObject {
 		super(vertices, indices, texCoords, normals, texture, new Vector3f());
 	}
 
-	public Crate(VertexQuad quad, Texture texture) {
-		super(quad, texture, new Vector3f());
+	public Crate(VertexQuad quad, Texture texture, Vector3f position) {
+		super(quad, texture, position);
 	}
 
 	public Crate(Color c) {
 		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), new Vector3f());
+	}
+
+	public Crate(Color c, Vector3f pos) {
+		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), pos);
 	}
 }

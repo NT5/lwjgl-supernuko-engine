@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.Crate;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.graphics.Texture;
+import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 
 public class FPSCounter {
 
 	private static List<BitmapFont> text = new ArrayList<BitmapFont>();
+	private static Crate box;
 
 	public static void init(GameManager gm, StateManager game) {
 		text.add(
@@ -22,7 +26,7 @@ public class FPSCounter {
 
 						new BitmapFormat("FPS: ", Color.PURPLE).setSize(new Vector2f(0.15f)),
 
-						new Vector3f(9f, -5.5f, 0f)
+						new Vector3f(8.9f, -5.6f, 0f)
 
 				)
 
@@ -33,11 +37,13 @@ public class FPSCounter {
 
 						new BitmapFormat("60", Color.GREEN).setSize(new Vector2f(0.15f)),
 
-						new Vector3f(9.6f, -5.5f, 0f)
+						new Vector3f(9.5f, -5.6f, 0f)
 
 				)
 
 		);
+		box = new Crate(new VertexQuad(0.55f, 0.2f), Texture.fromColor(Color.CYAN.withAlpha(0.75f), 32, 32),
+				new Vector3f(9.45f, -5.45f, 0f));
 	}
 
 	public static void update(GameManager gm, StateManager game) {
@@ -58,7 +64,13 @@ public class FPSCounter {
 		text.forEach(text -> text.update());
 	}
 
+	public static void translate(Vector3f position) {
+		box.translate(position);
+		text.forEach(text -> text.translate(position));
+	}
+
 	public static void render(GameManager gm, StateManager game) {
+		box.render();
 		text.forEach(text -> text.render());
 	}
 

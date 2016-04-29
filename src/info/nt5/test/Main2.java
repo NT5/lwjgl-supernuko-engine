@@ -13,7 +13,7 @@ public class Main2 extends StateManager {
 	}
 
 	public static void main(String[] args) {
-		game = new GameManager(new Main2("A life with..."), 1152, 648, true, true, true, true);
+		game = new GameManager(new Main2("A life with..."), 1152, 648, true, false, true, true);
 		game.start();
 	}
 
