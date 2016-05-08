@@ -9,6 +9,18 @@ import info.nt5.engine.math.Vector3f;
 
 public class Camera {
 	private Matrix4f vw_matrix;
+	private Matrix4f pr_matrix = Matrix4f.orthographic(
+
+			-10.0f, 10.0f,
+
+			-10.0f * 9.0f / 16.0f,
+
+			10.0f * 9.0f / 16.0f,
+
+			-10.0f, 10.0f
+
+	);
+
 	public Vector3f position = new Vector3f();
 	public Vector3f scale = new Vector3f(1f);
 
@@ -21,12 +33,10 @@ public class Camera {
 	public static Camera defaultCam = new Camera();
 
 	public Camera() {
-		this.vw_matrix = Matrix4f.translate(position)
-				.multiply(Matrix4f.rotateZ(roll).multiply(Matrix4f.rotateY(yaw)).multiply(Matrix4f.rotateX(pitch)))
-				.multiply(Matrix4f.scale(scale));
+		this.update();
 
-		shaderList.add(Shader.geometryShader);
-		shaderList.add(Shader.textShader);
+		this.shaderList.add(Shader.geometryShader);
+		this.shaderList.add(Shader.textShader);
 	}
 
 	public void setPosition(Vector3f pos) {
@@ -55,6 +65,14 @@ public class Camera {
 
 	public Vector3f getScale() {
 		return this.scale;
+	}
+
+	public Matrix4f getViewMatrix() {
+		return this.vw_matrix;
+	}
+
+	public Matrix4f getProjectionMatrix() {
+		return this.pr_matrix;
 	}
 
 	public float getPitch() {

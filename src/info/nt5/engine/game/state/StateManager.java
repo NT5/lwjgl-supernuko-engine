@@ -71,7 +71,6 @@ public abstract class StateManager extends GameAbstract {
 				return;
 			}
 		}
-
 		currentState.update(gm, this);
 	}
 

@@ -48,6 +48,22 @@ public class Matrix4f implements Cloneable {
 		return this;
 	}
 
+	public Vector4f multiply(Vector4f vector) {
+		float x = this.elements[0] * vector.x + this.elements[1] * vector.y + this.elements[2] * vector.z
+				+ this.elements[3] * vector.w;
+
+		float y = this.elements[4] * vector.x + this.elements[5] * vector.y + this.elements[6] * vector.z
+				+ this.elements[7] * vector.w;
+
+		float z = this.elements[8] * vector.x + this.elements[9] * vector.y + this.elements[10] * vector.z
+				+ this.elements[11] * vector.w;
+
+		float w = this.elements[12] * vector.x + this.elements[13] * vector.y + this.elements[14] * vector.z
+				+ this.elements[15] * vector.w;
+
+		return new Vector4f(x, y, z, w);
+	}
+
 	public static Matrix4f orthographic(float left, float right, float bottom, float top, float near, float far) {
 		Matrix4f result = Matrix4f.identity();
 

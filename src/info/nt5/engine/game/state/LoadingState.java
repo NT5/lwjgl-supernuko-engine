@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import info.nt5.engine.game.GameManager;
+import info.nt5.engine.game.elements.Model;
 import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.transition.FadeTransition;
@@ -44,6 +45,8 @@ public class LoadingState implements State {
 	private Transition JOIN_TRASITION = null;
 	private Transition LEAVE_TRANSITION = new FadeTransition(1);
 
+	private Model model;
+
 	public LoadingState(Collection<State> collection) {
 		this.states = new ArrayList<State>(collection);
 	}
@@ -69,16 +72,15 @@ public class LoadingState implements State {
 		stage = new Stage();
 
 		Shader.geometryShader.bind();
-		Matrix4f pr_matrix = Matrix4f.orthographic(-10.0f, 10.0f, -10.0f * 9.0f / 16.0f, 10.0f * 9.0f / 16.0f, -10.0f,
-				10.0f);
+
 		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
-		Shader.geometryShader.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.geometryShader.setUniformMat4f("pr_matrix", Camera.defaultCam.getProjectionMatrix());
 		Shader.geometryShader.setUniform1i("tex", 1);
 		Shader.geometryShader.unbind();
 
 		Shader.textShader.bind();
 		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
-		Shader.textShader.setUniformMat4f("pr_matrix", pr_matrix);
+		Shader.textShader.setUniformMat4f("pr_matrix", Camera.defaultCam.getProjectionMatrix());
 		Shader.textShader.setUniform1i("tex", 1);
 		Shader.textShader.unbind();
 
@@ -89,6 +91,9 @@ public class LoadingState implements State {
 	@Override
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
+
+		model = new Model("assets/models/logo.obj", Color.WHITE, new Vector3f());
+		model.setScale(new Vector3f(0.01f));
 
 		stage.addTextCollection(new BitmapFontCollection());
 		stage.getTextCollecion(0).addTextCollection(
@@ -130,6 +135,9 @@ public class LoadingState implements State {
 	public void update(GameManager gm, StateManager game) {
 		stage.update();
 
+		model.rotation.y = (model.rotation.y <= 360 ? model.rotation.y + 3f : 0f);
+		model.update();
+
 		if (this.currentStateLoading < states.size()) {
 			stage.getText(0).addText(Lang.getString("state.loading.statelistloaded",
 					this.states.get(currentStateLoading).getClass().getSimpleName()) + "\n");
@@ -142,7 +150,7 @@ public class LoadingState implements State {
 				stage.getText(0).addText(Lang.getString("state.loading.statelistend"));
 			}
 		} else {
-			if (delta >= 0.5f) {
+			if (delta >= 1f) {
 				if (game.getState(FIRST_STATE) != null) {
 					game.enterState(FIRST_STATE, JOIN_TRASITION, LEAVE_TRANSITION);
 				} else {
@@ -159,11 +167,15 @@ public class LoadingState implements State {
 		glClearColor(0f, 0f, 0f, 1f);
 		Camera.defaultCam.render();
 		stage.render();
+
+		model.render();
 	}
 
 	@Override
 	public void leave(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 		stage.dispose();
+
+		model.dispose();
 	}
 }

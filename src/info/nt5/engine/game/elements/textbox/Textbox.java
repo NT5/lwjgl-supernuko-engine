@@ -409,6 +409,19 @@ public class Textbox extends GameObject {
 	}
 
 	@Override
+	public void setPosition(Vector3f position) {
+		this.position = position;
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().setPosition(this.calcFontPosition());
+		}
+
+		if (textboxHeader != null) {
+			textboxHeader.setPosition(position);
+		}
+	}
+
+	@Override
 	public void translate(Vector3f vector) {
 		position.x += vector.x;
 		position.y += vector.y;

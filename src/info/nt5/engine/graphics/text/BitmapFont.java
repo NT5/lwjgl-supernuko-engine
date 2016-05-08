@@ -141,8 +141,8 @@ public class BitmapFont {
 			eventHandler.onCreateChar(characters[i]);
 		}
 
-		float[] posArr = BufferUtil.listToArray(positions);
-		float[] textCoordsArr = BufferUtil.listToArray(textCoords);
+		float[] posArr = BufferUtil.listFloatToArray(positions);
+		float[] textCoordsArr = BufferUtil.listFloatToArray(textCoords);
 		int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
 		this.mesh = new Mesh(posArr, textCoordsArr, normals, indicesArr);
 	}
@@ -175,6 +175,9 @@ public class BitmapFont {
 	}
 
 	public void setRenderSpeed(int speed) {
+		if (speed > 0) {
+			buildMesh(0);
+		}
 		this.renderSpeed = speed;
 	}
 
@@ -188,6 +191,10 @@ public class BitmapFont {
 
 	public boolean isRenderListEnd() {
 		return (currentCharId >= format.text.length() ? true : false);
+	}
+
+	public void setPosition(Vector3f position) {
+		this.position = position;
 	}
 
 	public void translate(Vector3f vector) {

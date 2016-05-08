@@ -2,17 +2,18 @@ package info.nt5.engine.graphics;
 
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.system.MemoryUtil;
-import org.lwjgl.glfw.GLFWVidMode;
-
+import org.lwjgl.glfw.GLFWCursorEnterCallback;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWFramebufferSizeCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
+import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.system.MemoryUtil;
 
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.input.Mouse;
@@ -24,6 +25,8 @@ public class Window {
 	private GLFWKeyCallback keyCallback;
 	private GLFWMouseButtonCallback mouseButtonCallback;
 	private GLFWCursorPosCallback cursorPosCallback;
+	private GLFWScrollCallback scrollCallback;
+	private GLFWCursorEnterCallback cursorEnterCallback;
 	private GLFWFramebufferSizeCallback frameBufferCallback;
 	private GLFWWindowSizeCallback windowSizeCallback;
 
@@ -125,8 +128,15 @@ public class Window {
 		cursorPosCallback = GLFWCursorPosCallback.create(Mouse::glfw_cursor_pos_callback);
 		cursorPosCallback.set(window);
 
+		scrollCallback = GLFWScrollCallback.create(Mouse::glfw_scroll_callback);
+		scrollCallback.set(window);
+
+		cursorEnterCallback = GLFWCursorEnterCallback.create(Mouse::glfw_cursor_enter_callback);
+		cursorEnterCallback.set(window);
+
 		GLFW.glfwSwapInterval(vsync ? 1 : 0);
 		GL.createCapabilities();
+		// GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
 
 		Logger.info("OpenGL: %s", GL11.glGetString(GL11.GL_VERSION));
 	}
@@ -147,6 +157,8 @@ public class Window {
 
 	public void dispose() {
 		keyCallback.free();
+		scrollCallback.free();
+		cursorEnterCallback.free();
 		mouseButtonCallback.free();
 		cursorPosCallback.free();
 		frameBufferCallback.free();
@@ -187,7 +199,14 @@ public class Window {
 	}
 
 	public int getWidth() {
-		return width;
+		if (fullscreen) {
+			GLFWVidMode vidmode = getVidModes();
+			int width = vidmode.width();
+			vidmode.clear();
+			return width;
+		} else {
+			return width;
+		}
 	}
 
 	public void setWidth(int width) {
@@ -196,7 +215,14 @@ public class Window {
 	}
 
 	public int getHeight() {
-		return height;
+		if (fullscreen) {
+			GLFWVidMode vidmode = getVidModes();
+			int height = vidmode.height();
+			vidmode.clear();
+			return height;
+		} else {
+			return height;
+		}
 	}
 
 	public void setHeight(int height) {

@@ -9,6 +9,7 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
+import info.nt5.engine.input.Mouse;
 import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
@@ -34,7 +35,7 @@ public class GUIOverlay {
 
 		);
 
-		stage.addTextbox(new Textbox(Color.GRAY.withAlpha(0.75f), 10f, 0.35f, new Vector3f(0f, 5.3f, 0f),
+		stage.addTextbox(new Textbox(Color.GRAY.withAlpha(0.75f), 10f, 0.45f, new Vector3f(0f, 5.3f, 0f),
 				new BitmapFormat(Lang.getString("guioverlay.upperinstructions"), Color.BLACK)
 						.setSize(new Vector2f(0.1f))));
 
@@ -101,6 +102,15 @@ public class GUIOverlay {
 				Camera.defaultCam.scale.y -= 0.008f;
 			}
 			if (Keyboard.isDown(Keyboard.KEY_X)) {
+				Camera.defaultCam.scale.x += 0.008f;
+				Camera.defaultCam.scale.y += 0.008f;
+			}
+
+			if (Mouse.isScrollDown()) {
+				Camera.defaultCam.scale.x -= 0.008f;
+				Camera.defaultCam.scale.y -= 0.008f;
+			}
+			if (Mouse.isScrollUp()) {
 				Camera.defaultCam.scale.x += 0.008f;
 				Camera.defaultCam.scale.y += 0.008f;
 			}

@@ -34,6 +34,10 @@ public class GameObject {
 		this.mesh = new Mesh(this.vertices, this.texCoords, this.normals, this.indices);
 	}
 
+	public void setPosition(Vector3f position) {
+		this.position = position;
+	}
+
 	public void translate(Vector3f vector) {
 		position.x += vector.x;
 		position.y += vector.y;
