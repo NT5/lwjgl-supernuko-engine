@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import info.nt5.engine.game.GameManager;
-import info.nt5.engine.game.elements.Crate;
+import info.nt5.engine.game.elements.Tile;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
@@ -17,7 +17,7 @@ import info.nt5.engine.math.Vector3f;
 public class FPSCounter {
 
 	private static List<BitmapFont> text = new ArrayList<BitmapFont>();
-	private static Crate box;
+	private static Tile box;
 
 	public static void init(GameManager gm, StateManager game) {
 		text.add(
@@ -42,7 +42,7 @@ public class FPSCounter {
 				)
 
 		);
-		box = new Crate(new VertexQuad(0.55f, 0.2f), Texture.fromColor(Color.CYAN.withAlpha(0.75f), 32, 32),
+		box = new Tile(new VertexQuad(0.55f, 0.2f), Texture.fromColor(Color.CYAN.withAlpha(0.75f), 32, 32),
 				new Vector3f(9.45f, -5.45f, 0f));
 	}
 

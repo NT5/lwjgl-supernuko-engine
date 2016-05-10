@@ -52,6 +52,16 @@ public class VertexQuad {
 		this.set();
 	}
 
+	public VertexQuad(float[] vertices, int[] indices, float[] texCoords, float[] normals) {
+		this.vertices = vertices;
+		this.indices = indices;
+		this.texCoords = texCoords;
+		this.normals = normals;
+
+		this.width = this.vertices[6];
+		this.height = this.vertices[7];
+	}
+
 	private void set() {
 		this.vertices[0] = -width;
 		this.vertices[1] = -height;
