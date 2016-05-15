@@ -19,6 +19,7 @@ import info.nt5.engine.util.Logger;
 public class StageTest implements State {
 
 	private Stage stage;
+	private static final Color clearColor = Color.ORANGE;
 
 	@Override
 	public int getID() {
@@ -39,6 +40,8 @@ public class StageTest implements State {
 	@Override
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
+		gm.getWindow().setClearColor(clearColor);
+
 		String LongText = "12345678910111213141516171819201234567891011121314151617181920123456789101112131415161718192012345678910111213141516171819201234567891011121314151617181920";
 		stage.addActor(new Kanon(new Vector3f(-5f, 0f, 0f)));
 		stage.addActor(new Maru(new Vector3f(5f, 0f, 0f)));
@@ -106,7 +109,7 @@ public class StageTest implements State {
 		stage.update();
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
-			game.enterState(0);
+			game.enterState(4);
 		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_X)) {

@@ -1,5 +1,7 @@
 package info.nt5.engine.graphics;
 
+import static org.lwjgl.opengl.GL11.glClearColor;
+
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorEnterCallback;
@@ -185,6 +187,10 @@ public class Window {
 
 	public String getTitle() {
 		return title;
+	}
+
+	public void setClearColor(Color color) {
+		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
 	public void setTitle(String title) {

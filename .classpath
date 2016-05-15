@@ -8,5 +8,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="SuperNuko/libs/lwjgl/native"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/jbox2d-library"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

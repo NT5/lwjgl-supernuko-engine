@@ -1,11 +1,8 @@
 package info.nt5.engine.game.elements;
 
-import info.nt5.engine.game.movement.Movement;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
-import info.nt5.engine.math.AABB;
-import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 
 public class Tile extends GameObject {
@@ -14,9 +11,6 @@ public class Tile extends GameObject {
 
 	public static float width = 3f;
 	public static float height = 3f;
-
-	public Movement move;
-	public AABB aabb;
 
 	private static float[] vertices = {
 
@@ -70,23 +64,11 @@ public class Tile extends GameObject {
 		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), new Vector3f());
 	}
 
-	public Tile(Color c, Vector3f pos) {
-		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), pos);
+	public Tile(Color c, VertexQuad quad) {
+		super(quad, Texture.fromColor(c, 64, 64), new Vector3f());
 	}
 
-	@Override
-	public void update() {
-		this.aabb = new AABB(
-
-				new Vector2f(this.position.x, this.position.y),
-
-				new Vector2f(this.quad.width, this.quad.height)
-
-		);
-
-		if (this.move != null) {
-			this.position.x += this.move.getVelocity().x;
-			this.position.y += this.move.getVelocity().y;
-		}
+	public Tile(Color c, Vector3f pos) {
+		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), pos);
 	}
 }

@@ -1,7 +1,5 @@
 package info.nt5.test.states;
 
-import static org.lwjgl.opengl.GL11.glClearColor;
-
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Background;
 import info.nt5.engine.game.elements.actor.Actor;
@@ -11,8 +9,8 @@ import info.nt5.engine.game.elements.textbox.Textbox;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
 import info.nt5.engine.graphics.Color;
-import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Vector3f;
@@ -23,6 +21,7 @@ public class MainMenu implements State {
 	private Actor actor;
 	private Background bg;
 	private Textbox textbox;
+	private static final Color clearColor = Color.BLUE;
 
 	@Override
 	public int getID() {
@@ -38,7 +37,7 @@ public class MainMenu implements State {
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 
-		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+		gm.getWindow().setClearColor(clearColor);
 
 		actor = new Maru(new Vector3f(5f, 0f, 0f));
 

@@ -62,6 +62,9 @@ public class GUIOverlay {
 		if (Keyboard.isPressed(Keyboard.KEY_3)) {
 			game.enterState(3);
 		}
+		if (Keyboard.isPressed(Keyboard.KEY_4)) {
+			game.enterState(4);
+		}
 
 		if (Keyboard.isPressed(Keyboard.KEY_F11)) {
 			gm.getWindow().setFullscreen(gm.getWindow().isFullscreen() ? false : true);
@@ -107,12 +110,20 @@ public class GUIOverlay {
 			}
 
 			if (Mouse.isScrollDown()) {
-				Camera.defaultCam.scale.x -= 0.008f;
-				Camera.defaultCam.scale.y -= 0.008f;
+				Camera.defaultCam.scale.x -= 0.08f;
+				Camera.defaultCam.scale.y -= 0.08f;
 			}
 			if (Mouse.isScrollUp()) {
-				Camera.defaultCam.scale.x += 0.008f;
-				Camera.defaultCam.scale.y += 0.008f;
+				Camera.defaultCam.scale.x += 0.08f;
+				Camera.defaultCam.scale.y += 0.08f;
+			}
+		}
+		if (Keyboard.isDown(Keyboard.KEY_LEFT_SHIFT)) {
+			if (Mouse.isScrollDown()) {
+				Camera.defaultCam.roll += 2f;
+			}
+			if (Mouse.isScrollUp()) {
+				Camera.defaultCam.roll -= 2f;
 			}
 		}
 	}

@@ -24,21 +24,24 @@ public class FadeTransition implements Transition {
 		this.setFadeTimeType();
 	}
 
-	public FadeTransition(int fadeType) {
+	public FadeTransition(int fadeType, float fadeSpeed) {
 		this.fadeType = fadeType;
+		this.fadeSpeed = fadeSpeed;
 
 		this.setFadeTimeType();
 	}
 
-	public FadeTransition(Color fadeColor) {
+	public FadeTransition(Color fadeColor, float fadeSpeed) {
 		this.fadeColor = fadeColor;
+		this.fadeSpeed = fadeSpeed;
 
 		this.setFadeTimeType();
 	}
 
-	public FadeTransition(int fadeType, Color fadeColor) {
+	public FadeTransition(int fadeType, Color fadeColor, float fadeSpeed) {
 		this.fadeType = fadeType;
 		this.fadeColor = fadeColor;
+		this.fadeSpeed = fadeSpeed;
 
 		this.setFadeTimeType();
 	}

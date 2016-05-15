@@ -1,7 +1,5 @@
 package info.nt5.test.states;
 
-import static org.lwjgl.opengl.GL11.glClearColor;
-
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.actor.actors.Kanon;
@@ -38,7 +36,8 @@ public class FontTest implements State {
 	@Override
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
-		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		gm.getWindow().setClearColor(clearColor);
+
 		actor = new Kanon();
 
 		class FontEventHandleClass implements FontEventHandler {

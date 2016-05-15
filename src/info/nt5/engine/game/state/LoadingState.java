@@ -39,13 +39,14 @@ public class LoadingState implements State {
 
 	private Stage stage;
 
-	private float delta = 0f;
+	private float delta = 0.5f;
 
 	private int FIRST_STATE = 0;
 	private Transition JOIN_TRASITION = null;
-	private Transition LEAVE_TRANSITION = new FadeTransition(1);
+	private Transition LEAVE_TRANSITION = new FadeTransition(1, Color.WHITE, 0.05f);
 
 	private Model model;
+	private static final Color clearColor = Color.BLACK;
 
 	public LoadingState(Collection<State> collection) {
 		this.states = new ArrayList<State>(collection);
@@ -91,6 +92,7 @@ public class LoadingState implements State {
 	@Override
 	public void enter(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
+		gm.getWindow().setClearColor(clearColor);
 
 		model = new Model("assets/models/logo.obj", Color.WHITE, new Vector3f());
 		model.setScale(new Vector3f(0.01f));
