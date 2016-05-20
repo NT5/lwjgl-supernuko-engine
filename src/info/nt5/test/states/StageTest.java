@@ -98,6 +98,7 @@ public class StageTest implements State {
 		stage.getTextbox(2).addTextToCurrentCollection("nyan\nnyan");
 		stage.getTextbox(2).setHeaderText(new BitmapFormat("header-san"));
 		stage.getTextbox(2).getCollectionCurrent().setRenderSpeed(1);
+		stage.getTextbox(2).bindAnimationCallback(stage.getActor(0).getPart(2).animation);
 
 		stage.setBackground(new Background(Color.GRAY));
 	}

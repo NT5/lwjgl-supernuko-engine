@@ -9,11 +9,13 @@ import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexQuad;
+import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.FontEventHandler;
-import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
+import info.nt5.engine.sound.SoundPlayer;
+import info.nt5.engine.util.FilePaths;
 
 public class Textbox extends GameObject {
 
@@ -35,6 +37,8 @@ public class Textbox extends GameObject {
 
 	private int currentTextId;
 	private List<BitmapFont> text = new ArrayList<BitmapFont>();
+
+	SoundPlayer sound;
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -273,6 +277,8 @@ public class Textbox extends GameObject {
 		);
 
 		this.getCollectionCurrent().setEventHandler(this.textEventHandler);
+		this.sound = new SoundPlayer(FilePaths.getWav("click1.wav"));
+		// this.sound.setLoop(true);
 	}
 
 	public void setEventHandler(TextboxEventHandler cb) {
@@ -508,6 +514,7 @@ public class Textbox extends GameObject {
 
 		texture.dispose();
 		mesh.dispose();
+		sound.dispose();
 
 		if (textboxHeader != null) {
 			textboxHeader.dispose();

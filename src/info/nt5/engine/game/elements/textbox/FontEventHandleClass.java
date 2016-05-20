@@ -26,12 +26,16 @@ public class FontEventHandleClass implements FontEventHandler {
 		if (this.textbox.actorCallback != null && !this.textbox.actorCallback.isAnimating()) {
 			this.textbox.actorCallback.set(3, 0, 2, -1);
 		}
+		if (this.textbox.actorCallback != null && !this.textbox.sound.isPlaying()) {
+			this.textbox.sound.play();
+		}
 	}
 
 	@Override
 	public void onRenderListEnd() {
 		if (this.textbox.actorCallback != null) {
-			textbox.actorCallback.end();
+			this.textbox.actorCallback.end();
+			this.textbox.sound.stop();
 		}
 	}
 

@@ -22,6 +22,7 @@ public class Tile {
 	private VertexQuad quad;
 	private Texture texture;
 
+	private Matrix4f ml_matrix;
 	private Vector3f position = new Vector3f(0f);
 
 	private Body box;
@@ -79,20 +80,18 @@ public class Tile {
 	public void update() {
 		position.x = box.getPosition().x;
 		position.y = box.getPosition().y;
+
+		ml_matrix = Matrix4f.translate(position).multiply(
+
+				Matrix4f.rotateZ((float) Math.toDegrees(box.getAngle()))
+
+		);
 	}
 
 	public void render() {
 		texture.bind();
 		Shader.geometryShader.bind();
-		Shader.geometryShader.setUniformMat4f("ml_matrix",
-
-				Matrix4f.translate(position).multiply(
-
-						Matrix4f.rotateZ((float) Math.toDegrees(box.getAngle()))
-
-				)
-
-		);
+		Shader.geometryShader.setUniformMat4f("ml_matrix", ml_matrix);
 		mesh.render();
 		Shader.geometryShader.unbind();
 		texture.unbind();

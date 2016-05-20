@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -30,6 +29,8 @@ import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
+import info.nt5.engine.sound.SoundPlayer;
+import info.nt5.engine.util.FilePaths;
 import info.nt5.engine.util.Logger;
 
 public class LoadingState implements State {
@@ -39,13 +40,18 @@ public class LoadingState implements State {
 
 	private Stage stage;
 
-	private float delta = 0.5f;
+	private float delta = 0f;
+	private float deltaSpeed = 0.01f;
 
 	private int FIRST_STATE = 0;
 	private Transition JOIN_TRASITION = null;
 	private Transition LEAVE_TRANSITION = new FadeTransition(1, Color.WHITE, 0.05f);
 
 	private Model model;
+
+	private SoundPlayer introSound;
+	private SoundPlayer stageAddSound;
+
 	private static final Color clearColor = Color.BLACK;
 
 	public LoadingState(Collection<State> collection) {
@@ -85,7 +91,7 @@ public class LoadingState implements State {
 		Shader.textShader.setUniform1i("tex", 1);
 		Shader.textShader.unbind();
 
-		gm.getWindow().setCursor(new Cursor(Texture.fromImage("assets/img/cursor.png")));
+		gm.getWindow().setCursor(new Cursor(Texture.fromImage(FilePaths.getImg("cursor.png"))));
 		gm.getWindow().setIcon();
 	}
 
@@ -94,8 +100,12 @@ public class LoadingState implements State {
 		Logger.debug(Lang.getString("states.enter", this.getClass().getSimpleName()));
 		gm.getWindow().setClearColor(clearColor);
 
-		model = new Model("assets/models/logo.obj", Color.WHITE, new Vector3f());
+		model = new Model(FilePaths.getModel("logo.obj"), Color.WHITE, new Vector3f());
 		model.setScale(new Vector3f(0.01f));
+
+		introSound = new SoundPlayer(FilePaths.getWav("intro.wav"));
+		stageAddSound = new SoundPlayer(FilePaths.getWav("click1.wav"));
+		stageAddSound.setPitch(0.5f);
 
 		stage.addTextCollection(new BitmapFontCollection());
 		stage.getTextCollecion(0).addTextCollection(
@@ -144,15 +154,18 @@ public class LoadingState implements State {
 			stage.getText(0).addText(Lang.getString("state.loading.statelistloaded",
 					this.states.get(currentStateLoading).getClass().getSimpleName()) + "\n");
 
+			stageAddSound.play();
+
 			this.states.get(this.currentStateLoading).init(gm, game);
 			this.currentStateLoading++;
 
 			if (this.currentStateLoading >= this.states.size()) {
 				stage.getTextCollecion(0).setNextCollection();
 				stage.getText(0).addText(Lang.getString("state.loading.statelistend"));
+				introSound.play();
 			}
 		} else {
-			if (delta >= 1f) {
+			if (delta >= 1f && !introSound.isPlaying()) {
 				if (game.getState(FIRST_STATE) != null) {
 					game.enterState(FIRST_STATE, JOIN_TRASITION, LEAVE_TRANSITION);
 				} else {
@@ -160,16 +173,14 @@ public class LoadingState implements State {
 					game.enterState(this.states.get(0).getID(), JOIN_TRASITION, LEAVE_TRANSITION);
 				}
 			}
-			delta += 0.01f;
+			delta += deltaSpeed;
 		}
 	}
 
 	@Override
 	public void render(GameManager gm, StateManager game) {
-		glClearColor(0f, 0f, 0f, 1f);
 		Camera.defaultCam.render();
 		stage.render();
-
 		model.render();
 	}
 
@@ -177,7 +188,8 @@ public class LoadingState implements State {
 	public void leave(GameManager gm, StateManager game) {
 		Logger.debug(Lang.getString("states.leave", this.getClass().getSimpleName()));
 		stage.dispose();
-
 		model.dispose();
+		introSound.dispose();
+		stageAddSound.dispose();
 	}
 }

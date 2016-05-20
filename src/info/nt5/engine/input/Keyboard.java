@@ -78,7 +78,7 @@ public class Keyboard {
 	}
 
 	public static void glfw_key_callback(long window, int key, int scancode, int action, int mods) {
-		if (key <= KEY_LAST) {
+		if (key <= KEY_LAST && key > -1) {
 			keyState[key] = action;
 			keyDown[key] = action != GLFW.GLFW_RELEASE ? 1 : 0;
 		}
