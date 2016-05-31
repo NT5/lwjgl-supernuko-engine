@@ -3,6 +3,8 @@ package info.nt5.engine.graphics.text;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.nt5.engine.graphics.Camera;
+
 public class BitmapFontCollection {
 
 	private List<BitmapFont> textCollection = new ArrayList<BitmapFont>();
@@ -62,6 +64,12 @@ public class BitmapFontCollection {
 
 	public String getCurrentText() {
 		return this.getCollectionCurrent().toString();
+	}
+
+	public void setCamera(Camera camera) {
+		for (BitmapFont text : this.textCollection) {
+			text.setCamera(camera);
+		}
 	}
 
 	public void update() {

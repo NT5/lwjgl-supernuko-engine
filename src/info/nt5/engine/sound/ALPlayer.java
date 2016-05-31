@@ -14,18 +14,21 @@ import static org.lwjgl.openal.AL10.alDeleteSources;
 import static org.lwjgl.openal.AL10.alGenBuffers;
 import static org.lwjgl.openal.AL10.alGenSources;
 import static org.lwjgl.openal.AL10.alGetSourcei;
+import static org.lwjgl.openal.AL10.alListenerf;
 import static org.lwjgl.openal.AL10.alSourcePause;
 import static org.lwjgl.openal.AL10.alSourcePlay;
 import static org.lwjgl.openal.AL10.alSourceStop;
 import static org.lwjgl.openal.AL10.alSourcef;
 import static org.lwjgl.openal.AL10.alSourcei;
 
-public class SoundPlayer {
+public class ALPlayer {
 
 	private int buffer;
 	private int source;
+	private float gain, pitch;
+	private boolean loop;
 
-	public SoundPlayer(String path) {
+	public ALPlayer(String path) {
 		WaveData data = WaveData.create(path);
 
 		this.buffer = alGenBuffers();
@@ -36,7 +39,19 @@ public class SoundPlayer {
 	}
 
 	private void bind() {
-		alSourcei(source, AL_BUFFER, buffer);
+		alSourcei(this.source, AL_BUFFER, this.buffer);
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public float getGain() {
+		return gain;
+	}
+
+	public boolean getLoop() {
+		return loop;
 	}
 
 	public boolean isPlaying() {
@@ -46,35 +61,50 @@ public class SoundPlayer {
 
 	public void play() {
 		this.bind();
-		alSourcePlay(source);
+		alSourcePlay(this.source);
 	}
 
 	public void stop() {
 		this.bind();
-		alSourceStop(source);
+		alSourceStop(this.source);
 	}
 
 	public void pause() {
-		alSourcePause(source);
+		alSourcePause(this.source);
 	}
 
 	public void setLoop(boolean flag) {
 		this.bind();
+		this.loop = flag;
 		if (flag == true) {
-			alSourcei(source, AL_LOOPING, AL_TRUE);
+			alSourcei(this.source, AL_LOOPING, AL_TRUE);
 		} else {
-			alSourcei(source, AL_LOOPING, AL_FALSE);
+			alSourcei(this.source, AL_LOOPING, AL_FALSE);
 		}
 	}
 
 	public void setPitch(float pitch) {
-		this.bind();
-		alSourcef(this.source, AL_PITCH, pitch);
+		if (this.pitch != pitch) {
+			this.bind();
+			this.pitch = pitch;
+			alSourcef(this.source, AL_PITCH, pitch);
+		}
 	}
 
 	public void setGain(float gain) {
-		this.bind();
-		alSourcef(source, AL_GAIN, gain);
+		if (this.gain != gain) {
+			this.bind();
+			this.gain = gain;
+			alSourcef(source, AL_GAIN, gain);
+		}
+	}
+
+	public static void setListenerGain(float gain) {
+		alListenerf(AL_GAIN, gain);
+	}
+
+	public static void setListenerPitch(float pitch) {
+		alListenerf(AL_PITCH, pitch);
 	}
 
 	public void dispose() {

@@ -1,15 +1,15 @@
 package info.nt5.engine.game;
 
 public abstract class GameAbstract implements Game {
-	
+
 	private String title;
 	private GameManager manager;
 
-	public GameAbstract( GameManager manager, String title ) {
+	public GameAbstract(GameManager manager, String title) {
 		this.manager = manager;
 		this.title = title;
 	}
-	
+
 	@Override
 	public abstract void init(GameManager gm);
 
@@ -29,7 +29,7 @@ public abstract class GameAbstract implements Game {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public GameManager getManager() {
 		return manager;
 	}

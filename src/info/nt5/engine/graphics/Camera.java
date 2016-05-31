@@ -9,7 +9,7 @@ import info.nt5.engine.math.Vector3f;
 
 public class Camera {
 	private Matrix4f vw_matrix;
-	private Matrix4f pr_matrix = Matrix4f.orthographic(
+	private final Matrix4f pr_matrix = Matrix4f.orthographic(
 
 			-10.0f, 10.0f,
 
@@ -30,7 +30,8 @@ public class Camera {
 
 	private List<Shader> shaderList = new ArrayList<Shader>();
 
-	public static Camera defaultCam = new Camera();
+	public static Camera worldCamera = new Camera();
+	public static Camera guiCamera = new Camera();
 
 	public Camera() {
 		this.update();

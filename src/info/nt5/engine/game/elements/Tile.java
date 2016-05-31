@@ -3,6 +3,7 @@ package info.nt5.engine.game.elements;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
+import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 
 public class Tile extends GameObject {
@@ -61,14 +62,14 @@ public class Tile extends GameObject {
 	}
 
 	public Tile(Color c) {
-		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), new Vector3f());
+		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 1, 1), new Vector3f());
 	}
 
-	public Tile(Color c, VertexQuad quad) {
-		super(quad, Texture.fromColor(c, 64, 64), new Vector3f());
+	public Tile(Color c, Vector2f size) {
+		super(new VertexQuad(size.x, size.y), Texture.fromColor(c, 1, 1), new Vector3f());
 	}
 
 	public Tile(Color c, Vector3f pos) {
-		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 64, 64), pos);
+		super(vertices, indices, texCoords, normals, Texture.fromColor(c, 1, 1), pos);
 	}
 }

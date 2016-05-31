@@ -15,6 +15,7 @@ import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.elements.jbox.Tile;
 import info.nt5.engine.game.state.State;
 import info.nt5.engine.game.state.StateManager;
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
@@ -71,6 +72,7 @@ public class jboxTest implements State {
 		bodies.add(new Tile(Color.PURPLE, new Vector2f(0.5f), new Vector2f(2f), world));
 
 		txtCount = new BitmapFont(new BitmapFormat("Count: " + world.getBodyCount()), new Vector3f(4f, 4f, 0f));
+		txtCount.setCamera(Camera.guiCamera);
 		bodies.get(2).getBody().setType(BodyType.DYNAMIC);
 		bodies.get(2).getBody().m_fixtureList.setDensity(0.3f);
 		bodies.get(2).getBody().resetMassData();
@@ -84,7 +86,8 @@ public class jboxTest implements State {
 			game.enterState(0);
 		}
 
-		Vector4f mousePos = Mouse.getMatrixAxis(gm);
+		Vector4f mousePos = Mouse.unProject(Camera.worldCamera.getProjectionMatrix(), Camera.worldCamera.getViewMatrix(),
+				new Vector2f(gm.getWindow().getWidth(), gm.getWindow().getHeight()));
 		Vector2f cursorPos = new Vector2f(mousePos.x, mousePos.y);
 
 		if (Keyboard.isDown(Keyboard.KEY_Z)) {
@@ -150,6 +153,7 @@ public class jboxTest implements State {
 		for (Tile tileBody : bodies) {
 			tileBody.update();
 		}
+		txtCount.update();
 		txtCount.setText(new BitmapFormat("Count: " + world.getBodyCount()));
 	}
 

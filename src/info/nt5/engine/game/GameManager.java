@@ -1,7 +1,8 @@
 package info.nt5.engine.game;
 
+import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.graphics.Window;
-import info.nt5.engine.sound.SoundManager;
+import info.nt5.engine.sound.ALManager;
 
 public class GameManager {
 
@@ -17,8 +18,8 @@ public class GameManager {
 			boolean resizable) {
 		this.game = game;
 		this.window = new Window(game.getTitle(), width, height, vsync, fullscreen, visible, resizable);
-		
-		SoundManager.create();
+
+		ALManager.create();
 	}
 
 	public void init() {
@@ -82,7 +83,8 @@ public class GameManager {
 
 	public void shutdown() {
 		leave();
-		SoundManager.close();
+		ALManager.close();
+		GUIOverlay.dispose();
 		window.dispose();
 	}
 

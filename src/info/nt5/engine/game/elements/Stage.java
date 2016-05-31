@@ -5,8 +5,9 @@ import java.util.List;
 
 import info.nt5.engine.game.elements.actor.Actor;
 import info.nt5.engine.game.elements.textbox.Textbox;
-import info.nt5.engine.graphics.text.BitmapFontCollection;
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.text.BitmapFont;
+import info.nt5.engine.graphics.text.BitmapFontCollection;
 
 public class Stage {
 
@@ -97,6 +98,11 @@ public class Stage {
 	}
 
 	public void update() {
+
+		if (background != null) {
+			background.update();
+		}
+
 		actors.forEach(actor -> actor.update());
 
 		texts.forEach(text -> text.update());
@@ -144,6 +150,20 @@ public class Stage {
 			textbox.dispose();
 		}
 		textboxs.clear();
+	}
+
+	public void setCamera(Camera camera) {
+		if (background != null) {
+			background.setCamera(camera);
+		}
+
+		actors.forEach(actor -> actor.setCamera(camera));
+
+		texts.forEach(text -> text.setCamera(camera));
+
+		textsCollection.forEach(collection -> collection.setCamera(camera));
+
+		textboxs.forEach(textbox -> textbox.setCamera(camera));
 	}
 
 }

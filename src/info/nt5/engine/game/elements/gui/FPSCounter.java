@@ -6,6 +6,7 @@ import java.util.List;
 import info.nt5.engine.game.GameManager;
 import info.nt5.engine.game.elements.Tile;
 import info.nt5.engine.game.state.StateManager;
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.VertexQuad;
@@ -44,6 +45,9 @@ public class FPSCounter {
 		);
 		box = new Tile(new VertexQuad(0.55f, 0.2f), Texture.fromColor(Color.CYAN.withAlpha(0.75f), 32, 32),
 				new Vector3f(9.45f, -5.45f, 0f));
+
+		box.setCamera(Camera.guiCamera);
+		text.forEach(t -> t.setCamera(Camera.guiCamera));
 	}
 
 	public static void update(GameManager gm, StateManager game) {
@@ -62,6 +66,7 @@ public class FPSCounter {
 		text.get(1).setText(new BitmapFormat(String.valueOf(gm.getFrames()), fpsColor).setSize(new Vector2f(0.15f)));
 
 		text.forEach(text -> text.update());
+		box.update();
 	}
 
 	public static void translate(Vector3f position) {
@@ -72,6 +77,11 @@ public class FPSCounter {
 	public static void render(GameManager gm, StateManager game) {
 		box.render();
 		text.forEach(text -> text.render());
+	}
+
+	public static void dispose() {
+		box.dispose();
+		text.forEach(text -> text.dispose());
 	}
 
 }

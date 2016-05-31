@@ -18,7 +18,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import info.nt5.engine.util.Logger;
 
-public class SoundManager {
+public class ALManager {
 
 	private static long context;
 	private static long device;
@@ -62,6 +62,7 @@ public class SoundManager {
 	}
 
 	public static void close() {
+		alcMakeContextCurrent(MemoryUtil.NULL);
 		alcDestroyContext(context);
 		alcCloseDevice(device);
 	}

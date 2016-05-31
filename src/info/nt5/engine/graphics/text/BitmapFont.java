@@ -3,6 +3,7 @@ package info.nt5.engine.graphics.text;
 import java.util.ArrayList;
 import java.util.List;
 
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.SubTexture;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.TextureAtlas;
@@ -28,7 +29,14 @@ public class BitmapFont {
 	private Texture texture;
 
 	private Vector3f position;
-	private Vector2f cursorPos = new Vector2f();
+	private Vector3f rotation;
+	private Vector3f scale;
+
+	private Vector2f cursorPos;
+	private Vector2f cursorMax;
+
+	private Matrix4f ml_matrix;
+	private Camera camera;
 
 	private int renderSpeed;
 	private int delta;
@@ -52,6 +60,15 @@ public class BitmapFont {
 		this.format = format;
 		this.texture = texture;
 		this.position = position;
+
+		this.rotation = new Vector3f();
+		this.scale = new Vector3f(1f);
+
+		this.ml_matrix = new Matrix4f();
+		this.camera = Camera.worldCamera;
+
+		this.cursorMax = new Vector2f();
+		this.cursorPos = new Vector2f();
 
 		class FontEventHandleClass implements FontEventHandler {
 			@Override
@@ -97,14 +114,21 @@ public class BitmapFont {
 		float height = this.format.size.y;
 		char[] characters = this.format.text.substring(0, range).toCharArray();
 
+		Vector2f realCursor = new Vector2f(width, height);
+
 		for (int i = 0; i < characters.length; i++) {
-			if ((int) characters[i] == 10) {
+			char character = characters[i];
+
+			if ((int) character == 10) {
 				cursorPos.x = -((i * width) + width);
 				cursorPos.y -= (height * 2);
+
+				realCursor.x = width;
+				realCursor.y += height;
 			}
 
-			int rowX = (int) characters[i] / GRID_SIZE;
-			int rowY = (int) characters[i] % GRID_SIZE;
+			int rowX = (int) character / GRID_SIZE;
+			int rowY = (int) character % GRID_SIZE;
 
 			charTexture = textureAtlas.getCell(rowX, rowY);
 			positions.add((float) (i * width) + cursorPos.x);
@@ -138,7 +162,12 @@ public class BitmapFont {
 			indices.add(i * VERTICES_PER_QUAD);
 			indices.add(i * VERTICES_PER_QUAD + 2);
 
-			eventHandler.onCreateChar(characters[i]);
+			realCursor.x += width;
+
+			cursorMax.x = Math.max(Math.abs(realCursor.x / 2f), Math.abs(cursorMax.x));
+			cursorMax.y = Math.max(Math.abs(realCursor.y), Math.abs(cursorMax.y));
+
+			eventHandler.onCreateChar(character);
 		}
 
 		float[] posArr = BufferUtil.listFloatToArray(positions);
@@ -158,6 +187,22 @@ public class BitmapFont {
 		this.format.text = this.format.text.concat(text);
 	}
 
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+
+	public void setMl_matrix(Matrix4f ml_matrix) {
+		this.ml_matrix = ml_matrix;
+	}
+
+	public void setScale(Vector3f scale) {
+		this.scale = scale;
+	}
+
+	public void setRotation(Vector3f rotation) {
+		this.rotation = rotation;
+	}
+
 	public BitmapFormat getFormat() {
 		return this.format;
 	}
@@ -168,6 +213,10 @@ public class BitmapFont {
 
 	public Vector2f getCursorPos() {
 		return this.cursorPos;
+	}
+
+	public Vector2f getCursorMax() {
+		return this.cursorMax;
 	}
 
 	public void setEventHandler(FontEventHandler callback) {
@@ -216,6 +265,10 @@ public class BitmapFont {
 	}
 
 	public void update() {
+		ml_matrix = Matrix4f.translate(this.position).multiply(Matrix4f.rotateX(this.rotation.x))
+				.multiply(Matrix4f.rotateY(this.rotation.y).multiply(Matrix4f.rotateZ(this.rotation.z))
+						.multiply(Matrix4f.scale(this.scale)));
+
 		if (!isRenderListEnd()) {
 			if (this.renderSpeed <= 0) {
 				this.currentCharId = this.format.text.length();
@@ -242,7 +295,9 @@ public class BitmapFont {
 	public void render() {
 		this.texture.bind();
 		Shader.textShader.bind();
-		Shader.textShader.setUniformMat4f("ml_matrix", Matrix4f.translate(this.position));
+		Shader.textShader.setUniformMat4f("vw_matrix", camera.getViewMatrix());
+		Shader.textShader.setUniformMat4f("pr_matrix", camera.getProjectionMatrix());
+		Shader.textShader.setUniformMat4f("ml_matrix", ml_matrix);
 		Shader.textShader.setUniform4f("vColor", this.format.color);
 		this.mesh.render();
 		if (this.format.bold) {

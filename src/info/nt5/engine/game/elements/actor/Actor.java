@@ -1,7 +1,9 @@
 package info.nt5.engine.game.elements.actor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.math.Vector3f;
 
 public class Actor {
@@ -30,9 +32,15 @@ public class Actor {
 		Parts.add(part);
 	}
 
+	public void setCamera(Camera camera) {
+		for (Part part : Parts) {
+			part.getObject().setCamera(camera);
+		}
+	}
+
 	public void update() {
 		for (Part part : Parts) {
-			part.animation.update();
+			part.update();
 		}
 	}
 

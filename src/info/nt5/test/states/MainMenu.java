@@ -13,6 +13,7 @@ import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.lang.Lang;
+import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
 import info.nt5.engine.util.Logger;
 
@@ -21,7 +22,7 @@ public class MainMenu implements State {
 	private Actor actor;
 	private Background bg;
 	private Textbox textbox;
-	private static final Color clearColor = Color.BLUE;
+	private static final Color clearColor = Color.WHITE;
 
 	@Override
 	public int getID() {
@@ -88,7 +89,7 @@ public class MainMenu implements State {
 
 		);
 
-		textbox.setHeaderText(new BitmapFormat("Maru-chan", Color.CYAN, true));
+		textbox.setHeaderText(new BitmapFormat("Maru-chan", Color.CYAN, new Vector2f(0.2f), true));
 
 		textbox.setGlobalTextSpeed(1);
 		textbox.bindAnimationCallback(actor.getPart(2).animation);
@@ -103,12 +104,10 @@ public class MainMenu implements State {
 		GUIOverlay.update(gm, game);
 		actor.update();
 		textbox.update();
+		bg.update();
 
 		if (Keyboard.isPressed(Keyboard.KEY_SPACE)) {
 			game.enterState(2);
-		}
-		if (Keyboard.isPressed(Keyboard.KEY_1)) {
-			game.enterState(0);
 		}
 
 		if (Keyboard.isDown(Keyboard.KEY_W)) {

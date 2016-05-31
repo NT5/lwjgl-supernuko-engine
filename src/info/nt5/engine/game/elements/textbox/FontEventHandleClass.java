@@ -28,6 +28,11 @@ public class FontEventHandleClass implements FontEventHandler {
 		}
 		if (this.textbox.actorCallback != null && !this.textbox.sound.isPlaying()) {
 			this.textbox.sound.play();
+			if (Math.random() > 0.80) {
+				this.textbox.sound.setPitch(0.9f);
+			} else {
+				this.textbox.sound.setPitch(1f);
+			}
 		}
 	}
 

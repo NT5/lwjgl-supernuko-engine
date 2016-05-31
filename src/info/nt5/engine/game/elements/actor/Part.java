@@ -138,7 +138,12 @@ public class Part implements AnimationCallbacks {
 	}
 
 	public void setObjectTexture(Texture texture) {
-		Object.texture = texture;
+		Object.setTexture(texture);
+	}
+
+	public void update() {
+		Object.update();
+		animation.update();
 	}
 
 	public void render() {

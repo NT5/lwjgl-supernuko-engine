@@ -5,16 +5,16 @@ import java.util.List;
 
 import info.nt5.engine.game.animation.Animation;
 import info.nt5.engine.game.elements.GameObject;
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
-import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.shader.VertexQuad;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFormat;
 import info.nt5.engine.graphics.text.FontEventHandler;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector3f;
-import info.nt5.engine.sound.SoundPlayer;
+import info.nt5.engine.sound.ALPlayer;
 import info.nt5.engine.util.FilePaths;
 
 public class Textbox extends GameObject {
@@ -38,7 +38,7 @@ public class Textbox extends GameObject {
 	private int currentTextId;
 	private List<BitmapFont> text = new ArrayList<BitmapFont>();
 
-	SoundPlayer sound;
+	ALPlayer sound;
 
 	public Textbox() {
 		this(defaultwidth, defaultheight, defaultPosition.copy());
@@ -277,7 +277,7 @@ public class Textbox extends GameObject {
 		);
 
 		this.getCollectionCurrent().setEventHandler(this.textEventHandler);
-		this.sound = new SoundPlayer(FilePaths.getWav("click1.wav"));
+		this.sound = new ALPlayer(FilePaths.getWav("click1.wav"));
 		// this.sound.setLoop(true);
 	}
 
@@ -361,7 +361,8 @@ public class Textbox extends GameObject {
 	}
 
 	private Vector3f calcFontPosition() {
-		return new Vector3f((position.x - (this.width - 0.10f)), (position.y + (this.heigth - 0.55f)), position.z);
+		return new Vector3f((getPosition().x - (this.width - 0.10f)), (getPosition().y + (this.heigth - 0.55f)),
+				getPosition().z);
 	}
 
 	private String parseText(float charWidth, String text) {
@@ -404,9 +405,9 @@ public class Textbox extends GameObject {
 	public void setHeaderText(BitmapFormat text) {
 		this.textboxHeader = new Textbox(
 
-				this.texture, this.width, 0.35f,
+				this.getTexture(), this.width, 0.35f,
 
-				new Vector3f((position.x), (position.y + (0.5f + this.heigth)), position.z),
+				new Vector3f((getPosition().x), (getPosition().y + (0.5f + this.heigth)), getPosition().z),
 
 				text.setBold(true)
 
@@ -415,8 +416,64 @@ public class Textbox extends GameObject {
 	}
 
 	@Override
-	public void setPosition(Vector3f position) {
-		this.position = position;
+	public Textbox setCamera(Camera camera) {
+		super.setCamera(camera);
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().setCamera(camera);
+		}
+
+		if (textboxHeader != null) {
+			textboxHeader.setCamera(camera);
+		}
+		return this;
+	}
+
+	@Override
+	public Textbox setMl_matrix(Matrix4f ml_matrix) {
+		super.setMl_matrix(ml_matrix);
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().setMl_matrix(ml_matrix);
+		}
+
+		if (textboxHeader != null) {
+			textboxHeader.setMl_matrix(ml_matrix);
+		}
+		return this;
+	}
+
+	@Override
+	public Textbox setScale(Vector3f scale) {
+		super.setScale(scale);
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().setScale(scale);
+		}
+
+		if (textboxHeader != null) {
+			textboxHeader.setScale(scale);
+		}
+		return this;
+	}
+
+	@Override
+	public Textbox setRotation(Vector3f rotation) {
+		super.setRotation(rotation);
+
+		if (this.getCollectionCurrent() != null) {
+			this.getCollectionCurrent().setRotation(rotation);
+		}
+
+		if (textboxHeader != null) {
+			textboxHeader.setRotation(rotation);
+		}
+		return this;
+	}
+
+	@Override
+	public Textbox setPosition(Vector3f position) {
+		super.setPosition(position);
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().setPosition(this.calcFontPosition());
@@ -425,13 +482,12 @@ public class Textbox extends GameObject {
 		if (textboxHeader != null) {
 			textboxHeader.setPosition(position);
 		}
+		return this;
 	}
 
 	@Override
-	public void translate(Vector3f vector) {
-		position.x += vector.x;
-		position.y += vector.y;
-		position.z += vector.z;
+	public Textbox translate(Vector3f vector) {
+		super.translate(vector);
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().translate(vector);
@@ -440,11 +496,12 @@ public class Textbox extends GameObject {
 		if (textboxHeader != null) {
 			textboxHeader.translate(vector);
 		}
+		return this;
 	}
 
 	@Override
-	public void translateX(float x) {
-		position.x += x;
+	public Textbox translateX(float x) {
+		super.translateX(x);
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().translateX(x);
@@ -453,11 +510,12 @@ public class Textbox extends GameObject {
 		if (textboxHeader != null) {
 			textboxHeader.translateX(x);
 		}
+		return this;
 	}
 
 	@Override
-	public void translateY(float y) {
-		position.y += y;
+	public Textbox translateY(float y) {
+		super.translateY(y);
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().translateY(y);
@@ -466,11 +524,12 @@ public class Textbox extends GameObject {
 		if (textboxHeader != null) {
 			textboxHeader.translateY(y);
 		}
+		return this;
 	}
 
 	@Override
-	public void translateZ(float z) {
-		position.z += z;
+	public Textbox translateZ(float z) {
+		super.translateZ(z);
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().translateZ(z);
@@ -479,11 +538,17 @@ public class Textbox extends GameObject {
 		if (textboxHeader != null) {
 			textboxHeader.translateZ(z);
 		}
-
+		return this;
 	}
 
 	@Override
 	public void update() {
+		super.update();
+
+		if (textboxHeader != null) {
+			textboxHeader.update();
+		}
+
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().update();
 		}
@@ -492,12 +557,7 @@ public class Textbox extends GameObject {
 
 	@Override
 	public void render() {
-		texture.bind();
-		Shader.geometryShader.bind();
-		Shader.geometryShader.setUniformMat4f("ml_matrix", Matrix4f.translate(position));
-		mesh.render();
-		Shader.geometryShader.unbind();
-		texture.unbind();
+		super.render();
 
 		if (this.getCollectionCurrent() != null) {
 			this.getCollectionCurrent().render();
@@ -511,9 +571,8 @@ public class Textbox extends GameObject {
 
 	@Override
 	public void dispose() {
+		super.dispose();
 
-		texture.dispose();
-		mesh.dispose();
 		sound.dispose();
 
 		if (textboxHeader != null) {

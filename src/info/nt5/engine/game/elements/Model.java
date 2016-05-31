@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL11.glCullFace;
 import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Mesh;
@@ -23,6 +24,7 @@ public class Model {
 	public Vector3f scale = new Vector3f(1f);
 	public Vector3f position;
 	private Matrix4f ml_matrix;
+	private Camera camera;
 
 	public Model(String modelPath, Color color, Vector3f position) {
 		this(modelPath, Texture.fromColor(color, 16, 16), position);
@@ -32,6 +34,8 @@ public class Model {
 		this.texture = texture;
 		this.position = position;
 		this.mesh = ObjLoader.loadMesh(modelPath);
+
+		this.camera = Camera.worldCamera;
 
 		this.update();
 	}
@@ -44,6 +48,8 @@ public class Model {
 		texture.bind();
 		Shader.geometryShader.bind();
 		Shader.geometryShader.setUniformMat4f("ml_matrix", ml_matrix);
+		Shader.geometryShader.setUniformMat4f("vw_matrix", camera.getViewMatrix());
+		Shader.geometryShader.setUniformMat4f("pr_matrix", camera.getProjectionMatrix());
 		mesh.render();
 		Shader.geometryShader.unbind();
 		texture.unbind();

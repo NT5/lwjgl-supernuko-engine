@@ -7,6 +7,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
+import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Texture;
 import info.nt5.engine.graphics.shader.Mesh;
@@ -24,6 +25,7 @@ public class Tile {
 
 	private Matrix4f ml_matrix;
 	private Vector3f position = new Vector3f(0f);
+	private Camera camera;
 
 	private Body box;
 
@@ -32,10 +34,16 @@ public class Tile {
 
 		this.box = world.createBody(boxdef);
 		this.box.createFixture(boxFixture);
+
+		this.ml_matrix = new Matrix4f();
+		this.camera = Camera.worldCamera;
 	}
 
 	public Tile(Color color, Vector2f size, Vector2f position, World world) {
 		this.setUpGeometry(size, color);
+
+		this.ml_matrix = new Matrix4f();
+		this.camera = Camera.worldCamera;
 
 		BodyDef boxdef = new BodyDef();
 		boxdef.position.set(position.x, position.y);
@@ -66,7 +74,7 @@ public class Tile {
 				this.quad.getIndices()
 
 		);
-		this.texture = Texture.fromColor(color, 16, 16);
+		this.texture = Texture.fromColor(color, 1, 1);
 	}
 
 	public Body getBody() {
@@ -75,6 +83,14 @@ public class Tile {
 
 	public VertexQuad getQuad() {
 		return this.quad;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+
+	public void setMl_matrix(Matrix4f ml_matrix) {
+		this.ml_matrix = ml_matrix;
 	}
 
 	public void update() {
@@ -91,6 +107,8 @@ public class Tile {
 	public void render() {
 		texture.bind();
 		Shader.geometryShader.bind();
+		Shader.geometryShader.setUniformMat4f("vw_matrix", camera.getViewMatrix());
+		Shader.geometryShader.setUniformMat4f("pr_matrix", camera.getProjectionMatrix());
 		Shader.geometryShader.setUniformMat4f("ml_matrix", ml_matrix);
 		mesh.render();
 		Shader.geometryShader.unbind();

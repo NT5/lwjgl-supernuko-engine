@@ -4,8 +4,16 @@ public class AABB {
 	public Vector2f min, max;
 
 	public AABB(Vector2f position, Vector2f size) {
-		min = new Vector2f(position.getX() - size.getX(), position.getY() - size.getY());
-		max = new Vector2f(position.getX() + size.getX(), position.getY() + size.getY());
+		this.min = new Vector2f(position.getX() - size.getX(), position.getY() - size.getY());
+		this.max = new Vector2f(position.getX() + size.getX(), position.getY() + size.getY());
+	}
+
+	public void setAabb(Vector2f position, Vector2f size) {
+		this.min.x = position.getX() - size.getX();
+		this.min.y = position.getY() - size.getY();
+
+		this.max.x = position.getX() + size.getX();
+		this.max.y = position.getY() + size.getY();
 	}
 
 	public boolean intersects(AABB other) {

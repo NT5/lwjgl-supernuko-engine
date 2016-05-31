@@ -1,4 +1,6 @@
-package info.nt5.engine.math;
+package info.nt5.engine.game.elements.util;
+
+import info.nt5.engine.math.Vector2f;
 
 public class Movement {
 

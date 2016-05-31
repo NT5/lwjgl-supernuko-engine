@@ -13,18 +13,22 @@ public class FadeTransition implements Transition {
 
 	private Color fadeColor = Color.BLACK;
 
-	private int fadeType;
+	private Fade fadeType;
 
 	private float fadeSpeed = 0.01f;
 	private float time;
 
 	private boolean isComplete = false;
 
+	public enum Fade {
+		IN, OUT;
+	}
+
 	public FadeTransition() {
 		this.setFadeTimeType();
 	}
 
-	public FadeTransition(int fadeType, float fadeSpeed) {
+	public FadeTransition(Fade fadeType, float fadeSpeed) {
 		this.fadeType = fadeType;
 		this.fadeSpeed = fadeSpeed;
 
@@ -38,7 +42,7 @@ public class FadeTransition implements Transition {
 		this.setFadeTimeType();
 	}
 
-	public FadeTransition(int fadeType, Color fadeColor, float fadeSpeed) {
+	public FadeTransition(Fade fadeType, Color fadeColor, float fadeSpeed) {
 		this.fadeType = fadeType;
 		this.fadeColor = fadeColor;
 		this.fadeSpeed = fadeSpeed;
@@ -48,7 +52,7 @@ public class FadeTransition implements Transition {
 
 	private void setFadeTimeType() {
 		switch (this.fadeType) {
-		case 1:
+		case IN:
 			this.time = 0.0f;
 			break;
 		default:
@@ -78,7 +82,7 @@ public class FadeTransition implements Transition {
 	@Override
 	public void update(GameManager gm, StateManager game) {
 		switch (this.fadeType) {
-		case 1:
+		case IN:
 			if (time <= 1f) {
 				time += fadeSpeed;
 			} else {

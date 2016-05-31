@@ -46,6 +46,7 @@ public abstract class StateManager extends GameAbstract {
 	public void update(GameManager gm) {
 		if (leave != null) {
 			leave.update(gm, this);
+			currentState.update(gm, this);
 			if (leave.isComplete()) {
 				currentState.leave(gm, this);
 				nextState.enter(gm, this);
@@ -65,6 +66,7 @@ public abstract class StateManager extends GameAbstract {
 
 		if (enter != null) {
 			enter.update(gm, this);
+			currentState.update(gm, this);
 			if (enter.isComplete()) {
 				enter = null;
 			} else {

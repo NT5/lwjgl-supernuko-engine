@@ -17,6 +17,7 @@ import info.nt5.engine.game.elements.Stage;
 import info.nt5.engine.game.elements.gui.GUIOverlay;
 import info.nt5.engine.game.state.transition.FadeTransition;
 import info.nt5.engine.game.state.transition.Transition;
+import info.nt5.engine.game.state.transition.FadeTransition.Fade;
 import info.nt5.engine.graphics.Camera;
 import info.nt5.engine.graphics.Color;
 import info.nt5.engine.graphics.Cursor;
@@ -25,11 +26,12 @@ import info.nt5.engine.graphics.shader.Shader;
 import info.nt5.engine.graphics.text.BitmapFont;
 import info.nt5.engine.graphics.text.BitmapFontCollection;
 import info.nt5.engine.graphics.text.BitmapFormat;
+import info.nt5.engine.input.Keyboard;
 import info.nt5.engine.lang.Lang;
 import info.nt5.engine.math.Matrix4f;
 import info.nt5.engine.math.Vector2f;
 import info.nt5.engine.math.Vector3f;
-import info.nt5.engine.sound.SoundPlayer;
+import info.nt5.engine.sound.ALPlayer;
 import info.nt5.engine.util.FilePaths;
 import info.nt5.engine.util.Logger;
 
@@ -45,12 +47,12 @@ public class LoadingState implements State {
 
 	private int FIRST_STATE = 0;
 	private Transition JOIN_TRASITION = null;
-	private Transition LEAVE_TRANSITION = new FadeTransition(1, Color.WHITE, 0.05f);
+	private Transition LEAVE_TRANSITION = new FadeTransition(Fade.IN, Color.WHITE, 0.05f);
 
 	private Model model;
 
-	private SoundPlayer introSound;
-	private SoundPlayer stageAddSound;
+	private ALPlayer introSound;
+	private ALPlayer stageAddSound;
 
 	private static final Color clearColor = Color.BLACK;
 
@@ -73,21 +75,22 @@ public class LoadingState implements State {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		ALPlayer.setListenerGain(8f);
+
 		Shader.LoadAllShaders();
 		GUIOverlay.init(gm, game);
 
 		stage = new Stage();
 
 		Shader.geometryShader.bind();
-
-		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
-		Shader.geometryShader.setUniformMat4f("pr_matrix", Camera.defaultCam.getProjectionMatrix());
+		Shader.geometryShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.worldCamera.position));
+		Shader.geometryShader.setUniformMat4f("pr_matrix", Camera.worldCamera.getProjectionMatrix());
 		Shader.geometryShader.setUniform1i("tex", 1);
 		Shader.geometryShader.unbind();
 
 		Shader.textShader.bind();
-		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.defaultCam.position));
-		Shader.textShader.setUniformMat4f("pr_matrix", Camera.defaultCam.getProjectionMatrix());
+		Shader.textShader.setUniformMat4f("vw_matrix", Matrix4f.translate(Camera.worldCamera.position));
+		Shader.textShader.setUniformMat4f("pr_matrix", Camera.worldCamera.getProjectionMatrix());
 		Shader.textShader.setUniform1i("tex", 1);
 		Shader.textShader.unbind();
 
@@ -103,8 +106,8 @@ public class LoadingState implements State {
 		model = new Model(FilePaths.getModel("logo.obj"), Color.WHITE, new Vector3f());
 		model.setScale(new Vector3f(0.01f));
 
-		introSound = new SoundPlayer(FilePaths.getWav("intro.wav"));
-		stageAddSound = new SoundPlayer(FilePaths.getWav("click1.wav"));
+		introSound = new ALPlayer(FilePaths.getWav("intro.wav"));
+		stageAddSound = new ALPlayer(FilePaths.getWav("click1.wav"));
 		stageAddSound.setPitch(0.5f);
 
 		stage.addTextCollection(new BitmapFontCollection());
@@ -112,7 +115,8 @@ public class LoadingState implements State {
 
 				new BitmapFont(
 
-						new BitmapFormat(Lang.getString("state.loading.loading"), Color.WHITE, true),
+						new BitmapFormat(Lang.getString("state.loading.loading"), Color.WHITE, new Vector2f(0.25f),
+								true),
 						new Vector3f(-1.5f, -5f, 0f)
 
 				)
@@ -122,7 +126,8 @@ public class LoadingState implements State {
 
 				new BitmapFont(
 
-						new BitmapFormat(Lang.getString("state.loading.loaded"), Color.WHITE, true),
+						new BitmapFormat(Lang.getString("state.loading.loaded"), Color.WHITE, new Vector2f(0.25f),
+								true),
 						new Vector3f(-1.5f, -5f, 0f)
 
 				)
@@ -173,13 +178,17 @@ public class LoadingState implements State {
 					game.enterState(this.states.get(0).getID(), JOIN_TRASITION, LEAVE_TRANSITION);
 				}
 			}
+			if (Keyboard.isDown(Keyboard.KEY_SPACE)) {
+				delta = 1f;
+				introSound.stop();
+			}
 			delta += deltaSpeed;
 		}
 	}
 
 	@Override
 	public void render(GameManager gm, StateManager game) {
-		Camera.defaultCam.render();
+		Camera.worldCamera.render();
 		stage.render();
 		model.render();
 	}
